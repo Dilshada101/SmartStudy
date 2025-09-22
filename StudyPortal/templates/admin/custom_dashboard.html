@@ -1,0 +1,51 @@
+{% extends "admin/base.html" %}
+{% load i18n %}
+
+{% block content %}
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <div class="bg-white shadow rounded-2xl p-6">
+    <h2 class="text-xl font-semibold">Users</h2>
+    <p class="text-3xl">{{ stats.users }}</p>
+    </div>
+
+    <div class="bg-white shadow rounded-2xl p-6">
+    <h2 class="text-xl font-semibold">Courses</h2>
+    <p class="text-3xl">{{ stats.courses }}</p>
+    </div>
+
+    <div class="bg-white shadow rounded-2xl p-6">
+    <h2 class="text-xl font-semibold">Assignments</h2>
+    <p class="text-3xl">{{ stats.assignments }}</p>
+    </div>
+    
+    <div class="bg-white shadow rounded-2xl p-6">
+    <h2 class="text-xl font-semibold">Books</h2>
+    <p class="text-3xl">{{ stats.books }}</p>
+    </div>
+    <!-- Recent Users -->
+<div class="mt-10 bg-white shadow rounded-2xl p-6">
+    <h2 class="text-xl font-semibold mb-4">Recent Users</h2>
+    <ul>
+        {% for user in recent_users %}
+            <li>{{ user.username }} ({{ user.email }})</li>
+        {% empty %}
+            <li>No users yet.</li>
+        {% endfor %}
+    </ul>
+</div>
+
+<!-- Recent Courses -->
+<div class="mt-10 bg-white shadow rounded-2xl p-6">
+    <h2 class="text-xl font-semibold mb-4">Recent Courses</h2>
+    <ul>
+        {% for course in recent_courses %}
+            <li>{{ course.name }}</li>
+        {% empty %}
+            <li>No courses yet.</li>
+        {% endfor %}
+    </ul>
+</div>
+
+</div>
+
+{% endblock %}
