@@ -26,7 +26,7 @@
 </body>
 </html> -->
 
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -55,6 +55,90 @@
     </main>
 
     <footer class="admin-footer bg-gray-800 text-white text-center p-4 mt-12">
+        &copy; {{ now|date:"Y" }} SmartStudy Project
+    </footer>
+</body>
+</html> -->
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>{% block title %}SmartStudy Admin{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'admin/css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'admin/css/dashboard.css' %}">
+    <script src="{% static 'admin/js/core.js' %}"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .admin-header {
+            background-color: #1f2937; /* gray-800 */
+            color: white;
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .admin-header h1 {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        .admin-header nav ul {
+            display: flex;
+            gap: 1rem;
+        }
+        .admin-header nav a {
+            color: #ffffff;
+            text-decoration: none;
+        }
+        .admin-header nav a:hover {
+            text-decoration: underline;
+        }
+        .admin-breadcrumb {
+            background-color: #f3f4f6; /* gray-100 */
+            padding: 0.5rem;
+        }
+        .admin-content {
+            padding: 1.5rem;
+            background-color: #f9fafb; /* gray-50 */
+            min-height: 80vh;
+        }
+        .admin-footer {
+            background-color: #1f2937; /* gray-800 */
+            color: white;
+            text-align: center;
+            padding: 1rem;
+            margin-top: 2rem;
+        }
+    </style>
+</head>
+<body class="app-{{ app_label }} model-{{ model_name }}">
+    <!-- HEADER -->
+    <header class="admin-header">
+        <h1>SmartStudy Admin Portal</h1>
+        <nav>
+            <ul>
+                <!-- Dashboard link (left side) -->
+                <li><a href="{% url 'admin:dashboard' %}">Dashboard</a></li>
+                <!-- Admin Home -->
+                <li><a href="{% url 'admin:index' %}">Admin Home</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Breadcrumbs -->
+    <nav class="admin-breadcrumb">
+        {% block breadcrumbs %}{% endblock %}
+    </nav>
+
+    <!-- Content -->
+    <main class="admin-content">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="admin-footer">
         &copy; {{ now|date:"Y" }} SmartStudy Project
     </footer>
 </body>

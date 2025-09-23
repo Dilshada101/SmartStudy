@@ -265,6 +265,7 @@ from unfold.views import UnfoldModelAdminViewMixin
 from django.contrib.auth import get_user_model
 from django.db.models import Count
 from .models import *
+
 User= get_user_model()
 
 from StudyPortal.models import (
@@ -281,9 +282,10 @@ from StudyPortal.models import (
 )
 
 
+
 class CustomAdminView(UnfoldModelAdminViewMixin, TemplateView):
     title = "Custom Management"
-    permission_required = ()  # Override per model in admin class
+    permission_required = ()  
     template_name = "studyportal/custom_admin_template.html"
 
 
@@ -400,13 +402,12 @@ class AssignmentAdmin(ModelAdmin):
 
 
 class CustomDashboardView(TemplateView):
-    title = "SmartStudy Dashboard"   # shown in header
-    permission_required = ()         # leave empty for superusers only
+    title = "SmartStudy Dashboard"   
+    permission_required = ()         
     template_name = "admin/custom_dashboard.html"
 
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
-        # You can add dynamic data here for dashboard cards, charts etc.
         ctx["stats"] = {
             "users": User.objects.count(),
             "courses": Course.objects.count(),
@@ -422,7 +423,6 @@ class CustomDashboardView(TemplateView):
         return ctx
 
 
-# Register view under admin site root
 def get_custom_urls(admin_site):
     return [
         path(
@@ -432,14 +432,9 @@ def get_custom_urls(admin_site):
         ),
     ]
 
-
-
-# Hook custom URLs into global admin site
-# Save original get_urls before overriding
 _original_get_urls = admin.site.get_urls
 
 def new_get_urls():
     return get_custom_urls(admin.site) + _original_get_urls()
 
-# Replace with safe version
 admin.site.get_urls = new_get_urls

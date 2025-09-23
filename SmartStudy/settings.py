@@ -132,7 +132,7 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # settings.py
-from StudyPortal.dashboard import *
+
 from django.templatetags.static import static
 from django.urls import reverse_lazy
 from django.utils.translation import gettext_lazy as _
@@ -199,7 +199,7 @@ UNFOLD = {
 
     "SIDEBAR": {
         "MENU_ITEMS": [
-            {"label": "Dashboard", "url": "/admin/", "icon": "home"},
+            {"label": _("Dashboard"),"icon": "heroicons-outline:home", "url": "dashboard/",},
             {"label": "Books Custom Page", "url": "/admin/book/custom/", "icon": "book"},
             {"label": "Participant Books Custom Page", "url": "/admin/participantbook/custom/", "icon": "file"},
             {"label": "Resources Custom Page", "url": "/admin/resource/custom/", "icon": "file"},
@@ -263,6 +263,11 @@ UNFOLD = {
                         "title": _("Progress"),
                         "icon": "bar_chart",
                         "link": reverse_lazy("admin:StudyPortal_progress_changelist"),
+                    },
+                    {
+                        "title": _("User Dashboard"),
+                        "icon": "home",
+                        "link": "/admin/dashboard/"
                     },
                 ],
             },
