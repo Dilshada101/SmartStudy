@@ -1,0 +1,96 @@
+{% extends "admin/base.html" %}
+{% load static %}
+{% load i18n %}
+
+{% block content %}
+<div class="p-6 bg-gray-100 min-h-screen">
+
+    <!-- Dashboard Header -->
+    <div class="mb-8 text-center">
+        <h1 class="text-3xl font-bold text-gray-800">📊 SmartStudy Dashboard</h1>
+        <p class="text-gray-600">Welcome back! Here's a quick overview of your platform.</p>
+    </div>
+
+    <!-- Stats Grid -->    
+    <!-- <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10"> -->
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
+        <div class="bg-white shadow-lg rounded-2xl p-6 hover:shadow-xl transition">
+            <h2 class="text-lg font-semibold text-gray-700">👥 Users</h2>
+            <p class="text-4xl font-bold text-blue-600 mt-2">{{ stats.users }}</p>
+        </div>
+        <div class="bg-white shadow-lg rounded-2xl p-6 hover:shadow-xl transition">
+            <h2 class="text-lg font-semibold text-gray-700">📖 Books</h2>
+            <p class="text-4xl font-bold text-pink-600 mt-2">{{ stats.books }}</p>
+        </div>
+
+        <div class="bg-white shadow-lg rounded-2xl p-6 hover:shadow-xl transition">
+            <h2 class="text-lg font-semibold text-gray-700">📝 Assignments</h2>
+            <p class="text-4xl font-bold text-purple-600 mt-2">{{ stats.assignments }}</p>
+        </div>
+
+        <div class="bg-white shadow-lg rounded-2xl p-6 hover:shadow-xl transition">
+            <h2 class="text-lg font-semibold text-gray-700">📚 Courses</h2>
+            <p class="text-4xl font-bold text-green-600 mt-2">{{ stats.courses }}</p>
+        </div>
+    </div>
+
+    <!-- Two Column Layout -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+
+        <!-- Recent Users -->
+        <div class="bg-white shadow-lg rounded-2xl p-6">
+            <h2 class="text-xl font-semibold text-gray-800 mb-4">👤 Recent Users</h2>
+            <ul class="divide-y divide-gray-200">
+                {% for user in recent_users %}
+                    <li class="py-2 flex justify-between">
+                        <span>{{ user.username }}</span>
+                        <span class="text-gray-500 text-sm">{{ user.email }}</span>
+                    </li>
+                {% empty %}
+                    <li class="py-2 text-gray-500">No users yet.</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <!-- Recent Courses -->
+        <div class="bg-white shadow-lg rounded-2xl p-6">
+            <h2 class="text-xl font-semibold text-gray-800 mb-4">📘 Recent Courses</h2>
+            <ul class="divide-y divide-gray-200">
+                {% for course in recent_courses %}
+                    <li class="py-2">{{ course.name }}</li>
+                {% empty %}
+                    <li class="py-2 text-gray-500">No courses yet.</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+    <!-- Chart Section -->
+    <div class="mt-10 bg-white shadow-lg rounded-2xl p-6">
+        <h2 class="text-xl font-semibold text-gray-800 mb-4">📈 Platform Growth</h2>
+        <canvas id="growthChart" class="w-full h-64"></canvas>
+    </div>
+
+</div>
+
+<!-- Chart.js (for interactivity) -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const ctx = document.getElementById('growthChart').getContext('2d');
+    const growthChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
+            datasets: [{
+                label: "New Users",
+                data: [5, 15, 20, 35, 40, 60],
+                borderColor: "#3b82f6",
+                backgroundColor: "rgba(59, 130, 246, 0.2)",
+                fill: true,
+                tension: 0.3
+            }]
+        }
+    });
+</script>
+{% endblock %}
