@@ -21,6 +21,8 @@ class PortalUser(models.Model):
 
     def __str__(self):
         return f"{self.user.username} - {self.get_role_display()} ({self.institution})"
+        return f"{self.user.username} - {self.get_role_display()}({self.institution})"
+
 
 
 class Book(models.Model):
