@@ -10,3 +10,4 @@ def hello_feature1(request):
 
 def about_page(request):
     return render(request, 'StudyPortal/about.html')
+
