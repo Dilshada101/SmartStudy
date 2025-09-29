@@ -405,7 +405,6 @@ class CustomDashboardView(TemplateView):
     title = "SmartStudy Dashboard"   
     permission_required = ()         
     template_name = "admin/custom_dashboard.html"
-
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
         ctx["stats"] = {
@@ -413,14 +412,22 @@ class CustomDashboardView(TemplateView):
             "courses": Course.objects.count(),
             "assignments": Assignment.objects.count(),
             "books": Book.objects.count(),
-        
+            "notes": Note.objects.count(),  # you were using stats.notes in template
+            "progress": Progress.objects.count(),  # for student
+            "overall": User.objects.count() + Course.objects.count(),  # for teacher stats
         }
         ctx["recent_users"] = User.objects.order_by("-date_joined")[:5]
         ctx["recent_courses"] = Course.objects.order_by("-id")[:5]
-        
-        
+
+        # Add groups
+        ctx["user_groups"] = [g.name for g in self.request.user.groups.all()]
+
+        # Add books/documents for student dashboard
+        ctx["books"] = Book.objects.all()  # filter if needed
+        ctx["documents"] = Resource.objects.all()  # assuming Resource model
 
         return ctx
+
 
 
 def get_custom_urls(admin_site):
