@@ -51,8 +51,8 @@ def dashboard_view(request):
             "notes": Note.objects.filter(student=user).count(),
             "books": Book.objects.count(),  
             "progress": Progress.objects.filter(student=user).first().percentage
-                       if Progress.objects.filter(student=user).exists()
-                       else 0,
+                        if Progress.objects.filter(student=user).exists()
+                        else 0,
         }
 
     return render(request, "admin/dashboard.html", context)
