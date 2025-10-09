@@ -38,7 +38,7 @@ def dashboard_view(request):
     # ================== TEACHER DASHBOARD ==================
     elif user.groups.filter(name="Teacher").exists():
         context["stats"] = {
-            "overall": User.objects.count(),  # Example stat
+            "overall": User.objects.count(),  
             "assigned_tasks": Assignment.objects.filter(teacher=user).count(),
             "add_note": Note.objects.filter(teacher=user).count(),
             "progress": Progress.objects.filter(teacher=user).count(),
@@ -49,7 +49,7 @@ def dashboard_view(request):
         context["stats"] = {
             "assignments": Assignment.objects.filter(student=user).count(),
             "notes": Note.objects.filter(student=user).count(),
-            "books": Book.objects.count(),  # all books available
+            "books": Book.objects.count(),  
             "progress": Progress.objects.filter(student=user).first().percentage
                        if Progress.objects.filter(student=user).exists()
                        else 0,
