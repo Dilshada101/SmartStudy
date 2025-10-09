@@ -5,7 +5,7 @@
 {% block content %}
 <div class="p-6 bg-gray-100 min-h-screen">
 
-    <!-- Dashboard Header -->
+    
     <div class="mb-8 text-center">
         <h1 class="text-3xl font-bold text-gray-800">📊 SmartStudy Dashboard</h1>
         <p class="text-gray-600">Welcome to the Dashboard</p>
@@ -16,7 +16,7 @@ console.log("User groups: {{ request.user.groups.all|join:', ' }}");
 </script>
 
     {% if "Admin" in user_groups %}
-        <!-- Admin Stats -->
+        
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
             <div class="bg-white shadow-lg rounded-2xl p-6">
                 <h2 class="text-lg font-semibold text-gray-700">📝 Assignments</h2>
@@ -30,7 +30,6 @@ console.log("User groups: {{ request.user.groups.all|join:', ' }}");
             <h2 class="text-lg font-semibold text-gray-700">📚 Courses</h2>
             <p class="text-4xl font-bold text-green-600 mt-2">{{ stats.courses }}</p>
         </div>
-        <!-- Recent Courses -->
         <div class="bg-white shadow-lg rounded-2xl p-6">
             <h2 class="text-xl font-semibold text-gray-800 mb-4">📘 Recent Courses</h2>
             <ul class="divide-y divide-gray-200">
@@ -43,7 +42,7 @@ console.log("User groups: {{ request.user.groups.all|join:', ' }}");
         </div>
     </div>
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            <!-- Recent Users -->
+            
             <div class="bg-white shadow-lg rounded-2xl p-6">
                 <h2 class="text-xl font-semibold text-gray-800 mb-4">👤 Recent Users</h2>
                 <ul class="divide-y divide-gray-200">
@@ -109,7 +108,7 @@ console.log("User groups: {{ request.user.groups.all|join:', ' }}");
     
 
     <!-- STUDENT DASHBOARD -->
-    <!-- Student Stats -->
+    
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
         <div class="bg-white shadow-lg rounded-2xl p-6 hover:shadow-xl transition">
@@ -138,7 +137,7 @@ console.log("User groups: {{ request.user.groups.all|join:', ' }}");
             </ul>
         </div>
 
-        <!-- PDFs / Docs -->
+        
         <div class="bg-white shadow-lg rounded-2xl p-6">
             <h2 class="text-xl font-semibold text-gray-800 mb-4">📂 PDF / Docs</h2>
             <ul class="divide-y divide-gray-200">
