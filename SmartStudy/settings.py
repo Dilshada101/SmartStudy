@@ -222,7 +222,7 @@ UNFOLD = {
                         "icon": "dashboard",
                         "link": reverse_lazy("admin:index"),
                         "badge": "StudyPortal.dashboard.badge_callback",
-                        "permission": lambda request: request.user.is_superuser,
+                        "permission": lambda request: request.user.groups.filter(name="Admin").exists()
                     },
                     {
                         "title": _("Institutions"),
@@ -233,6 +233,8 @@ UNFOLD = {
                         "title": _("Users"),
                         "icon": "people",
                         "link": reverse_lazy("admin:StudyPortal_portaluser_changelist"),
+                        "permission": lambda request: not (request.user.groups.filter(name="Teacher").exists() or request.user.groups.filter(name="Student").exists())
+
                     },
                     {
                         "title": _("Books"),
