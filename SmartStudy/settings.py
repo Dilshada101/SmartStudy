@@ -271,6 +271,11 @@ UNFOLD = {
                         "icon": "home",
                         "link": "/admin/dashboard/"
                     },
+                    {
+                        "title": _(" User Assignments"),
+                        "icon": "assignment",
+                        "link": "/admin/StudyPortal/assignment/"
+                    }
                 ],
             },
         ],

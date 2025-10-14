@@ -1,9 +1,34 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import Group
-from django.contrib.auth.models import get_user_model
+from django.contrib.auth import get_user_model
 from django.http import HttpResponse
-from django.shortcuts import render
 from .models import *
+from django.shortcuts import render,redirect
+from django.contrib import messages
+
+
+def register(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+        confirm_password = request.POST.get('confirm_password')
+
+        
+        if password != confirm_password:
+            messages.error(request, "Passwords do not match!")
+            return render(request, 'register.html')
+        
+        
+        context = {
+            'username': username,
+            'email': email,
+            'password': password,  
+            'confirm_password': confirm_password
+        }
+        return render(request, 'result.html', context)
+
+    return render(request, 'register.html')
 
 def feature1_page(request):
     return render(request, 'StudyPortal/feature.html')
@@ -38,7 +63,7 @@ def dashboard_view(request):
     # ================== TEACHER DASHBOARD ==================
     elif user.groups.filter(name="Teacher").exists():
         context["stats"] = {
-            "overall": User.objects.count(),  
+            "overall": User.objects.count(),  # Example stat
             "assigned_tasks": Assignment.objects.filter(teacher=user).count(),
             "add_note": Note.objects.filter(teacher=user).count(),
             "progress": Progress.objects.filter(teacher=user).count(),
@@ -49,10 +74,12 @@ def dashboard_view(request):
         context["stats"] = {
             "assignments": Assignment.objects.filter(student=user).count(),
             "notes": Note.objects.filter(student=user).count(),
-            "books": Book.objects.count(),  
+            "books": Book.objects.count(),  # all books available
             "progress": Progress.objects.filter(student=user).first().percentage
                         if Progress.objects.filter(student=user).exists()
                         else 0,
         }
 
     return render(request, "admin/dashboard.html", context)
+
+
