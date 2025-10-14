@@ -84,11 +84,12 @@ class Progress(models.Model):
 
 class Assignment(models.Model):
     title = models.CharField(max_length=255)
-    description = models.TextField()
+    due_date = models.DateField(null=True)
+    description = models.TextField(blank=True)
     assigned_by = models.ForeignKey(PortalUser, on_delete=models.CASCADE, related_name="given_assignments")
     assigned_to = models.ForeignKey(PortalUser, on_delete=models.CASCADE, related_name="received_assignments")
-    score = models.IntegerField(null=True, blank=True)
-
+    uploaded_by = models.CharField(max_length=100, null=True)
+    file = models.FileField(upload_to='assignments/', blank=True, null=True)
     def __str__(self):
         return self.title
 
