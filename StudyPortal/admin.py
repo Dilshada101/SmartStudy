@@ -1,11 +1,14 @@
+from django.contrib import admin
 from django.urls import path
 from django.views.generic import TemplateView
-from django.contrib import admin
 from unfold.admin import ModelAdmin
 from unfold.views import UnfoldModelAdminViewMixin
 from django.contrib.auth import get_user_model
 from django.db.models import Count
 from .models import *
+from django.utils.decorators import method_decorator
+from django.contrib.admin.views.decorators import staff_member_required
+from django.shortcuts import render,redirect
 
 User= get_user_model()
 
@@ -156,9 +159,9 @@ class CustomDashboardView(TemplateView):
             "courses": Course.objects.count(),
             "assignments": Assignment.objects.count(),
             "books": Book.objects.count(),
-            "notes": Note.objects.count(),  # you were using stats.notes in template
-            "progress": Progress.objects.count(),  # for student
-            "overall": User.objects.count() + Course.objects.count(),  # for teacher stats
+            "notes": Note.objects.count(),  
+            "progress": Progress.objects.count(),  
+            "overall": User.objects.count() + Course.objects.count(),  
         }
         ctx["recent_users"] = User.objects.order_by("-date_joined")[:5]
         ctx["recent_courses"] = Course.objects.order_by("-id")[:5]
@@ -167,11 +170,43 @@ class CustomDashboardView(TemplateView):
         ctx["user_groups"] = [g.name for g in self.request.user.groups.all()]
 
         # Add books/documents for student dashboard
-        ctx["books"] = Book.objects.all()  # filter if needed
-        ctx["documents"] = Resource.objects.all()  # assuming Resource model
+        ctx["books"] = Book.objects.all()
+        ctx["documents"] = Resource.objects.all()  
 
         return ctx
+    
 
+@method_decorator(staff_member_required, name='dispatch')
+class CustomAssignmentsView(TemplateView):
+    template_name = 'admin/custom_assignments.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        assignments = Assignment.objects.all().order_by('-due_date')
+        context['assignments'] = assignments
+        return context
+    
+@method_decorator(staff_member_required, name='dispatch')
+class CustomNotesView(TemplateView):
+    template_name = 'admin/custom_notes.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        notes = Note.objects.all().order_by('-uploaded_by')
+        context['notes'] = notes
+        return context
+
+@method_decorator(staff_member_required, name='dispatch')
+class CustomResourcesView(TemplateView):
+    template_name = 'admin/custom_resources.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        resources = Resource.objects.all().order_by('-uploaded_by')
+        books = Book.objects.all().order_by('-uploaded_by')
+        context['resources'] = resources
+        context['books'] = books
+        return context
 
 
 def get_custom_urls(admin_site):
@@ -181,6 +216,22 @@ def get_custom_urls(admin_site):
             admin_site.admin_view(CustomDashboardView.as_view()),
             name="custom_dashboard",
         ),
+        path(
+            "assignments/",
+            admin_site.admin_view(CustomAssignmentsView.as_view()),
+            name="custom_assignments",
+        ),
+        path(
+            "notes/",
+            admin_site.admin_view(CustomNotesView.as_view()),
+            name="custom_notes",
+        ),
+        path(
+            "resources/",
+            admin_site.admin_view(CustomResourcesView.as_view()),
+            name="custom_resources",
+        ),
+        
     ]
 
 _original_get_urls = admin.site.get_urls
@@ -189,7 +240,6 @@ def new_get_urls():
     return get_custom_urls(admin.site) + _original_get_urls()
 
 admin.site.get_urls = new_get_urls
-
 
 
 

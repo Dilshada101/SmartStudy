@@ -5,7 +5,7 @@ from django.http import HttpResponse
 from .models import *
 from django.shortcuts import render,redirect
 from django.contrib import messages
-
+from StudyPortal.forms import RegistrationForm
 
 def register(request):
     if request.method == 'POST':
@@ -81,5 +81,7 @@ def dashboard_view(request):
         }
 
     return render(request, "admin/dashboard.html", context)
+
+
 
 
