@@ -200,7 +200,9 @@ class CustomResourcesView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         resources = Resource.objects.all().order_by('-uploaded_by')
+        books = Book.objects.all().order_by('-uploaded_by')
         context['resources'] = resources
+        context['books'] = books
         return context
 
 
