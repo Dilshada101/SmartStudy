@@ -204,6 +204,17 @@ class CustomResourcesView(TemplateView):
         context['resources'] = resources
         context['books'] = books
         return context
+    
+@method_decorator(staff_member_required, name='dispatch')
+class CustomProgressView(TemplateView):
+    template_name = 'admin/custom_progress.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        progress = Progress.objects.all().order_by('-subject')
+        context['progress'] = progress
+        return context
+
 
 
 def get_custom_urls(admin_site):
@@ -228,6 +239,11 @@ def get_custom_urls(admin_site):
             admin_site.admin_view(CustomResourcesView.as_view()),
             name="custom_resources",
         ),
+        path(
+            "progress/",
+            admin_site.admin_view(CustomProgressView.as_view()),
+            name="custom_progress",
+        )
         
     ]
 
