@@ -90,6 +90,9 @@ def notes_dashboard(request):
 def resources_dashboard(request):
     return render(request, 'admin/custom_resources.html')
 
+def progress_dashboard(request):
+    return render(request, 'admin/custom_progress.html')
+
 
 
 
