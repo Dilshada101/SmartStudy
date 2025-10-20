@@ -27,10 +27,13 @@ from StudyPortal.models import (
 
 
 
+
 class CustomAdminView(UnfoldModelAdminViewMixin, TemplateView):
     title = "Custom Management"
     permission_required = ()  
     template_name = "studyportal/custom_admin_template.html"
+
+
 
 
 @admin.register(Institution)

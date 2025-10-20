@@ -81,6 +81,14 @@ def dashboard_view(request):
         }
 
     return render(request, "admin/dashboard.html", context)
+def assignment_dashboard(request):
+    return render(request, 'admin/custom_assignments.html')
+
+def notes_dashboard(request):
+    return render(request, 'admin/custom_notes.html')
+
+def resources_dashboard(request):
+    return render(request, 'admin/custom_resources.html')
 
 
 

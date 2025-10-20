@@ -105,26 +105,26 @@ console.log("User groups: {{ request.user.groups.all|join:', ' }}");
         </div>
 
     {% else %}
+
     
 
     <!-- STUDENT DASHBOARD -->
     
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
-        <div class="bg-white shadow-lg rounded-2xl p-6 hover:shadow-xl transition">
-            <h2 class="text-lg font-semibold text-gray-700">📝My Assignments</h2>
-            <p class="text-4xl font-bold text-purple-600 mt-2">{{ stats.assignments }}</p>
-        </div>
-        <div class="bg-white shadow-lg rounded-2xl p-6 hover:shadow-xl transition">
+        <a href="{% url 'admin_assignment_dashboard' %}" class="block bg-white shadow-lg rounded-2xl p-6 hover:shadow-xl transition">
+            <h2 class="text-lg font-semibold text-gray-700">📝 My Assignments</h2>
+            <p class="text-4xl font-bold text-purple-600 mt-2">{{ stats.assignments }}</p></a>
+
+        
+        <a href="{% url 'admin_notes_dashboard' %}" class="bg-white shadow-lg rounded-2xl p-6 hover:shadow-xl transition">
             <h2 class="text-lg font-semibold text-gray-700">📄 Notes</h2>
             <p class="text-4xl font-bold text-blue-600 mt-2">{{ stats.notes }}</p>
-        </div>
-        <div class="bg-white shadow-lg rounded-2xl p-6">
-                <h2 class="text-lg font-semibold text-gray-700">📈 Progress</h2>
-                <p class="text-4xl font-bold text-green-600 mt-2">{{ stats.progress }}%</p>
-        </div>
-        <div class="bg-white shadow-lg rounded-2xl p-6 hover:shadow-xl transition">
+        
+        
+        <a href="{% url 'admin_resources_dashboard' %}" class="bg-white shadow-lg rounded-2xl p-6 hover:shadow-xl transition">
             <h2 class="text-lg font-semibold text-gray-700">📖 Books</h2>
+            <p class="text-4xl font-bold text-blue-600 mt-2">{{ stats.books }}</p>
             <ul class="divide-y divide-gray-200">
                 {% for book in books %}
                     <li class="py-2 flex justify-between">
@@ -135,6 +135,10 @@ console.log("User groups: {{ request.user.groups.all|join:', ' }}");
                     <li class="py-2 text-gray-500">No books available.</li>
                 {% endfor %}
             </ul>
+        
+        <div class="bg-white shadow-lg rounded-2xl p-6">
+            <h2 class="text-lg font-semibold text-gray-700">📈 Progress</h2>
+            <p class="text-4xl font-bold text-green-600 mt-2">{{ stats.progress }}%</p>
         </div>
 
         
@@ -153,7 +157,6 @@ console.log("User groups: {{ request.user.groups.all|join:', ' }}");
 
             <p class="text-4xl font-bold text-pink-600 mt-2">{{ stats.books }}</p>
         </div>
-        
     </div>
     
     <script>console.log("User is logged in: {{ user.username }}, we are in Student dashboard");</script>

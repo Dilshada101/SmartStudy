@@ -14,9 +14,10 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.urls import path
+from django.urls import path, include
 from django.contrib import admin
 from StudyPortal import views
+from StudyPortal import views as study_views
 
 
 
@@ -24,5 +25,9 @@ from StudyPortal import views
 urlpatterns = [ 
     path('admin/', admin.site.urls),
     path('register/', views.register, name= 'register'),
-    
+    path('StudyPortal/', include('StudyPortal.urls')),
+    path('admin/assignments/', study_views.assignment_dashboard, name='admin_assignment_dashboard'),
+    path('admin/notes/', study_views.notes_dashboard, name='admin_notes_dashboard'),
+    path('admin/resources/', study_views.resources_dashboard, name='admin_resources_dashboard'),
+
 ]
