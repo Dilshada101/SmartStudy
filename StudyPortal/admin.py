@@ -21,91 +21,90 @@
 
 # @admin.register(User)
 # class UserAdmin(BaseUserAdmin, ModelAdmin):
-#     form = UserChangeForm
-#     add_form = UserCreationForm
-#     change_password_form = AdminPasswordChangeForm
+#      form = UserChangeForm
+#      add_form = UserCreationForm
+#      change_password_form = AdminPasswordChangeForm
 
 # @admin.register(Group)
 # class GroupAdmin(BaseGroupAdmin, ModelAdmin):
-#     pass
+#      pass
 
 
 
 # @admin.register(Institution)
 # class InstitutionAdmin(ModelAdmin):
-#     list_display=("name","address")
+#      list_display=("name","address")
 
 # @admin.register(ParticipantInstitution)
 # class ParticipantInstitutionAdmin(ModelAdmin):
-#     list_display = ("participant", "institution", "joined_on")
+#      list_display = ("participant", "institution", "joined_on")
 
 
 
 # @admin.register(PortalUser)
 # class PortalUserAdmin(ModelAdmin):
-#     list_display=("user", "role", "institution")
+#      list_display=("user", "role", "institution")
 
 # @admin.register(Book)
 # class BookAdmin(ModelAdmin):
-#     list_display=("title", "author", "uploaded_by")  
+#      list_display=("title", "author", "uploaded_by")  
 
 # @admin.register(ParticipantBook)
 # class ParticipantBookAdmin(ModelAdmin):
-#     list_display = ("participant", "book", "issued_on")
+#      list_display = ("participant", "book", "issued_on")
 
 
 # @admin.register(Resource)
 # class ResourceAdmin(ModelAdmin):
-#     list_display = ("title", "uploaded_by")
+#      list_display = ("title", "uploaded_by")
 
 
 # @admin.register(Note)
 # class NoteAdmin(ModelAdmin):
-#     list_display = ("title", "uploaded_by")
+#      list_display = ("title", "uploaded_by")
 
 
 # @admin.register(Course)
 # class CourseAdmin(ModelAdmin):
-#     list_display = ("name", "department", "institution")
+#      list_display = ("name", "department", "institution")
 
 
 # @admin.register(Progress)
 # class ProgressAdmin(ModelAdmin):
-#     list_display = ("student", "course", "progress_percent")
+#      list_display = ("student", "course", "progress_percent")
 
 # @admin.register(Assignment)
 # class AssignmentAdmin(ModelAdmin):
-#     list_display = ("title", "assigned_by", "assigned_to","score")
+#      list_display = ("title", "assigned_by", "assigned_to","score")
 
 
 
 
 # from .models import (
-#     Institution,
-#     PortalUser,
-#     Book,
-#     Course,
-#     Resource,
-#     Note,
-#     Assignment,
-#     Progress,
-# )
+#      Institution,
+#      PortalUser,
+#      Book,
+#      Course,
+#      Resource,
+#      Note,
+#      Assignment,
+#      Progress,
+#  )
 
-# # Common base config to reuse across all admins
+# Common base config to reuse across all admins
 # class BaseAdmin(ModelAdmin):
-#     compressed_fields = True
-#     warn_unsaved_form = True
-#     list_filter_submit = False
-#     list_fullwidth = False
-#     list_filter_sheet = True
-#     list_horizontal_scrollbar_top = False
-#     list_disable_select_all = False
-#     change_form_show_cancel_button = True
+#      compressed_fields = True
+#      warn_unsaved_form = True
+#      list_filter_submit = False
+#      list_fullwidth = False
+#      list_filter_sheet = True
+#      list_horizontal_scrollbar_top = False
+#      list_disable_select_all = False
+#      change_form_show_cancel_button = True
 
-#     formfield_overrides = {
-#         models.TextField: {"widget": WysiwygWidget},
-#         ArrayField: {"widget": ArrayWidget},
-#     }
+#      formfield_overrides = {
+#          models.TextField: {"widget": WysiwygWidget},
+#          ArrayField: {"widget": ArrayWidget},      }
 
 
 # @admin.register(Institution)
@@ -444,4 +443,23 @@ _original_get_urls = admin.site.get_urls
 def new_get_urls():
     return get_custom_urls(admin.site) + _original_get_urls()
 
-admin.site.get_urls = new_get_urls
+    
+from django.contrib import admin
+from django.utils.html import format_html
+from .models import StudentProgress
+
+@admin.register(StudentProgress)
+class ProgressAdmin(admin.ModelAdmin):
+    list_display = ('student_name', 'subject', 'progress_percent', 'show_progress_bar', 'last_updated')
+
+    def show_progress_bar(self, obj):
+        """Display a small colored progress bar in admin list view."""
+        color = "#4CAF50" if obj.progress_percent >= 70 else "#FFA500"
+        return format_html(
+            '<div style="width:100px; background:#ddd; border-radius:5px;">'
+            '<div style="width:{}%; background:{}; color:white; padding:2px 0; border-radius:5px; text-align:center;">{}%</div>'
+            '</div>',
+            obj.progress_percent, color, obj.progress_percent
+        )
+
+    show_progress_bar.short_description = "Progress"
