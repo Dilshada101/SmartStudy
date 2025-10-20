@@ -1,6 +1,7 @@
 from django.urls import path
-from . import views
+from StudyPortal import views
 
+app_name = 'StudyPortal'
 
 urlpatterns = [
     path('about/', views.about_page, name='about_page'), 
