@@ -272,6 +272,11 @@ UNFOLD = {
                         "icon": "home",
                         "link": "/admin/dashboard/"
                     },
+                    {
+                        "title": _("User Progress"),
+                        "icon": "bar_chart",
+                        "link": "/admin/customprogress"
+                    },
                 ],
             },
         ],

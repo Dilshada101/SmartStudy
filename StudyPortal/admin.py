@@ -264,6 +264,7 @@ from unfold.views import UnfoldModelAdminViewMixin
 from django.contrib.auth import get_user_model
 from django.db.models import Count
 from .models import *
+from django.utils.html import format_html
 
 User= get_user_model()
 
@@ -375,8 +376,8 @@ class CourseAdmin(ModelAdmin):
             path("course/custom/", custom_view, name="course_custom"),
         ]
 
-
 @admin.register(Progress)
+
 class ProgressAdmin(ModelAdmin):
     def get_urls(self):
         custom_view = self.admin_site.admin_view(
@@ -385,7 +386,28 @@ class ProgressAdmin(ModelAdmin):
         return super().get_urls() + [
             path("progress/custom/", custom_view, name="progress_custom"),
         ]
+# class ProgressAdmin(admin.ModelAdmin):
+#     list_display = ('student','student_name','course', 'subject', 'progress_percent', 'show_progress_bar', 'last_updated')
 
+#     def show_progress_bar(self, obj):
+#         """Display a small colored progress bar in admin list view."""
+#         color = "#4CAF50" if obj.progress_percent >= 70 else "#FFA500"
+#         return format_html(
+#             '<div style="width:100px; background:#ddd; border-radius:5px;">'
+#             '<div style="width:{}%; background:{}; color:white; padding:2px 0; border-radius:5px; text-align:center;">{}%</div>'
+#             '</div>',
+#             obj.progress_percent, color, obj.progress_percent
+#         )
+
+#     show_progress_bar.short_description = "Progress"
+
+class CustomProgressView(TemplateView):
+    template_name = 'admin/customprogress.html'
+    def get_context_data(self, **kwargs):
+        context = super().get_context_dat(**kwargs)
+        progress = Progress.objects.all().order_by('-subject')
+        context['progress'] = progress
+        return context
 
 @admin.register(Assignment)
 class AssignmentAdmin(ModelAdmin):
@@ -436,6 +458,11 @@ def get_custom_urls(admin_site):
             admin_site.admin_view(CustomDashboardView.as_view()),
             name="custom_dashboard",
         ),
+        path(
+            "progress/",
+            admin_site.admin_view(CustomProgressView.as_view()),
+            name="customprogress"
+        ),
     ]
 
 _original_get_urls = admin.site.get_urls
@@ -444,22 +471,10 @@ def new_get_urls():
     return get_custom_urls(admin.site) + _original_get_urls()
 
     
-from django.contrib import admin
-from django.utils.html import format_html
-from .models import StudentProgress
 
-@admin.register(StudentProgress)
-class ProgressAdmin(admin.ModelAdmin):
-    list_display = ('student_name', 'subject', 'progress_percent', 'show_progress_bar', 'last_updated')
 
-    def show_progress_bar(self, obj):
-        """Display a small colored progress bar in admin list view."""
-        color = "#4CAF50" if obj.progress_percent >= 70 else "#FFA500"
-        return format_html(
-            '<div style="width:100px; background:#ddd; border-radius:5px;">'
-            '<div style="width:{}%; background:{}; color:white; padding:2px 0; border-radius:5px; text-align:center;">{}%</div>'
-            '</div>',
-            obj.progress_percent, color, obj.progress_percent
-        )
 
-    show_progress_bar.short_description = "Progress"
+
+
+
+

@@ -75,11 +75,14 @@ class Course(models.Model):
 
 class Progress(models.Model):
     student = models.ForeignKey(PortalUser, on_delete=models.CASCADE, limit_choices_to={'role': 'student'})
+    student_name = models.CharField(max_length=100, null=True)
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
-    progress_percent = models.FloatField(default=0.0)
+    subject = models.CharField(max_length=100, null=True)
+    progress_percent = models.IntegerField(default=0)
+    last_updated = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f"{self.student.user.username} - {self.course.name}"
+        return f"{self.student_name} - {self.subject}"
 
 
 class Assignment(models.Model):
@@ -100,3 +103,7 @@ class ParticipantInstitution(models.Model):
 
     def __str__(self):
         return f"{self.participant.user.username} -> {self.institution.name}"
+
+    
+
+
