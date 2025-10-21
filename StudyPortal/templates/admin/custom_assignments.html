@@ -19,7 +19,7 @@
                     <th>Assigned By</th>
                     <th>Assigned To</th>
                     <th>Description</th>
-                    <th>File</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -30,12 +30,13 @@
                     <td>{{ assignment.due_date|date:"Y-m-d" }}</td>
                     <td>{{ assignment.assigned_by }}</td>
                     <td>{{ assignment.assigned_to }}</td>
-                    <td>{{ assignment.description }}</td>
-                    <td>
+                    <td class="description-cell">{{ assignment.description }}</td>
+                    <td class="actions-cell">
                         {% if assignment.file %}
-                            <a href="{{ assignment.file.url }}" target="_blank">Download</a>
+                        <a href="{{ assignment.file.url }}" target="_blank" class="btn-view">View</a>
+                        <a href="{{ assignment.file.url }}" download class="btn-download">Download</a>
                         {% else %}
-                            No file
+                        <span class="no-file">No File</span>
                         {% endif %}
                     </td>
                 </tr>
