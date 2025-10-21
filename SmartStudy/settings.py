@@ -62,6 +62,8 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'SmartStudy.urls'
 
+
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -69,6 +71,7 @@ TEMPLATES = [
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
+                'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
@@ -126,13 +129,14 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = BASE_DIR / "staticfiles"
+
+STATICFILES_DIRS =[BASE_DIR / "css/static"]
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# settings.py
+
 
 from django.templatetags.static import static
 from django.urls import reverse_lazy
@@ -273,9 +277,19 @@ UNFOLD = {
                         "link": "/admin/dashboard/"
                     },
                     {
-                        "title": _("User Progress"),
-                        "icon": "bar_chart",
-                        "link": "/admin/customprogress"
+                        "title": _("User Assignments"),
+                        "icon": "assignment",
+                        "link": "/admin/assignments"
+                    },
+                    {
+                        "title": _("User Resources"),
+                        "icon": "folder",
+                        "link": "/admin/resources"
+                    },
+                    {
+                        "title": _("User Notes"),
+                        "icon": "note",
+                        "link": "/admin/notes" 
                     },
                 ],
             },

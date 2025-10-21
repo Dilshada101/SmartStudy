@@ -1,270 +1,14 @@
-# from django.contrib import admin
-# from .models import *
-# from unfold.admin import ModelAdmin
-# from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
-# from django.contrib.auth.admin import GroupAdmin as BaseGroupAdmin
-# from django.contrib.auth.models import User, Group
-# from unfold.forms import AdminPasswordChangeForm, UserChangeForm, UserCreationForm
-# from django.db import models
-# from django.contrib.postgres.fields import ArrayField
-# from unfold.contrib.forms.widgets import ArrayWidget, WysiwygWidget
-
-
-
-
-
-
-# admin.site.unregister(User)
-# admin.site.unregister(Group)
-
-
-
-# @admin.register(User)
-# class UserAdmin(BaseUserAdmin, ModelAdmin):
-#      form = UserChangeForm
-#      add_form = UserCreationForm
-#      change_password_form = AdminPasswordChangeForm
-
-# @admin.register(Group)
-# class GroupAdmin(BaseGroupAdmin, ModelAdmin):
-#      pass
-
-
-
-# @admin.register(Institution)
-# class InstitutionAdmin(ModelAdmin):
-#      list_display=("name","address")
-
-# @admin.register(ParticipantInstitution)
-# class ParticipantInstitutionAdmin(ModelAdmin):
-#      list_display = ("participant", "institution", "joined_on")
-
-
-
-# @admin.register(PortalUser)
-# class PortalUserAdmin(ModelAdmin):
-#      list_display=("user", "role", "institution")
-
-# @admin.register(Book)
-# class BookAdmin(ModelAdmin):
-#      list_display=("title", "author", "uploaded_by")  
-
-# @admin.register(ParticipantBook)
-# class ParticipantBookAdmin(ModelAdmin):
-#      list_display = ("participant", "book", "issued_on")
-
-
-# @admin.register(Resource)
-# class ResourceAdmin(ModelAdmin):
-#      list_display = ("title", "uploaded_by")
-
-
-# @admin.register(Note)
-# class NoteAdmin(ModelAdmin):
-#      list_display = ("title", "uploaded_by")
-
-
-# @admin.register(Course)
-# class CourseAdmin(ModelAdmin):
-#      list_display = ("name", "department", "institution")
-
-
-# @admin.register(Progress)
-# class ProgressAdmin(ModelAdmin):
-#      list_display = ("student", "course", "progress_percent")
-
-# @admin.register(Assignment)
-# class AssignmentAdmin(ModelAdmin):
-#      list_display = ("title", "assigned_by", "assigned_to","score")
-
-
-
-
-# from .models import (
-#      Institution,
-#      PortalUser,
-#      Book,
-#      Course,
-#      Resource,
-#      Note,
-#      Assignment,
-#      Progress,
-#  )
-
-# Common base config to reuse across all admins
-# class BaseAdmin(ModelAdmin):
-#      compressed_fields = True
-#      warn_unsaved_form = True
-#      list_filter_submit = False
-#      list_fullwidth = False
-#      list_filter_sheet = True
-#      list_horizontal_scrollbar_top = False
-#      list_disable_select_all = False
-#      change_form_show_cancel_button = True
-
-#      formfield_overrides = {
-#          models.TextField: {"widget": WysiwygWidget},
-#          ArrayField: {"widget": ArrayWidget},      }
-
-
-# @admin.register(Institution)
-# class InstitutionAdmin(BaseAdmin):
-#     list_display = ("id", "name", "created_at")
-#     search_fields = ("name",)
-
-# @admin.register(ParticipantInstitution)
-# class ParticipantInstitutionAdmin(BaseAdmin):
-#     list_display = ("id", "portal_user", "institution", "joined_at")
-#     list_filter = ("institution", "portal_user")
-#     search_fields = ("portal_user_userusername", "institution_name")
-
-
-# @admin.register(PortalUser)
-# class PortalUserAdmin(BaseAdmin):
-#     list_display = ("id", "user", "institution", "role")
-#     list_filter = ("institution", "role")
-#     search_fields = ("user_username", "user_email")
-
-
-# @admin.register(Book)
-# class BookAdmin(BaseAdmin):
-#     list_display = ("id", "title", "author", "published_date")
-#     search_fields = ("title", "author")
-
-# @admin.register(ParticipantBook)
-# class ParticipantBookAdmin(BaseAdmin):
-#     list_display = ("id", "portal_user", "book", "assigned_at")
-#     list_filter = ("book", "portal_user")
-#     search_fields = ("portal_user_userusername", "book_title")
-
-
-
-# @admin.register(Course)
-# class CourseAdmin(BaseAdmin):
-#     list_display = ("id", "name", "institution", "created_at")
-#     list_filter = ("institution",)
-#     search_fields = ("name",)
-
-
-# @admin.register(Resource)
-# class ResourceAdmin(BaseAdmin):
-#     list_display = ("id", "title", "course", "uploaded_at")
-#     list_filter = ("course",)
-#     search_fields = ("title",)
-
-
-# @admin.register(Note)
-# class NoteAdmin(BaseAdmin):
-#     list_display = ("id", "title", "user", "created_at")
-#     list_filter = ("user",)
-#     search_fields = ("title",)
-
-
-# @admin.register(Assignment)
-# class AssignmentAdmin(BaseAdmin):
-#     list_display = ("id", "title", "course", "due_date")
-#     list_filter = ("course",)
-#     search_fields = ("title",)
-
-
-# @admin.register(Progress)
-# class ProgressAdmin(BaseAdmin):
-#     list_display = ("id", "user", "course", "completion_percentage")
-#     list_filter = ("course","user")
-
-
-
-# from django.contrib import admin
-# from .models import (
-#     Institution,
-#     PortalUser,
-#     Book,
-#     ParticipantBook,
-#     Resource,
-#     Note,
-#     Course,
-#     Progress,
-#     Assignment,
-#     ParticipantInstitution,
-# )
-
-
-# @admin.register(Institution)
-# class InstitutionAdmin(admin.ModelAdmin):
-#     list_display = ("id", "name", "address")
-#     search_fields = ("name", "address")
-
-
-# @admin.register(PortalUser)
-# class PortalUserAdmin(admin.ModelAdmin):
-#     list_display = ("id", "user", "role", "institution")
-#     list_filter = ("role", "institution")
-#     search_fields = ("user_username", "institution_name")
-
-
-# @admin.register(Book)
-# class BookAdmin(admin.ModelAdmin):
-#     list_display = ("id", "title", "author", "uploaded_by")
-#     search_fields = ("title", "author", "uploaded_by__name")
-#     list_filter = ("uploaded_by",)
-
-
-# @admin.register(ParticipantBook)
-# class ParticipantBookAdmin(admin.ModelAdmin):
-#     list_display = ("id", "participant", "book", "issued_on")
-#     list_filter = ("issued_on", "book", "participant")
-
-
-# @admin.register(Resource)
-# class ResourceAdmin(admin.ModelAdmin):
-#     list_display = ("id", "title", "uploaded_by")
-#     search_fields = ("title", "uploaded_by_user_username")
-
-
-# @admin.register(Note)
-# class NoteAdmin(admin.ModelAdmin):
-#     list_display = ("id", "title", "uploaded_by")
-#     search_fields = ("title", "uploaded_by_user_username")
-
-
-# @admin.register(Course)
-# class CourseAdmin(admin.ModelAdmin):
-#     list_display = ("id", "name", "department", "institution")
-#     list_filter = ("department", "institution")
-#     search_fields = ("name", "department", "institution__name")
-
-
-# @admin.register(Progress)
-# class ProgressAdmin(admin.ModelAdmin):
-#     list_display = ("id", "student", "course", "progress_percent")
-#     list_filter = ("course",)
-#     search_fields = ("student_userusername", "course_name")
-
-
-# @admin.register(Assignment)
-# class AssignmentAdmin(admin.ModelAdmin):
-#     list_display = ("id", "title", "assigned_by", "assigned_to", "score")
-#     list_filter = ("assigned_by", "assigned_to")
-#     search_fields = ("title", "assigned_by_userusername", "assigned_touser_username")
-
-
-# @admin.register(ParticipantInstitution)
-# class ParticipantInstitutionAdmin(admin.ModelAdmin):
-#     list_display = ("id", "participant", "institution", "joined_on")
-#     list_filter = ("institution", "joined_on")
-#     search_fields = ("participant_userusername", "institution_name")
-
-
-
+from django.contrib import admin
 from django.urls import path
 from django.views.generic import TemplateView
-from django.contrib import admin
 from unfold.admin import ModelAdmin
 from unfold.views import UnfoldModelAdminViewMixin
 from django.contrib.auth import get_user_model
 from django.db.models import Count
 from .models import *
-from django.utils.html import format_html
+from django.utils.decorators import method_decorator
+from django.contrib.admin.views.decorators import staff_member_required
+from django.shortcuts import render,redirect
 
 User= get_user_model()
 
@@ -283,10 +27,13 @@ from StudyPortal.models import (
 
 
 
+
 class CustomAdminView(UnfoldModelAdminViewMixin, TemplateView):
     title = "Custom Management"
     permission_required = ()  
     template_name = "studyportal/custom_admin_template.html"
+
+
 
 
 @admin.register(Institution)
@@ -433,9 +180,9 @@ class CustomDashboardView(TemplateView):
             "courses": Course.objects.count(),
             "assignments": Assignment.objects.count(),
             "books": Book.objects.count(),
-            "notes": Note.objects.count(),  # you were using stats.notes in template
-            "progress": Progress.objects.count(),  # for student
-            "overall": User.objects.count() + Course.objects.count(),  # for teacher stats
+            "notes": Note.objects.count(),  
+            "progress": Progress.objects.count(),  
+            "overall": User.objects.count() + Course.objects.count(),  
         }
         ctx["recent_users"] = User.objects.order_by("-date_joined")[:5]
         ctx["recent_courses"] = Course.objects.order_by("-id")[:5]
@@ -444,11 +191,43 @@ class CustomDashboardView(TemplateView):
         ctx["user_groups"] = [g.name for g in self.request.user.groups.all()]
 
         # Add books/documents for student dashboard
-        ctx["books"] = Book.objects.all()  # filter if needed
-        ctx["documents"] = Resource.objects.all()  # assuming Resource model
+        ctx["books"] = Book.objects.all()
+        ctx["documents"] = Resource.objects.all()  
 
         return ctx
+    
 
+@method_decorator(staff_member_required, name='dispatch')
+class CustomAssignmentsView(TemplateView):
+    template_name = 'admin/custom_assignments.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        assignments = Assignment.objects.all().order_by('-due_date')
+        context['assignments'] = assignments
+        return context
+    
+@method_decorator(staff_member_required, name='dispatch')
+class CustomNotesView(TemplateView):
+    template_name = 'admin/custom_notes.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        notes = Note.objects.all().order_by('-uploaded_by')
+        context['notes'] = notes
+        return context
+
+@method_decorator(staff_member_required, name='dispatch')
+class CustomResourcesView(TemplateView):
+    template_name = 'admin/custom_resources.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        resources = Resource.objects.all().order_by('-uploaded_by')
+        books = Book.objects.all().order_by('-uploaded_by')
+        context['resources'] = resources
+        context['books'] = books
+        return context
 
 
 def get_custom_urls(admin_site):
@@ -459,10 +238,21 @@ def get_custom_urls(admin_site):
             name="custom_dashboard",
         ),
         path(
-            "progress/",
-            admin_site.admin_view(CustomProgressView.as_view()),
-            name="customprogress"
+            "assignments/",
+            admin_site.admin_view(CustomAssignmentsView.as_view()),
+            name="custom_assignments",
         ),
+        path(
+            "notes/",
+            admin_site.admin_view(CustomNotesView.as_view()),
+            name="custom_notes",
+        ),
+        path(
+            "resources/",
+            admin_site.admin_view(CustomResourcesView.as_view()),
+            name="custom_resources",
+        ),
+        
     ]
 
 _original_get_urls = admin.site.get_urls
@@ -470,11 +260,7 @@ _original_get_urls = admin.site.get_urls
 def new_get_urls():
     return get_custom_urls(admin.site) + _original_get_urls()
 
-    
-
-
-
-
+admin.site.get_urls = new_get_urls
 
 
 
