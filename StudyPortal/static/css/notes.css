@@ -1,0 +1,91 @@
+.notes-container {
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    font-family: 'Inter', sans-serif;
+    animation: fadeIn 0.4s ease-in-out;
+}
+
+.page-title {
+    font-size: 28px;
+    font-weight: 600;
+    color: #2c3e50;
+    margin-bottom: 25px;
+    text-align: center;
+    border-bottom: 2px solid #eaeaea;
+    padding-bottom: 10px;
+}
+
+.table-wrapper {
+    overflow-x: auto;
+    border-radius: 12px;
+}
+
+.notes-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #f9fafb;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.notes-table th,
+.notes-table td {
+    padding: 14px 18px;
+    text-align: left;
+    border-bottom: 1px solid #eaeaea;
+}
+
+.notes-table th {
+    background: #f0f2f5;
+    color: #34495e;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.notes-table tr:hover {
+    background-color: #f8faff;
+    transition: background 0.2s ease-in-out;
+}
+
+.notes-table td {
+    color: #2c3e50;
+    font-size: 15px;
+}
+
+/* Buttons */
+.btn-edit {
+    text-decoration: none;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    background-color: #27ae60;
+    color: white;
+    transition: all 0.2s ease-in-out;
+}
+
+.btn-edit:hover {
+    background-color: #1e8449;
+}
+
+.no-data {
+    text-align: center;
+    color: #7f8c8d;
+    padding: 20px 0;
+    font-style: italic;
+}
+
+/* Fade animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+}
+}
