@@ -29,5 +29,6 @@ urlpatterns = [
     path('admin/assignments/', study_views.assignment_dashboard, name='admin_assignment_dashboard'),
     path('admin/notes/', study_views.notes_dashboard, name='admin_notes_dashboard'),
     path('admin/resources/', study_views.resources_dashboard, name='admin_resources_dashboard'),
+    path('admin/progress/', study_views.progress_dashboard, name='admin_progress_dashboard'),
 
 ]
