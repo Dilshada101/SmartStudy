@@ -235,6 +235,32 @@ class CustomProgressView(TemplateView):
             record.save()
         context['progress'] = progress
         return context
+    
+@method_decorator(staff_member_required, name='dispatch')
+class CustomCourseView(TemplateView):
+    template_name = 'admin/custom_course.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = self.request.user
+
+        # Safely check for linked PortalUser and role (if exists)
+        portal_user = getattr(user, 'portaluser', None)
+        role = getattr(portal_user, 'role', None)
+
+        # Filter courses based on role
+        if role == 'student':
+            # Student-specific logic (optional: enrolled courses)
+            courses = Course.objects.all()
+        elif role == 'teacher':
+            # Teacher-specific logic (optional: institution-based)
+            courses = Course.objects.filter(institution=portal_user.institution)
+        else:
+            # Admins or others see all
+            courses = Course.objects.all()
+
+        context['courses'] = courses
+        return context
 
 
 
@@ -264,8 +290,12 @@ def get_custom_urls(admin_site):
             "progress/",
             admin_site.admin_view(CustomProgressView.as_view()),
             name="custom_progress",
-        )
-        
+        ),
+        path(
+            "course/",
+            admin_site.admin_view(CustomCourseView.as_view()),
+            name="custom_course",
+        ),
     ]
 
 _original_get_urls = admin.site.get_urls

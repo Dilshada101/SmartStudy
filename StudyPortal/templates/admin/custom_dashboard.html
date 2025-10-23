@@ -8,7 +8,7 @@
     
     <div class="mb-8 text-center">
         <h1 class="text-3xl font-bold text-gray-800">📊 SmartStudy Dashboard</h1>
-        <p class="text-gray-600">Welcome to the Dashboard</p>
+        
     </div>
     <!-- ADMIN DASHBOARD -->
     <script>
@@ -16,51 +16,40 @@ console.log("User groups: {{ request.user.groups.all|join:', ' }}");
 </script>
 
     {% if "Admin" in user_groups %}
+    <div class="mb-8 text-center">
+        <p class="text-gray-600">Welcome to the Admin Dashboard</p>
+    </div>
         
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
-            <div class="bg-white shadow-lg rounded-2xl p-6">
+            <a href="{% url 'admin_assignment_dashboard' %}" class="bg-white shadow-lg rounded-2xl p-6">
                 <h2 class="text-lg font-semibold text-gray-700">📝 Assignments</h2>
-                <p class="text-4xl font-bold text-purple-600 mt-2">{{ stats.assignments }}</p>
-            </div>
-            <div class="bg-white shadow-lg rounded-2xl p-6">
+                <p class="text-4xl font-bold text-purple-600 mt-2">{{ stats.assignments}}</p>
+            </a>
+            <a href="{% url 'admin_notes_dashboard' %}" class="bg-white shadow-lg rounded-2xl p-6">
                 <h2 class="text-lg font-semibold text-gray-700">📄 Notes</h2>
                 <p class="text-4xl font-bold text-blue-600 mt-2">{{ stats.notes }}</p>
-            </div>
+            </a>
+            <a href="{% url 'admin_course_dashboard' %}" class="bg-white shadow-lg rounded-2xl p-6 hover:shadow-xl transition">
+                <h2 class="text-lg font-semibold text-gray-700">📚 📘 Courses</h2>
+                <p class="text-4xl font-bold text-green-600 mt-2">{{ stats.courses }}</p>
+            </a>
+             <a href="{% url 'admin_resources_dashboard' %}" class="bg-white shadow-lg rounded-2xl p-6 hover:shadow-xl transition">
+                <h2 class="text-lg font-semibold text-gray-700"> 📘 Resources</h2>
+                <p class="text-4xl font-bold text-green-600 mt-2">{{ stats.books }}</p>
+            </a>
             <div class="bg-white shadow-lg rounded-2xl p-6 hover:shadow-xl transition">
-            <h2 class="text-lg font-semibold text-gray-700">📚 Courses</h2>
-            <p class="text-4xl font-bold text-green-600 mt-2">{{ stats.courses }}</p>
-        </div>
-        <div class="bg-white shadow-lg rounded-2xl p-6">
-            <h2 class="text-xl font-semibold text-gray-800 mb-4">📘 Recent Courses</h2>
-            <ul class="divide-y divide-gray-200">
-                {% for course in recent_courses %}
-                    <li class="py-2">{{ course.name }}</li>
-                {% empty %}
-                    <li class="py-2 text-gray-500">No courses yet.</li>
-                {% endfor %}
-            </ul>
-        </div>
-    </div>
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            
-            <div class="bg-white shadow-lg rounded-2xl p-6">
-                <h2 class="text-xl font-semibold text-gray-800 mb-4">👤 Recent Users</h2>
-                <ul class="divide-y divide-gray-200">
-                    {% for user in recent_users %}
-                        <li class="py-2 flex justify-between">
-                            <span>{{ user.username }}</span>
-                            <span class="text-gray-500 text-sm">{{ user.email }}</span>
-                        </li>
-                    {% empty %}
-                        <li class="py-2 text-gray-500">No users yet.</li>
-                    {% endfor %}
-                </ul>
+                <h2 class="text-lg font-semibold text-gray-700"> 👤Users</h2>
+                <p class="text-4xl font-bold text-green-600 mt-2">{{ stats.users }}</p>
             </div>
-            <script>
+            <a href="{% url 'admin_progress_dashboard' %}" class="bg-white shadow-lg rounded-2xl p-6 hover:shadow-xl transition">
+                <h2 class="text-lg font-semibold text-gray-700">📈 Progress</h2>
+                <p class="text-4xl font-bold text-green-600 mt-2">{{ stats.progress }}</p>
+            </a>
+        </div>
+        <script>
 console.log("User groups: {{ request.user.groups.all|join:', ' }}");
 </script>
 
-        </div>
 
 
     
@@ -114,7 +103,8 @@ console.log("User groups: {{ request.user.groups.all|join:', ' }}");
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
         <a href="{% url 'admin_assignment_dashboard' %}" class="block bg-white shadow-lg rounded-2xl p-6 hover:shadow-xl transition">
             <h2 class="text-lg font-semibold text-gray-700">📝 My Assignments</h2>
-            <p class="text-4xl font-bold text-purple-600 mt-2">{{ stats.assignments }}</p></a>
+            <p class="text-4xl font-bold text-purple-600 mt-2">{{ stats.assignments }}</p>
+        </a>
 
         
         <a href="{% url 'admin_notes_dashboard' %}" class="bg-white shadow-lg rounded-2xl p-6 hover:shadow-xl transition">

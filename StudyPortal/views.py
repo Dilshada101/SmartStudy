@@ -97,6 +97,8 @@ def resources_dashboard(request):
 def progress_dashboard(request):
     return render(request, 'admin/custom_progress.html')
 
+def course_dashboard(request):
+    return render(request, 'admin/custom_course.html')
 
 
 def get_model_by_type(file_type):
