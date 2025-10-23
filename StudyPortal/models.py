@@ -29,6 +29,7 @@ class Book(models.Model):
     title = models.CharField(max_length=255)
     author = models.CharField(max_length=255)
     uploaded_by = models.ForeignKey(Institution, on_delete=models.CASCADE)
+    file = models.FileField(upload_to='books/', blank=True, null=True)
 
     def __str__(self):
         return self.title
@@ -48,6 +49,8 @@ class Resource(models.Model):
     title = models.CharField(max_length=255)
     content = models.TextField()
     uploaded_by = models.ForeignKey(PortalUser, on_delete=models.CASCADE)
+    file = models.FileField(upload_to='resources/', blank=True, null=True)
+    uploaded_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.title
@@ -57,6 +60,8 @@ class Note(models.Model):
     title = models.CharField(max_length=255)
     content = models.TextField()
     uploaded_by = models.ForeignKey(PortalUser, on_delete=models.CASCADE)
+    file = models.FileField(upload_to='notes/', blank=True, null=True)
+    uploaded_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.title

@@ -18,6 +18,9 @@ from django.urls import path, include
 from django.contrib import admin
 from StudyPortal import views
 from StudyPortal import views as study_views
+from django.conf import settings
+from django.conf.urls.static import static
+
 
 
 
@@ -32,3 +35,5 @@ urlpatterns = [
     path('admin/progress/', study_views.progress_dashboard, name='admin_progress_dashboard'),
 
 ]
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
