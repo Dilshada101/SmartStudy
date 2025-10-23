@@ -22,7 +22,8 @@ from StudyPortal.models import (
     Note,
     Course,
     Progress,
-    Assignment
+    Assignment,
+    Semester,
 )
 
 
@@ -122,6 +123,20 @@ class CourseAdmin(ModelAdmin):
         return super().get_urls() + [
             path("course/custom/", custom_view, name="course_custom"),
         ]
+    
+@admin.register(Semester)
+class SemesterAdmin(ModelAdmin):
+    def get_urls(self):
+        custom_view = self.admin_site.admin_view(
+            CustomAdminView.as_view(
+                model_admin=self,
+                title="Semester Management",
+                permission_required=("studyportal.view_semester",),
+            )
+        )
+        return super().get_urls() + [
+            path("semester/custom/", custom_view, name="semester_custom"),
+        ]
 
 
 @admin.register(Progress)
@@ -215,6 +230,9 @@ class CustomProgressView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         progress = Progress.objects.all().order_by('-subject')
+        for record in progress:
+            record.progress_percent = record.calculate_progress()
+            record.save()
         context['progress'] = progress
         return context
 

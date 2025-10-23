@@ -32,9 +32,9 @@
                     <td>{{ assignment.assigned_to }}</td>
                     <td class="description-cell">{{ assignment.description }}</td>
                     <td class="actions-cell">
-                        {% if assignment.file %}
-                        <a href="{{ assignment.file.url }}" target="_blank" class="btn-view">View</a>
-                        <a href="{{ assignment.file.url }}" download class="btn-download">Download</a>
+                        {% if assignment.assignment_file %}
+                        <a href="{{ assignment.assignment_file.url }}" target="_blank" class="btn-view">View</a>
+                        <a href="{{ assignment.assignment_file.url }}" download class="btn-download">Download</a>
                         {% else %}
                         <span class="no-file">No File</span>
                         {% endif %}

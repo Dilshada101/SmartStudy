@@ -211,6 +211,7 @@ UNFOLD = {
             {"label": "Courses Custom Page", "url": "/admin/course/custom/", "icon": "layers"},
             {"label": "Progress Custom Page", "url": "/admin/progress/custom/", "icon": "bar-chart"},
             {"label": "Assignments Custom Page", "url": "/admin/assignment/custom/", "icon": "edit"},
+            {"label": "Semesters Custom Page", "url": "/admin/semester/custom/", "icon": "class" },
         ],
         "show_search": True,
         "command_search": False,
@@ -269,6 +270,11 @@ UNFOLD = {
                         "title": _("Progress"),
                         "icon": "bar_chart",
                         "link": reverse_lazy("admin:StudyPortal_progress_changelist"),
+                    },
+                    {
+                        "title": _("Semesters"),
+                        "icon": "class",
+                        "link": reverse_lazy("admin:StudyPortal_semester_changelist"),
                     },
                     {
                         "title": _("User Dashboard"),
@@ -375,6 +381,11 @@ UNFOLD = {
             "icon": "home",
             "title": _("SmartStudy Home"),
             "link": "https://smartstudy.example.com",
+        },
+        {
+            "icon": "class",
+            "title":_("Semesters"),
+            "link": reverse_lazy("admin:StudyPortal_semester_changelist"),
         },
     ]
 }
