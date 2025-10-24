@@ -10,6 +10,9 @@ from django.shortcuts import get_object_or_404
 from django.http import FileResponse, HttpResponse
 import mimetypes
 import os
+from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login, logout
+from django.contrib import messages
 
 def register(request):
     if request.method == 'POST':
@@ -33,6 +36,61 @@ def register(request):
         return render(request, 'result.html', context)
 
     return render(request, 'register.html')
+
+def signup_view(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+        role = request.POST.get('role')
+        institution_id = request.POST.get('institution')
+        course_id = request.POST.get('course')
+
+        if User.objects.filter(username=username).exists():
+            messages.error(request, "Username already taken.")
+            return redirect('signup')
+
+        user = User.objects.create_user(username=username, email=email, password=password)
+        institution = Institution.objects.filter(id=institution_id).first()
+        course = Course.objects.filter(id=course_id).first()
+
+        # Create the linked PortalUser
+        PortalUser.objects.create(
+            user=user,
+            role=role,
+            institution=institution
+        )
+
+        messages.success(request, "Account created successfully! You can now log in.")
+        return redirect('login')
+
+    institutions = Institution.objects.all()
+    courses = Course.objects.all()
+
+    return render(request, 'auth/signup.html', {'institutions': institutions}, {'coursess': courses})
+
+
+def login_view(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
+        user = authenticate(request, username=username, password=password)
+        if user:
+            login(request, user)
+            messages.success(request, f"Welcome back, {user.username}!")
+            return redirect('dashboard')  # You can adjust this
+        else:
+            messages.error(request, "Invalid username or password.")
+            return redirect('login')
+
+    return render(request, 'auth/login.html')
+
+
+def logout_view(request):
+    logout(request)
+    messages.success(request, "Logged out successfully.")
+    return redirect('login')
 
 def feature1_page(request):
     return render(request, 'StudyPortal/feature.html')
