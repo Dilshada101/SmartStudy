@@ -14,7 +14,12 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 
+<<<<<<< Updated upstream
 
+=======
+def home(request):
+    return render(request, 'StudyPortal/home.html')
+>>>>>>> Stashed changes
 
 def register(request):
     if request.method == 'POST':
