@@ -127,7 +127,7 @@ class Assignment(models.Model):
     uploaded_by = models.CharField(max_length=100, null=True)
     assignment_file = models.FileField(upload_to='assignments/', blank=True, null=True)
     submit_assignment = models.FileField(upload_to='assignments/', blank=True, null=True)
-   
+
     def __str__(self):
         return self.title
     

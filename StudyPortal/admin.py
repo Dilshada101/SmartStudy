@@ -277,6 +277,17 @@ class CustomCourseView(TemplateView):
 
         context['courses'] = courses
         return context
+    
+@method_decorator(staff_member_required, name='dispatch')
+class CustomUserView(TemplateView):
+    template_name = 'admin/custom_user.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        users = User.objects.all().order_by('-date_joined')
+        context['users'] = users
+        return context
+
 
 
 
@@ -312,6 +323,11 @@ def get_custom_urls(admin_site):
             admin_site.admin_view(CustomCourseView.as_view()),
             name="custom_course",
         ),
+        path(
+            "user/",
+            admin_site.admin_view(CustomUserView.as_view()),
+            name="custom_user",
+        )
     ]
 
 _original_get_urls = admin.site.get_urls

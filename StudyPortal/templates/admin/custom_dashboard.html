@@ -33,14 +33,14 @@ console.log("User groups: {{ request.user.groups.all|join:', ' }}");
                 <h2 class="text-lg font-semibold text-gray-700">📚 📘 Courses</h2>
                 <p class="text-4xl font-bold text-green-600 mt-2">{{ stats.courses }}</p>
             </a>
-             <a href="{% url 'admin_resources_dashboard' %}" class="bg-white shadow-lg rounded-2xl p-6 hover:shadow-xl transition">
+            <a href="{% url 'admin_resources_dashboard' %}" class="bg-white shadow-lg rounded-2xl p-6 hover:shadow-xl transition">
                 <h2 class="text-lg font-semibold text-gray-700"> 📘 Resources</h2>
                 <p class="text-4xl font-bold text-green-600 mt-2">{{ stats.books }}</p>
             </a>
-            <div class="bg-white shadow-lg rounded-2xl p-6 hover:shadow-xl transition">
+            <a href="{% url 'admin_user_dashboard' %}" class="bg-white shadow-lg rounded-2xl p-6 hover:shadow-xl transition">
                 <h2 class="text-lg font-semibold text-gray-700"> 👤Users</h2>
                 <p class="text-4xl font-bold text-green-600 mt-2">{{ stats.users }}</p>
-            </div>
+            </a>
             <a href="{% url 'admin_progress_dashboard' %}" class="bg-white shadow-lg rounded-2xl p-6 hover:shadow-xl transition">
                 <h2 class="text-lg font-semibold text-gray-700">📈 Progress</h2>
                 <p class="text-4xl font-bold text-green-600 mt-2">{{ stats.progress }}</p>
