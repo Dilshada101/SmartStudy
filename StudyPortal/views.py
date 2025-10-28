@@ -15,6 +15,8 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 
 
+def home(request):
+    return render(request, 'StudyPortal/home.html')
 
 def register(request):
     if request.method == 'POST':
@@ -160,6 +162,9 @@ def progress_dashboard(request):
 
 def course_dashboard(request):
     return render(request, 'admin/custom_course.html')
+
+def user_dashboard(request):
+    return render(request, 'admin/custom_user.html')
 
 
 def get_model_by_type(file_type):

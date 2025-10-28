@@ -4,6 +4,7 @@ from StudyPortal import views
 app_name = 'StudyPortal'
 
 urlpatterns = [
+    path('', views.home, name='home'),
     path('about/', views.about_page, name='about_page'), 
     path('feature1/', views.feature1_page, name='feature1_page'),
     path('/register/', views.register, name='register'),

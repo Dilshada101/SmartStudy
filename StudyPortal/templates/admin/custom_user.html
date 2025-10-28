@@ -1,0 +1,61 @@
+    {% extends "admin/base_site.html" %}
+    {% load static %}
+
+    {% block extrastyle %}
+    <link rel="stylesheet" href="{% static 'css/user.css' %}">
+    {% endblock %}
+
+    {% block content %}
+    <div class="p-6 bg-gray-50 min-h-screen">
+
+    <h1 class="text-center font-bold mb-8 text-gray-800">👥 User Dashboard</h1>
+    <p class="text-center text-gray-600 mb-8">Here you can view all registered users in the system.</p>
+
+    <div class="bg-white shadow-lg rounded-2xl overflow-hidden">
+        <table class="min-w-full border-collapse">
+        <thead class="bg-gray-100 text-gray-700 uppercase text-sm font-semibold">
+            <tr>
+            <th class="px-6 py-3 text-left">ID</th>
+            <th class="px-6 py-3 text-left">Full Name</th>
+            <th class="px-6 py-3 text-left">Email</th>
+            <th class="px-6 py-3 text-left">Role</th>
+            <th class="px-6 py-3 text-left">Date Joined</th>
+            <th class="px-6 py-3 text-left">Status</th>
+            </tr>
+        </thead>
+
+        <tbody class="text-gray-800 divide-y divide-gray-200">
+            {% for user in users %}
+            <tr class="hover:bg-gray-50 transition">
+            <td class="px-6 py-4">{{ forloop.counter }}</td>
+            <td class="px-6 py-4 font-medium">{{ user.get_full_name|default:user.username }}</td>
+            <td class="px-6 py-4">{{ user.email }}</td>
+            <td class="px-6 py-4 capitalize">
+                {% if user.is_superuser %}
+                Admin
+                {% elif user.is_staff %}
+                Teacher
+                {% else %}
+                Student
+                {% endif %}
+            </td>
+            <td class="px-6 py-4">{{ user.date_joined|date:"M d, Y" }}</td>
+            <td class="px-6 py-4">
+                {% if user.is_active %}
+                <span class="text-green-600 font-semibold">Active</span>
+                {% else %}
+                <span class="text-red-500 font-semibold">Inactive</span>
+                {% endif %}
+            </td>
+            </tr>
+            {% empty %}
+            <tr>
+            <td colspan="6" class="text-center text-gray-500 py-6">No users found.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+        </table>
+    </div>
+
+    </div>
+    {% endblock %}

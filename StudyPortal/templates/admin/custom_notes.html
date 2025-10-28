@@ -28,7 +28,7 @@
                     <td>{{ note.title }}</td>
                     <td class="content-cell">{{ note.content|truncatechars:100 }}</td>
                     <td>{{ note.uploaded_by }}</td>
-                     <td class="actions-cell">
+                    <td class="actions-cell">
                         {% if note.file %}
                             <a href="{{ note.file.url }}" target="_blank" class="btn-view">View</a>
                             <a href="{{ note.file.url }}" download class="btn-download">Download</a>
