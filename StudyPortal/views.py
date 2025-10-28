@@ -14,6 +14,8 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 
+
+
 def register(request):
     if request.method == 'POST':
         username = request.POST.get('username')
@@ -144,6 +146,7 @@ def dashboard_view(request):
 
     return render(request, "admin/dashboard.html", context)
 def assignment_dashboard(request):
+    assignments = Assignment.objects.all()
     return render(request, 'admin/custom_assignments.html')
 
 def notes_dashboard(request):

@@ -197,9 +197,19 @@ class CustomAssignmentsView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        assignments = Assignment.objects.all().order_by('-due_date')
+        user = self.request.user
+
+        # Try to get the corresponding PortalUser
+        portal_user = PortalUser.objects.filter(user=user).first()
+        
+        if portal_user and portal_user.role == "student":
+            assignments = Assignment.objects.filter(assigned_to=portal_user).order_by('-due_date')
+        else:
+            assignments = Assignment.objects.all()
+
         context['assignments'] = assignments
         return context
+
     
 @method_decorator(staff_member_required, name='dispatch')
 class CustomNotesView(TemplateView):
@@ -229,7 +239,13 @@ class CustomProgressView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        progress = Progress.objects.all().order_by('-subject')
+        user = self.request.user
+        portal_user = PortalUser.objects.filter(user=user).first()
+        if portal_user and portal_user.role == "student":
+            progress = Progress.objects.filter(student=portal_user).order_by('-subject')
+        else:
+            progress = Progress.objects.all().order_by('-subject')
+
         for record in progress:
             record.progress_percent = record.calculate_progress()
             record.save()
