@@ -1,6 +1,12 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models import Q
+from django.conf import settings
+from django.utils import timezone
+
+User = settings.AUTH_USER_MODEL
+
+
 class Institution(models.Model):
     name = models.CharField(max_length=255)
     address = models.TextField()
@@ -110,6 +116,7 @@ class Progress(models.Model):
         super().save(*args, **kwargs)
 
 
+
 class Assignment(models.Model):
     title = models.CharField(max_length=255)
     due_date = models.DateField(null=True)
@@ -120,10 +127,11 @@ class Assignment(models.Model):
     uploaded_by = models.CharField(max_length=100, null=True)
     assignment_file = models.FileField(upload_to='assignments/', blank=True, null=True)
     submit_assignment = models.FileField(upload_to='assignments/', blank=True, null=True)
-
+   
     def __str__(self):
         return self.title
     
+
 class Semester(models.Model):
     name = models.CharField(max_length=100, unique=True)
     course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='semesters')
