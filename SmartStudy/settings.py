@@ -395,6 +395,14 @@ LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = 'dashboard'  # or wherever you want users to go
 LOGOUT_REDIRECT_URL = '/login/'
 
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'adnanaugust382@gmail.com'
+EMAIL_HOST_PASSWORD = 'mfwj nsaw jnol hhkf'
+DEFAULT_FROM_EMAIL = 'SmartStudy <support@smartstudy.com>'
+
 
 
 

@@ -24,10 +24,14 @@ class PortalUser(models.Model):
     role = models.CharField(max_length=10, choices=ROLE_CHOICES)
     profile_pic = models.ImageField(upload_to='profiles/', null=True, blank=True)
     institution = models.ForeignKey(Institution, on_delete=models.SET_NULL, null=True, blank=True)
+    email = models.EmailField(unique=True, null=True, blank=False)
 
+    def save(self, *args, **kwargs):
+        if not self.email and self.user.email:
+            self.email = self.user.email
+        super().save(*args,**kwargs)
     def __str__(self):
         return f"{self.user.username} - {self.get_role_display()} ({self.institution})"
-        return f"{self.user.username} - {self.get_role_display()}({self.institution})"
 
 
 
