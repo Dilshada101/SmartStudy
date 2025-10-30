@@ -9,5 +9,4 @@ urlpatterns = [
     path('/register/', views.register, name='register'),
     # path('assignments/', views.assignment_dashboard, name='assignment_dashboard'),
 
-
 ]

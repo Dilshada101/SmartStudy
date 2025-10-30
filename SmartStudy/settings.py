@@ -291,6 +291,11 @@ UNFOLD = {
                         "icon": "note",
                         "link": "/admin/notes" 
                     },
+                    {
+                        "title": _("User Progress"),
+                        "icon": "bar_chart",
+                        "link": "/admin/progress"
+                    }
                 ],
             },
         ],

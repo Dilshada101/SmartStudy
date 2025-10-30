@@ -228,6 +228,48 @@ class CustomResourcesView(TemplateView):
         context['resources'] = resources
         context['books'] = books
         return context
+    
+@method_decorator(staff_member_required, name='dispatch')
+class CustomProgressView(TemplateView):
+    template_name = 'admin/custom_progress.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        progress = Progress.objects.all().order_by('-subject')
+        context['progress'] = progress
+        return context
+
+@method_decorator(staff_member_required, name='dispatch')
+class CustomAssignmentsView(TemplateView):
+    template_name = 'admin/custom_assignments.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        assignments = Assignment.objects.all().order_by('-due_date')
+        context['assignments'] = assignments
+        return context
+    
+@method_decorator(staff_member_required, name='dispatch')
+class CustomNotesView(TemplateView):
+    template_name = 'admin/custom_notes.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        notes = Note.objects.all().order_by('-uploaded_by')
+        context['notes'] = notes
+        return context
+
+@method_decorator(staff_member_required, name='dispatch')
+class CustomResourcesView(TemplateView):
+    template_name = 'admin/custom_resources.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        resources = Resource.objects.all().order_by('-uploaded_by')
+        books = Book.objects.all().order_by('-uploaded_by')
+        context['resources'] = resources
+        context['books'] = books
+        return context
 
 
 def get_custom_urls(admin_site):
@@ -252,6 +294,11 @@ def get_custom_urls(admin_site):
             admin_site.admin_view(CustomResourcesView.as_view()),
             name="custom_resources",
         ),
+        path(
+            "progress/",
+            admin_site.admin_view(CustomProgressView.as_view()),
+            name="custom_progress",
+        )
         
     ]
 

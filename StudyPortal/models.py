@@ -75,7 +75,8 @@ class Course(models.Model):
 
 class Progress(models.Model):
     student = models.ForeignKey(PortalUser, on_delete=models.CASCADE, limit_choices_to={'role': 'student'})
-    student_name = models.CharField(max_length=100, null=True)
+    student_name = models.CharField(max_length=30, null=True)
+    subject = models.CharField(max_length=100, null=True)
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
     subject = models.CharField(max_length=100, null=True)
     progress_percent = models.IntegerField(default=0)
