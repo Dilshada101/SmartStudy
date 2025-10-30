@@ -31,14 +31,17 @@
             <td class="px-6 py-4 font-medium">{{ user.get_full_name|default:user.username }}</td>
             <td class="px-6 py-4">{{ user.email }}</td>
             <td class="px-6 py-4 capitalize">
-                {% if user.is_superuser %}
-                Admin
-                {% elif user.is_staff %}
-                Teacher
-                {% else %}
-                Student
-                {% endif %}
-            </td>
+        {% if user.groups.all.0.name == "Admin" %}
+            Admin
+        {% elif user.groups.all.0.name == "Teacher" %}
+            Teacher
+        {% elif user.groups.all.0.name == "Student" %}
+            Student
+        {% else %}
+            Unknown
+        {% endif %}
+    </td>
+
             <td class="px-6 py-4">{{ user.date_joined|date:"M d, Y" }}</td>
             <td class="px-6 py-4">
                 {% if user.is_active %}

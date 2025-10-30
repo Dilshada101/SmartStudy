@@ -230,17 +230,19 @@ UNFOLD = {
                         "permission": lambda request: request.user.groups.filter(name="Admin").exists()
                     },
                     {
-                        "title": _("Institutions"),
-                        "icon": "school",
-                        "link": reverse_lazy("admin:StudyPortal_institution_changelist"),
-                    },
-                    {
                         "title": _("Users"),
                         "icon": "people",
                         "link": reverse_lazy("admin:StudyPortal_portaluser_changelist"),
                         "permission": lambda request: not (request.user.groups.filter(name="Teacher").exists() or request.user.groups.filter(name="Student").exists())
 
                     },
+                    {
+                        "title": _("Institutions"),
+                        "icon": "school",
+                        "link": reverse_lazy("admin:StudyPortal_institution_changelist"),
+
+                    },
+                    
                     {
                         "title": _("Books"),
                         "icon": "menu_book",
@@ -280,6 +282,7 @@ UNFOLD = {
                         "title": _("User Dashboard"),
                         "icon": "home",
                         "link": "/admin/dashboard/"
+                        
                     },
                     {
                         "title": _("User Assignments"),
@@ -393,7 +396,7 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = 'dashboard'  # or wherever you want users to go
-LOGOUT_REDIRECT_URL = '/login/'
+LOGOUT_REDIRECT_URL = ''
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
