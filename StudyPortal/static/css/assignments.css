@@ -54,6 +54,48 @@
     color: #2c3e50;
     font-size: 15px;
 }
+.text-center {
+    text-align: center;
+}
+.no-file {
+    color : #999;
+}
+.actions-cell{
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+.btn-view,
+.btn-download {
+    display: inline-block;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 14px;
+    text-decoration: none;
+    text-align: center;
+    font-weight: 500;
+    transition: background 0.3s ease, transform 0.2s;
+}
+
+.btn-view {
+    background-color: #0077b6;
+    color: #fff;
+}
+
+.btn-view:hover {
+    background-color: #005f8e;
+    transform: scale(1.03);
+}
+
+.btn-download {
+    background-color: #38b000;
+    color: #fff;
+}
+
+.btn-download:hover {
+    background-color: #2a8700;
+    transform: scale(1.03);
+}
 
 
 .btn-edit {

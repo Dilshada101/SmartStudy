@@ -7,4 +7,7 @@ class StudyportalConfig(AppConfig):
     def ready(self):
         import StudyPortal.dashboard  
 
+    def ready(self):
+        import StudyPortal.signals
+
 

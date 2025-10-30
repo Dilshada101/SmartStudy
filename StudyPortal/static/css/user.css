@@ -1,0 +1,122 @@
+/* 🌐 user.css — styling for User Dashboard */
+
+/* Page layout */
+body {
+    background-color: #f9fafb;
+    font-family: 'Inter', sans-serif;
+}
+
+/* Page container */
+.users-container {
+    padding: 2rem;
+    min-height: 100vh;
+}
+
+/* Heading styles */
+h1 {
+    font-size: 1.875rem;
+    font-weight: 700;
+    color: #1f2937;
+    margin-bottom: 1.5rem;
+}
+
+p {
+    color: #6b7280;
+    margin-bottom: 2rem;
+}
+
+/* Table styling */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+    border-radius: 1rem;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+/* Header */
+thead {
+    background-color: #f3f4f6;
+    text-transform: uppercase;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #374151;
+}
+
+th {
+    padding: 1rem 1.5rem;
+    text-align: left;
+}
+
+/* Table rows */
+tbody tr {
+    transition: background-color 0.2s ease;
+}
+
+tbody tr:hover {
+    background-color: #f9fafb;
+}
+
+/* Table cells */
+td {
+    padding: 1rem 1.5rem;
+    color: #1f2937;
+    font-size: 0.95rem;
+}
+
+/* Role and Status styles */
+td span {
+    font-weight: 600;
+}
+
+.text-green-600 {
+    color: #059669;
+}
+
+.text-red-500 {
+    color: #dc2626;
+}
+
+/* Empty message */
+td[colspan="6"] {
+    text-align: center;
+    padding: 2rem;
+    color: #9ca3af;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    table, thead, tbody, th, td, tr {
+        display: block;
+    }
+
+    thead {
+        display: none;
+    }
+
+    tr {
+        background: #fff;
+        margin-bottom: 1rem;
+        border-radius: 1rem;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+
+    td {
+        display: flex;
+        justify-content: space-between;
+        padding: 0.75rem 1rem;
+        border-bottom: 1px solid #f3f4f6;
+    }
+
+    td:last-child {
+        border-bottom: none;
+    }
+
+    td::before {
+        content: attr(data-label);
+        font-weight: 600;
+        color: #6b7280;
+        text-transform: capitalize;
+}
+}

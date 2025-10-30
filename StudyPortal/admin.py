@@ -22,7 +22,8 @@ from StudyPortal.models import (
     Note,
     Course,
     Progress,
-    Assignment
+    Assignment,
+    Semester,
 )
 
 
@@ -122,6 +123,20 @@ class CourseAdmin(ModelAdmin):
         return super().get_urls() + [
             path("course/custom/", custom_view, name="course_custom"),
         ]
+    
+@admin.register(Semester)
+class SemesterAdmin(ModelAdmin):
+    def get_urls(self):
+        custom_view = self.admin_site.admin_view(
+            CustomAdminView.as_view(
+                model_admin=self,
+                title="Semester Management",
+                permission_required=("studyportal.view_semester",),
+            )
+        )
+        return super().get_urls() + [
+            path("semester/custom/", custom_view, name="semester_custom"),
+        ]
 
 @admin.register(Progress)
 
@@ -203,9 +218,19 @@ class CustomAssignmentsView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        assignments = Assignment.objects.all().order_by('-due_date')
+        user = self.request.user
+
+        # Try to get the corresponding PortalUser
+        portal_user = PortalUser.objects.filter(user=user).first()
+        
+        if portal_user and portal_user.role == "student":
+            assignments = Assignment.objects.filter(assigned_to=portal_user).order_by('-due_date')
+        else:
+            assignments = Assignment.objects.all()
+
         context['assignments'] = assignments
         return context
+
     
 @method_decorator(staff_member_required, name='dispatch')
 class CustomNotesView(TemplateView):
@@ -235,9 +260,55 @@ class CustomProgressView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        progress = Progress.objects.all().order_by('-subject')
+        user = self.request.user
+        portal_user = PortalUser.objects.filter(user=user).first()
+        if portal_user and portal_user.role == "student":
+            progress = Progress.objects.filter(student=portal_user).order_by('-subject')
+        else:
+            progress = Progress.objects.all().order_by('-subject')
+
+        for record in progress:
+            record.progress_percent = record.calculate_progress()
+            record.save()
         context['progress'] = progress
         return context
+    
+@method_decorator(staff_member_required, name='dispatch')
+class CustomCourseView(TemplateView):
+    template_name = 'admin/custom_course.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = self.request.user
+
+        # Safely check for linked PortalUser and role (if exists)
+        portal_user = getattr(user, 'portaluser', None)
+        role = getattr(portal_user, 'role', None)
+
+        # Filter courses based on role
+        if role == 'student':
+            # Student-specific logic (optional: enrolled courses)
+            courses = Course.objects.all()
+        elif role == 'teacher':
+            # Teacher-specific logic (optional: institution-based)
+            courses = Course.objects.filter(institution=portal_user.institution)
+        else:
+            # Admins or others see all
+            courses = Course.objects.all()
+
+        context['courses'] = courses
+        return context
+    
+@method_decorator(staff_member_required, name='dispatch')
+class CustomUserView(TemplateView):
+    template_name = 'admin/custom_user.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        users = User.objects.all().order_by('-date_joined')
+        context['users'] = users
+        return context
+
 
 @method_decorator(staff_member_required, name='dispatch')
 class CustomAssignmentsView(TemplateView):
@@ -298,8 +369,17 @@ def get_custom_urls(admin_site):
             "progress/",
             admin_site.admin_view(CustomProgressView.as_view()),
             name="custom_progress",
+        ),
+        path(
+            "course/",
+            admin_site.admin_view(CustomCourseView.as_view()),
+            name="custom_course",
+        ),
+        path(
+            "user/",
+            admin_site.admin_view(CustomUserView.as_view()),
+            name="custom_user",
         )
-        
     ]
 
 _original_get_urls = admin.site.get_urls

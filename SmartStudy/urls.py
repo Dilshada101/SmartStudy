@@ -18,10 +18,14 @@ from django.urls import path, include
 from django.contrib import admin
 from StudyPortal import views
 from StudyPortal import views as study_views
+from django.conf import settings
+from django.conf.urls.static import static
+
 
 
 
 urlpatterns = [ 
+    path('', include('StudyPortal.urls')),
     path('admin/', admin.site.urls),
     path('register/', views.register, name= 'register'),
     path('StudyPortal/', include('StudyPortal.urls')),
@@ -29,5 +33,8 @@ urlpatterns = [
     path('admin/notes/', study_views.notes_dashboard, name='admin_notes_dashboard'),
     path('admin/resources/', study_views.resources_dashboard, name='admin_resources_dashboard'),
     path('admin/progress/', study_views.progress_dashboard, name='admin_progress_dashboard'),
-
-]
+    path('admin/course/', study_views.course_dashboard, name='admin_course_dashboard'),
+    path('admin/user/', study_views.user_dashboard, name='admin_user_dashboard'),
+    ]
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

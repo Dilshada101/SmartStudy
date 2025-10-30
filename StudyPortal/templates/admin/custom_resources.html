@@ -17,6 +17,7 @@
                     <th>Title</th>
                     <th>Content</th>
                     <th>Uploaded By</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -24,10 +25,16 @@
                 <tr>
                     <td>{{ resource.id }}</td>
                     <td>{{ resource.title }}</td>
-                    <td>{{ resource.content }}</td>
+                    <td class="content-cell">{{ resource.content|truncatechars:100 }}</td>
                     <td>{{ resource.uploaded_by }}</td>
-                    
-                
+                    <td class="actions-cell">
+                        {% if resource.file %}
+                            <a href="{{ resource.file.url }}" target="_blank" class="btn-view">View</a>
+                            <a href="{{ resource.file.url }}" download class="btn-download">Download</a>
+                        {% else %}
+                            <span class="no-file">No File</span>
+                        {% endif %}
+                    </td>
                 </tr>
                 {% empty %}
                 <tr>
@@ -51,6 +58,7 @@
                     <th>Title</th>
                     <th>Author</th>
                     <th>Uploaded By</th>
+                    <th>Actions</th>
         
                 </tr>
             </thead>
@@ -61,6 +69,14 @@
                     <td>{{ book.title }}</td>
                     <td>{{ book.author }}</td>
                     <td>{{ book.uploaded_by }}</td>
+                    <td class="actions-cell">
+                        {% if book.file %}
+                            <a href="{{ book.file.url }}" target="_blank" class="btn-view">View</a>
+                            <a href="{{ book.file.url }}" download class="btn-download">Download</a>
+                        {% else %}
+                            <span class="no-file">No File</span>
+                        {% endif %}
+                    </td>
                     
                 </tr>
                 {% empty %}

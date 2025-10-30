@@ -14,7 +14,7 @@
         <table class="progress-table">
             <thead>
                 <tr>
-                    <th>Student Name</th>
+                    <th>Student</th>
                     <th>Subject</th>
                     <th>Course</th>
                     <th>Progress (%)</th>
@@ -23,7 +23,7 @@
             <tbody>
                 {% for record in progress %}
                 <tr>
-                    <td>{{ record.student_name }}</td>
+                    <td>{{ record.student }}</td>
                     <td>{{ record.subject }}</td>
                     <td>{{ record.course }}</td>
                     <td>

@@ -15,8 +15,9 @@
                 <tr>
                     <th>ID</th>
                     <th>Title</th>
-                    <th>content</th>
+                    <th>Content</th>
                     <th>Uploaded By</th>
+                    <th>Actions</th>
                     
                 </tr>
             </thead>
@@ -25,11 +26,16 @@
                 <tr>
                     <td>{{ note.id }}</td>
                     <td>{{ note.title }}</td>
-                    <td>{{ note.content }}</td>
+                    <td class="content-cell">{{ note.content|truncatechars:100 }}</td>
                     <td>{{ note.uploaded_by }}</td>
-            
-                    
-                    
+                    <td class="actions-cell">
+                        {% if note.file %}
+                            <a href="{{ note.file.url }}" target="_blank" class="btn-view">View</a>
+                            <a href="{{ note.file.url }}" download class="btn-download">Download</a>
+                        {% else %}
+                            <span class="no-file">No File</span>
+                        {% endif %}
+                    </td>
                 </tr>
                 {% empty %}
                 <tr>

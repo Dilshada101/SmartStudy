@@ -67,7 +67,7 @@ ROOT_URLCONF = 'SmartStudy.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / "templates"],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -212,6 +212,7 @@ UNFOLD = {
             {"label": "Courses Custom Page", "url": "/admin/course/custom/", "icon": "layers"},
             {"label": "Progress Custom Page", "url": "/admin/progress/custom/", "icon": "bar-chart"},
             {"label": "Assignments Custom Page", "url": "/admin/assignment/custom/", "icon": "edit"},
+            {"label": "Semesters Custom Page", "url": "/admin/semester/custom/", "icon": "class" },
         ],
         "show_search": True,
         "command_search": False,
@@ -270,6 +271,11 @@ UNFOLD = {
                         "title": _("Progress"),
                         "icon": "bar_chart",
                         "link": reverse_lazy("admin:StudyPortal_progress_changelist"),
+                    },
+                    {
+                        "title": _("Semesters"),
+                        "icon": "class",
+                        "link": reverse_lazy("admin:StudyPortal_semester_changelist"),
                     },
                     {
                         "title": _("User Dashboard"),
@@ -377,8 +383,26 @@ UNFOLD = {
             "title": _("SmartStudy Home"),
             "link": "https://smartstudy.example.com",
         },
+        {
+            "icon": "class",
+            "title":_("Semesters"),
+            "link": reverse_lazy("admin:StudyPortal_semester_changelist"),
+        },
     ]
 }
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
+LOGIN_URL = '/login/'
+LOGIN_REDIRECT_URL = 'dashboard'  # or wherever you want users to go
+LOGOUT_REDIRECT_URL = '/login/'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'adnanaugust382@gmail.com'
+EMAIL_HOST_PASSWORD = 'mfwj nsaw jnol hhkf'
+DEFAULT_FROM_EMAIL = 'SmartStudy <support@smartstudy.com>'
 
 
 
