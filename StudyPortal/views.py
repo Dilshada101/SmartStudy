@@ -47,52 +47,68 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
+from django.shortcuts import render, redirect
+from django.contrib import messages
+from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login, logout
 
 def signup_view(request):
-    if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
-        confirm_password = request.POST['confirm_password']
+    if request.method == "POST":
+        username = request.POST.get("username")
+        email = request.POST.get("email")
+        password1 = request.POST.get("password1")
+        password2 = request.POST.get("password2")
+        user_type = request.POST.get("user_type")  # teacher/student
 
-        if password != confirm_password:
-            messages.error(request, "Passwords do not match")
-            return redirect('signup')
+        if password1 != password2:
+            messages.error(request, "Passwords do not match.")
+            return redirect("signup")
 
         if User.objects.filter(username=username).exists():
-            messages.error(request, "Username already exists")
-            return redirect('signup')
+            messages.error(request, "Username already exists.")
+            return redirect("signup")
 
-        user = User.objects.create_user(username=username, password=password)
-        user.save()
-        messages.success(request, "Account created successfully! Please log in.")
-        return redirect('login')
+        user = User.objects.create_user(username=username, email=email, password=password1)
 
-    return render(request, 'signup.html')
+        # Mark teachers as staff (they can access admin panel)
+        if user_type == "teacher":
+            user.is_staff = True
+            user.is_superuser = False
+            user.save()
+
+        messages.success(request, "Account created successfully! You can now log in.")
+        return redirect("login")
+
+    return render(request, "signup.html")
 
 
+# ---------- LOGIN ----------
 def login_view(request):
-    if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
+    if request.method == "POST":
+        username = request.POST.get("username")
+        password = request.POST.get("password")
 
         user = authenticate(request, username=username, password=password)
+
         if user is not None:
             login(request, user)
-            return redirect('/admin/')  # redirect to admin panel
+
+            # Redirect teachers (staff) to admin panel, students to home page
+            if user.is_staff:
+                return redirect("/admin/")
+            else:
+                return redirect("home")
         else:
-            messages.error(request, "Invalid username or password")
-            return redirect('login')
+            messages.error(request, "Invalid username or password.")
+            return redirect("login")
 
-    return render(request, 'login.html')
+    return render(request, "login.html")
 
 
+# ---------- LOGOUT ----------
 def logout_view(request):
     logout(request)
-    return redirect('home')
-
-
-
-
+    return redirect("home")
 
 # def signup_page(request):
 #     if request.method == 'POST':
@@ -208,6 +224,11 @@ def assignment_dashboard(request):
 
 def resources_dashboard(request):
     return render(request, 'admin/custom_resources.html')
+def notes_dashboard(request):
+    return render(request, 'admin/notes_dashboard.html')
+
+def progress_dashboard(request):
+    return render(request, 'admin/progress_dashboard.html')
 
 
 
@@ -289,9 +310,29 @@ def home(request):
 def about(request):
     return render(request, 'about.html')
 
-
+from django.core.mail import send_mail
 def contact(request):
-    return render(request, 'contact.html')
+    if request.method == "POST":
+        name = request.POST.get("name")
+        email = request.POST.get("email")
+        message = request.POST.get("message")
+
+        subject = f"New message from {name}"
+        body = f"Name: {name}\nEmail: {email}\n\nMessage:\n{message}"
+
+        send_mail(
+            subject,
+            body,
+            "no-reply@smartstudy.com",  # Sender
+            ["adnanaugust382@gmail.com"],  # Receiver
+            fail_silently=False,
+        )
+
+        messages.success(request, "Your message has been sent successfully!")
+        return render(request, "contact.html")
+
+    return render(request, "contact.html")
+
 
 
 
