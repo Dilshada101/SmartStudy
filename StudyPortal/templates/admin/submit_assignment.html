@@ -1,0 +1,17 @@
+{% extends "admin/base_site.html" %}
+{% load static %}
+
+{% block content %}
+<div class="card" style="padding: 30px; max-width: 500px; margin: auto;">
+    <h2>Submit Assignment: {{ assignment.title }}</h2>
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form }}
+
+        <button type="submit" class="button button-primary" style="margin-top: 20px;">
+            Upload File
+        </button>
+    </form>
+</div>
+{% endblock %}

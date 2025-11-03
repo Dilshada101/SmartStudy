@@ -13,4 +13,5 @@ urlpatterns = [
     path('signup/', views.signup_view, name='signup'),
     path('login/', views.login_view, name='login'),
     path('logout/', views.logout_view, name='logout'),
+    path("submit-assignment/<int:assignment_id>/", views.submit_assignment, name="submit_assignment"),
 ]

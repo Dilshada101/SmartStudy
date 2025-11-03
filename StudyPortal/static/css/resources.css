@@ -1,179 +1,232 @@
 /* ================================
-   Resources Dashboard Styling
+    Base Dashboard
    ================================ */
+.dashboard-wrapper {
+    padding: 50px;
+    background: #f4f6fb;
+    min-height: 100vh;
+    font-family: "Poppins", sans-serif;
+}
 
-.resources-container,
-.books-container {
-    background: #ffffff;
-    padding: 30px;
-    border-radius: 16px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-    font-family: 'Inter', sans-serif;
-    animation: fadeIn 0.4s ease-in-out;
+.main-title {
+    text-align: center;
+    font-size: 32px;
+    font-weight: 700;
+    color: #2c3e50;
+    margin-bottom: 8px;
+}
+
+.subtitle {
+    text-align: center;
+    font-size: 15px;
+    color: #7f8c8d;
     margin-bottom: 40px;
 }
 
-.page-title {
-    font-size: 28px;
-    font-weight: 600;
-    color: #2c3e50;
-    margin-bottom: 25px;
-    text-align: center;
-    border-bottom: 2px solid #eaeaea;
-    padding-bottom: 10px;
+/* ================================
+    Card Container
+   ================================ */
+.combined-table-card {
+    background: #fff;
+    border-radius: 20px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+    padding: 25px;
+    overflow-x: auto;
+    border-top: 6px solid #0077b6;
 }
 
 /* ================================
-   Table Styling
+    Table Styling
    ================================ */
-
-.table-wrapper {
-    overflow-x: auto;
-    border-radius: 12px;
-}
-
-.resources-table,
-.books-table {
+.styled-table {
     width: 100%;
     border-collapse: collapse;
-    background: #f9fafb;
+    font-size: 14px;
+    background: #fafbfc;
     border-radius: 12px;
     overflow: hidden;
 }
 
-.resources-table th,
-.resources-table td,
-.books-table th,
-.books-table td {
-    padding: 14px 18px;
+.styled-table th, 
+.styled-table td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #e0e0e0;
     text-align: left;
-    border-bottom: 1px solid #eaeaea;
 }
 
-.resources-table th,
-.books-table th {
-    background: #f0f2f5;
-    color: #34495e;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-.resources-table tr:hover,
-.books-table tr:hover {
-    background-color: #f8faff;
-    transition: background 0.2s ease-in-out;
-}
-
-.resources-table td,
-.books-table td {
+.styled-table th {
+    background: #eef1f5;
     color: #2c3e50;
-    font-size: 15px;
-    vertical-align: top;
+    text-transform: uppercase;
+    font-weight: 600;
+    font-size: 13px;
 }
 
-.content-cell {
-    max-width: 400px;
-    word-wrap: break-word;
-    white-space: pre-wrap;
-    color: #34495e;
-    line-height: 1.5;
+.styled-table tr:hover {
+    background: #f5f9ff;
 }
 
 /* ================================
-   Actions & Buttons
+    Type Badges
    ================================ */
+.type-badge {
+    padding: 5px 10px;
+    border-radius: 20px;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
 
+.type-badge.resource {
+    background: #b72e27;
+}
+.type-badge.book {
+    background: lch(59.13% 34.45 114.24);
+}
+.type-badge.note {
+    background: #882a7d;
+}
+
+/* ================================
+    Buttons
+   ================================ */
 .actions-cell {
     display: flex;
-    flex-direction: column;
-    gap: 6px;
+    gap: 8px;
 }
 
 .btn-view,
 .btn-download {
     display: inline-block;
-    padding: 8px 12px;
+    padding: 6px 10px;
     border-radius: 6px;
-    font-size: 14px;
+    font-size: 13px;
+    font-weight: 500;
+    color: #fff;
     text-decoration: none;
     text-align: center;
-    font-weight: 500;
-    transition: background 0.3s ease, transform 0.2s;
+    transition: all 0.2s ease;
 }
 
-/* View Button */
 .btn-view {
-    background-color: #0077b6;
-    color: #fff;
+    background: #0077b6;
 }
-
 .btn-view:hover {
-    background-color: #005f8e;
-    transform: scale(1.03);
+    background: #005f8e;
+    transform: scale(1.05);
 }
 
-/* Download Button */
 .btn-download {
-    background-color: #38b000;
-    color: #fff;
+    background: #38b000;
 }
-
 .btn-download:hover {
-    background-color: #2a8700;
-    transform: scale(1.03);
+    background: #2a8700;
+    transform: scale(1.05);
 }
-
-/* Edit Button (Optional) */
-.btn-edit {
-    text-decoration: none;
-    padding: 6px 12px;
-    border-radius: 6px;
-    font-size: 14px;
-    font-weight: 500;
-    background-color: #27ae60;
-    color: white;
-    transition: all 0.2s ease-in-out;
-}
-
-.btn-edit:hover {
-    background-color: #1e8449;
-}
-
-/* ================================
-   Empty State & No File
-   ================================ */
 
 .no-file {
     color: #999;
     font-style: italic;
 }
 
-.no-data {
-    text-align: center;
-    color: #7f8c8d;
-    padding: 20px 0;
-    font-style: italic;
+/* ================================
+    Search & Filter Styling
+   ================================ */
+.search-filter-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+/* Wrapper for search input to position clear button */
+.search-wrapper {
+    position: relative;
+    flex: 1 1 250px;
+}
+
+.search-input {
+    width: 100%;
+    padding: 10px 35px 10px 15px; /* padding-right for clear button */
+    border-radius: 10px;
+    border: 1px solid #d1d5db;
+    font-size: 14px;
+    background-color: #fff;
+    transition: all 0.2s ease-in-out;
+    box-sizing: border-box;
+}
+
+.filter-select {
+    padding: 10px 15px;
+    border-radius: 10px;
+    border: 1px solid #d1d5db;
+    font-size: 14px;
+    background-color: #fff;
+    transition: all 0.2s ease-in-out;
+    flex: 0 1 180px;
+}
+
+.search-input:focus,
+.filter-select:focus {
+    outline: none;
+    border-color: #0077b6;
+    box-shadow: 0 0 0 3px rgba(0, 119, 182, 0.2);
+}
+
+/* Clear button inside search input */
+.clear-btn {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 16px;
+    color: #999;
+    cursor: pointer;
+    display: none;
+    user-select: none;
+    transition: color 0.2s ease;
+}
+
+.clear-btn:hover {
+    color: #555;
 }
 
 /* ================================
-   Center Alignment Helper
+    Responsive Design
    ================================ */
-.text-center {
-    text-align: center;
+@media (max-width: 768px) {
+    .styled-table th, .styled-table td {
+        padding: 8px;
+        font-size: 12px;
+    }
+
+    .btn-view, .btn-download {
+        font-size: 11px;
+        padding: 5px 8px;
+    }
+
+    .type-badge {
+        font-size: 10px;
+        padding: 3px 8px;
+    }
+
+    .search-filter-container {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .filter-select,
+    .search-input {
+        width: 100%;
+    }
 }
 
 /* ================================
-   Animation
+    Hidden Rows (for JS filtering)
    ================================ */
-
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(10px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+.hidden {
+    display: none !important;
 }

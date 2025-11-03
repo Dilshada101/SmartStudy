@@ -13,6 +13,8 @@ import os
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
+from StudyPortal.forms import SubmissionForm
+
 
 
 def home(request):
@@ -147,18 +149,17 @@ def dashboard_view(request):
         }
 
     return render(request, "admin/dashboard.html", context)
+
+
+@login_required
 def assignment_dashboard(request):
-    assignments = Assignment.objects.all()
     return render(request, 'admin/custom_assignments.html')
 
-def notes_dashboard(request):
-    return render(request, 'admin/custom_notes.html')
 
 def resources_dashboard(request):
     return render(request, 'admin/custom_resources.html')
 
-def progress_dashboard(request):
-    return render(request, 'admin/custom_progress.html')
+
 
 def course_dashboard(request):
     return render(request, 'admin/custom_course.html')
@@ -200,6 +201,37 @@ def download_file(request, type, file_id):
         response = HttpResponse(f.read(), content_type=mime_type)
         response['Content-Disposition'] = f'attachment; filename="{os.path.basename(file_path)}"'
         return response
+    
+
+@login_required
+def submit_assignment(request, assignment_id):
+    assignment = get_object_or_404(Assignment, id=assignment_id)
+
+    # ✅ Only students can submit
+    if request.user.portaluser.role != "student":
+        messages.error(request, "Only students can submit assignments.")
+        return redirect("assignments_dashboard")
+
+    # ✅ Get existing submission or create new
+    submission, created = Submission.objects.get_or_create(
+        assignment=assignment,
+        student=request.user.portaluser
+    )
+
+    if request.method == "POST":
+        form = SubmissionForm(request.POST, request.FILES, instance=submission)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Assignment submitted successfully!")
+            return redirect("assignments_dashboard")
+    else:
+        form = SubmissionForm(instance=submission)
+
+    return render(request, "admin/submit_assignment.html", {
+        "form": form,
+        "assignment": assignment
+        })
+
 
 
 

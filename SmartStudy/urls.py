@@ -31,9 +31,7 @@ urlpatterns = [
     path('register/', views.register, name= 'register'),
     path('StudyPortal/', include('StudyPortal.urls')),
     path('admin/assignments/', study_views.assignment_dashboard, name='admin_assignment_dashboard'),
-    path('admin/notes/', study_views.notes_dashboard, name='admin_notes_dashboard'),
     path('admin/resources/', study_views.resources_dashboard, name='admin_resources_dashboard'),
-    path('admin/progress/', study_views.progress_dashboard, name='admin_progress_dashboard'),
     path('admin/course/', study_views.course_dashboard, name='admin_course_dashboard'),
     path('admin/user/', study_views.user_dashboard, name='admin_user_dashboard'),
     ]

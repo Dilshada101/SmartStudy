@@ -240,6 +240,8 @@ UNFOLD = {
                         "title": _("Institutions"),
                         "icon": "school",
                         "link": reverse_lazy("admin:StudyPortal_institution_changelist"),
+                        "permission": lambda request: request.user.groups.filter(name="Admin").exists()
+
 
                     },
                     
@@ -247,36 +249,50 @@ UNFOLD = {
                         "title": _("Books"),
                         "icon": "menu_book",
                         "link": reverse_lazy("admin:StudyPortal_book_changelist"),
+                        "permission": lambda request: request.user.groups.filter(name="Admin").exists()
+
                     },
                     {
                         "title": _("Courses"),
                         "icon": "library_books",
                         "link": reverse_lazy("admin:StudyPortal_course_changelist"),
+                        "permission": lambda request: request.user.groups.filter(name="Admin").exists()
+
                     },
                     {
                         "title": _("Resources"),
                         "icon": "folder",
                         "link": reverse_lazy("admin:StudyPortal_resource_changelist"),
+                        "permission": lambda request: request.user.groups.filter(name="Admin").exists()
+
                     },
                     {
                         "title": _("Notes"),
                         "icon": "note",
                         "link": reverse_lazy("admin:StudyPortal_note_changelist"),
+                        "permission": lambda request: request.user.groups.filter(name="Admin").exists()
+
                     },
                     {
                         "title": _("Assignments"),
                         "icon": "assignment",
                         "link": reverse_lazy("admin:StudyPortal_assignment_changelist"),
+                        "permission": lambda request: request.user.groups.filter(name="Admin").exists()
+
                     },
                     {
                         "title": _("Progress"),
                         "icon": "bar_chart",
                         "link": reverse_lazy("admin:StudyPortal_progress_changelist"),
+                        "permission": lambda request: request.user.groups.filter(name="Admin").exists()
+
                     },
                     {
                         "title": _("Semesters"),
                         "icon": "class",
                         "link": reverse_lazy("admin:StudyPortal_semester_changelist"),
+                        "permission": lambda request: request.user.groups.filter(name="Admin").exists()
+
                     },
                     {
                         "title": _("User Dashboard"),
@@ -293,11 +309,6 @@ UNFOLD = {
                         "title": _("User Resources"),
                         "icon": "folder",
                         "link": "/admin/resources"
-                    },
-                    {
-                        "title": _("User Notes"),
-                        "icon": "note",
-                        "link": "/admin/notes" 
                     },
                     {
                         "title": _("User Progress"),
