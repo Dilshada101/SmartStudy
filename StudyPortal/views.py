@@ -52,7 +52,7 @@ def chat_view(request):
 
 
 def home(request):
-    return render(request, 'StudyPortal/home.html')
+    return render(request, 'home.html')
 
 def register(request):
     if request.method == 'POST':
@@ -77,60 +77,127 @@ def register(request):
 
     return render(request, 'register.html')
 
+from django.shortcuts import render, redirect
+from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login, logout
+from django.contrib import messages
+from django.shortcuts import render, redirect
+from django.contrib import messages
+from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login, logout
+
 def signup_view(request):
-    if request.method == 'POST':
-        username = request.POST.get('username')
-        email = request.POST.get('email')
-        password = request.POST.get('password')
-        role = request.POST.get('role')
-        institution_id = request.POST.get('institution')
-        course_id = request.POST.get('course')
+    if request.method == "POST":
+        username = request.POST.get("username")
+        email = request.POST.get("email")
+        password1 = request.POST.get("password1")
+        password2 = request.POST.get("password2")
+        user_type = request.POST.get("user_type")  # teacher/student
+
+        if password1 != password2:
+            messages.error(request, "Passwords do not match.")
+            return redirect("signup")
 
         if User.objects.filter(username=username).exists():
-            messages.error(request, "Username already taken.")
-            return redirect('signup')
+            messages.error(request, "Username already exists.")
+            return redirect("signup")
 
-        user = User.objects.create_user(username=username, email=email, password=password)
-        institution = Institution.objects.filter(id=institution_id).first()
-        course = Course.objects.filter(id=course_id).first()
+        user = User.objects.create_user(username=username, email=email, password=password1)
 
-        # Create the linked PortalUser
-        PortalUser.objects.create(
-            user=user,
-            role=role,
-            institution=institution
-        )
+        # Mark teachers as staff (they can access admin panel)
+        if user_type == "teacher":
+            user.is_staff = True
+            user.is_superuser = False
+            user.save()
 
         messages.success(request, "Account created successfully! You can now log in.")
-        return redirect('login')
+        return redirect("login")
 
-    institutions = Institution.objects.all()
-    courses = Course.objects.all()
-
-    return render(request, 'auth/signup.html', {'institutions': institutions}, {'coursess': courses})
+    return render(request, "signup.html")
 
 
+# ---------- LOGIN ----------
 def login_view(request):
-    if request.method == 'POST':
-        username = request.POST.get('username')
-        password = request.POST.get('password')
+    if request.method == "POST":
+        username = request.POST.get("username")
+        password = request.POST.get("password")
 
         user = authenticate(request, username=username, password=password)
-        if user:
+
+        if user is not None:
             login(request, user)
-            messages.success(request, f"Welcome back, {user.username}!")
-            return redirect('dashboard')  # You can adjust this
+
+            # Redirect teachers (staff) to admin panel, students to home page
+            if user.is_staff:
+                return redirect("/admin/")
+            else:
+                return redirect("home")
         else:
             messages.error(request, "Invalid username or password.")
-            return redirect('login')
+            return redirect("login")
 
-    return render(request, 'auth/login.html')
+    return render(request, "login.html")
 
 
+# ---------- LOGOUT ----------
 def logout_view(request):
     logout(request)
-    messages.success(request, "Logged out successfully.")
-    return redirect('login')
+    return redirect("home")
+
+# def signup_page(request):
+#     if request.method == 'POST':
+#         username = request.POST.get('username')
+#         email = request.POST.get('email')
+#         password = request.POST.get('password')
+#         role = request.POST.get('role')
+#         institution_id = request.POST.get('institution')
+#         course_id = request.POST.get('course')
+
+#         if User.objects.filter(username=username).exists():
+#             messages.error(request, "Username already taken.")
+#             return redirect('signup')
+
+#         user = User.objects.create_user(username=username, email=email, password=password)
+#         institution = Institution.objects.filter(id=institution_id).first()
+#         course = Course.objects.filter(id=course_id).first()
+
+#         # Create the linked PortalUser
+#         PortalUser.objects.create(
+#             user=user,
+#             role=role,
+#             institution=institution
+#         )
+
+#         messages.success(request, "Account created successfully! You can now log in.")
+#         return redirect('login')
+
+#     institutions = Institution.objects.all()
+#     courses = Course.objects.all()
+
+#     return render(request, 'auth/signup.html', {'institutions': institutions}, {'coursess': courses})
+
+
+# def login_page(request):
+#     if request.method == 'POST':
+#         username = request.POST.get('username')
+#         password = request.POST.get('password')
+
+#         user = authenticate(request, username=username, password=password)
+#         if user:
+#             login(request, user)
+#             messages.success(request, f"Welcome back, {user.username}!")
+#             return redirect('dashboard')  # You can adjust this
+#         else:
+#             messages.error(request, "Invalid username or password.")
+#             return redirect('login')
+
+#     return render(request, 'auth/login.html')
+
+
+# def logout_view(request):
+#     logout(request)
+#     messages.success(request, "Logged out successfully.")
+#     return redirect('login')
 
 def feature1_page(request):
     return render(request, 'StudyPortal/feature.html')
@@ -138,8 +205,7 @@ def feature1_page(request):
 def hello_feature1(request):
     return HttpResponse("Hello from Feature 1 branch")
 
-def about_page(request):
-    return render(request, 'StudyPortal/about.html')
+
 
 
 User = get_user_model()
@@ -192,6 +258,11 @@ def assignment_dashboard(request):
 
 def resources_dashboard(request):
     return render(request, 'admin/custom_resources.html')
+def notes_dashboard(request):
+    return render(request, 'admin/notes_dashboard.html')
+
+def progress_dashboard(request):
+    return render(request, 'admin/progress_dashboard.html')
 
 
 
@@ -265,6 +336,40 @@ def submit_assignment(request, assignment_id):
         "form": form,
         "assignment": assignment
         })
+
+
+def home(request):
+    return render(request, 'home.html')
+
+def about(request):
+    return render(request, 'about.html')
+
+from django.core.mail import send_mail
+def contact(request):
+    if request.method == "POST":
+        name = request.POST.get("name")
+        email = request.POST.get("email")
+        message = request.POST.get("message")
+
+        subject = f"New message from {name}"
+        body = f"Name: {name}\nEmail: {email}\n\nMessage:\n{message}"
+
+        send_mail(
+            subject,
+            body,
+            "no-reply@smartstudy.com",  # Sender
+            ["adnanaugust382@gmail.com"],  # Receiver
+            fail_silently=False,
+        )
+
+        messages.success(request, "Your message has been sent successfully!")
+        return render(request, "contact.html")
+
+    return render(request, "contact.html")
+
+
+
+
 
 
 

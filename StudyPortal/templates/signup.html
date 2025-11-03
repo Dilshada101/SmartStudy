@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Sign Up - SmartStudy{% endblock %}
+
+{% block content %}
+<section style="
+    height: 100vh;
+    background-color: #0a3980;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding-top: 20px;
+    overflow: hidden;">
+
+    <div style="
+        background: white;
+        padding: 25px 30px;
+        border-radius: 15px;
+        box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+        width: 100%;
+        max-width: 340px;
+        text-align: center;">
+        
+        <img src="{% static 'images/Logo.png' %}" alt="SmartStudy Logo"
+             style="width: 80px; height: auto; margin-bottom: 10px;">
+
+        <h2 style="color: #0d6efd; margin-bottom: 6px;">Create Account</h2>
+
+        <form method="POST" style="display: flex; flex-direction: column; gap: 12px;">
+            {% csrf_token %}
+            <input type="text" name="username" placeholder="Username" required
+                   style="padding: 10px; border-radius: 8px; border: 1px solid #ccc;">
+            <input type="email" name="email" placeholder="Email" required
+                   style="padding: 10px; border-radius: 8px; border: 1px solid #ccc;">
+            <input type="password" name="password1" placeholder="Password" required
+                   style="padding: 10px; border-radius: 8px; border: 1px solid #ccc;">
+            <input type="password" name="password2" placeholder="Confirm Password" required
+                   style="padding: 10px; border-radius: 8px; border: 1px solid #ccc;">
+
+            <select name="user_type" required
+                    style="padding: 10px; border-radius: 8px; border: 1px solid #ccc;">
+                <option value="" disabled selected>Select Role</option>
+                <option value="student">Student</option>
+                <option value="teacher">Teacher</option>
+            </select>
+
+            <button type="submit" style="
+                background-color: #0d6efd;
+                color: white;
+                font-weight: bold;
+                padding: 10px;
+                border: none;
+                border-radius: 8px;
+                font-size: 1em;
+                cursor: pointer;">
+                Sign Up
+            </button>
+
+            <p style="margin-top: 10px; color: #555;">
+                Already have an account?
+                <a href="{% url 'login' %}" style="color: #0d6efd; text-decoration: none;">Login</a>
+            </p>
+        </form>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}About - SmartStudy{% endblock %}
+
+{% block content %}
+<section style="
+    min-height: 100vh;
+    background-color: #f8faff;
+    padding: 60px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;">
+
+    <div style="
+        background: white;
+        padding: 40px 50px;
+        border-radius: 15px;
+        box-shadow: 0 6px 25px rgba(0, 0, 0, 0.12);
+        max-width: 900px;
+        text-align: center;">
+
+        <!-- Logo -->
+        <img src="{% static 'images/Logo.png' %}" 
+             alt="SmartStudy Logo" 
+             style="width: 100px; margin-bottom: 15px; border-radius: 10px;">
+
+        <!-- Heading -->
+        <h1 style="color: #0d6efd; margin-bottom: 15px; font-size: 2em;">
+            About <span style="color: #333;">SmartStudy</span>
+        </h1>
+
+        <!-- Intro Paragraph -->
+        <p style="color: #555; line-height: 1.8; font-size: 1.05em;">
+            <strong>SmartStudy</strong> is an innovative learning platform designed to make education smarter, 
+            simpler, and more accessible for everyone. Our mission is to connect students and teachers 
+            through technology — enabling efficient sharing of resources, real-time progress tracking, and 
+            a better overall learning experience.
+        </p>
+
+        <!-- Secondary Paragraph -->
+        <p style="color: #555; margin-top: 20px; line-height: 1.8; font-size: 1.05em;">
+            From personalized dashboards to organized course materials, SmartStudy brings everything 
+            you need to succeed under one digital roof. Whether you’re a student looking for clarity 
+            or a teacher managing multiple classes, SmartStudy helps you stay ahead effortlessly.
+        </p>
+
+        <!-- Feature Cards -->
+        <div style="
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 35px;
+            gap: 25px;">
+
+            <div style="
+                background-color: #e9f1ff;
+                border-radius: 12px;
+                padding: 20px;
+                width: 250px;
+                text-align: center;">
+                <h3 style="color: #0d6efd;">Smart Learning</h3>
+                <p style="color: #555; font-size: 0.95em;">
+                    Interactive lessons and progress tracking designed to make studying more engaging.
+                </p>
+            </div>
+
+            <div style="
+                background-color: #e9f1ff;
+                border-radius: 12px;
+                padding: 20px;
+                width: 250px;
+                text-align: center;">
+                <h3 style="color: #0d6efd;">Resource Access</h3>
+                <p style="color: #555; font-size: 0.95em;">
+                    Easily find and download notes, assignments, and materials from one secure place.
+                </p>
+            </div>
+
+            <div style="
+                background-color: #e9f1ff;
+                border-radius: 12px;
+                padding: 20px;
+                width: 250px;
+                text-align: center;">
+                <h3 style="color: #0d6efd;">Teacher-Student Connect</h3>
+                <p style="color: #555; font-size: 0.95em;">
+                    Simplified communication and collaboration between teachers and learners.
+                </p>
+            </div>
+        </div>
+
+        <!-- Closing Line -->
+        <p style="margin-top: 35px; font-size: 1em; color: #444;">
+            <b>SmartStudy</b> is where learning meets innovation — empowering you to learn smarter every day.
+        </p>
+    </div>
+</section>
+{% endblock %}

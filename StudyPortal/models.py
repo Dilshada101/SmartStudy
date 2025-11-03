@@ -92,10 +92,10 @@ class Progress(models.Model):
     student = models.ForeignKey(PortalUser, on_delete=models.CASCADE, limit_choices_to={'role': 'student'})
     subject = models.CharField(max_length=100, null=True)
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
-    progress_percent = models.FloatField(default=0.0, editable=False)
+    progress_percent = models.FloatField(default=0.0)
 
     def __str__(self):
-        return f"{self.student.user.username} - {self.course.name}"
+        return f"{self.student_name} - {self.subject}"
 
     def calculate_progress(self):
         """Auto-calculate progress based on completed assignments."""
