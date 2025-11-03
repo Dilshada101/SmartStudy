@@ -14,6 +14,40 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from StudyPortal.forms import SubmissionForm
+from django.shortcuts import render
+from django.http import JsonResponse
+import openai
+from django.conf import settings
+
+openai.api_key = settings.OPENAI_API_KEY
+OPENAI_API_KEY='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'
+def send_message(request):
+    if request.method == 'POST':
+        user_message = request.POST.get('message', '').strip()
+
+        if not user_message:
+            return JsonResponse({'message': 'Message cannot be empty'}, status=400)
+
+        try:
+            response = openai.ChatCompletion.create(
+                model="gpt-3.5-turbo",
+                messages=[
+                    {"role": "system", "content": "You are a helpful assistant."},
+                    {"role": "user", "content": user_message},
+                ]
+            )
+
+            ai_message = response['choices'][0]['message']['content'].strip()
+            return JsonResponse({'message': ai_message})
+
+        except Exception as e:
+            return JsonResponse({'message': f'Error: {str(e)}'}, status=500)
+
+    return JsonResponse({'message': 'Invalid request'}, status=400)
+
+def chat_view(request):
+    return render(request, 'chat/chat.html')
+
 
 
 

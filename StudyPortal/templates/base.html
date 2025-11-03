@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}SmartStudy Chat{% endblock %}</title>
+    
+</head>
+<body>
+    <header>
+        <h1>SmartStudy Portal</h1>
+        <nav>
+            <a href="/admin/">Admin</a> |
+            <a href="/chat/">Chat</a>
+        </nav>
+    </header>
+
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <footer>
+        <p>&copy; 2025 SmartStudy</p>
+    </footer>
+</body>
+</html>
