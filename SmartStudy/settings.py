@@ -311,11 +311,6 @@ UNFOLD = {
                         "icon": "folder",
                         "link": "/admin/resources"
                     },
-                    {
-                        "title": _("User Progress"),
-                        "icon": "bar_chart",
-                        "link": "/admin/progress"
-                    }
                 ],
             },
         ],
