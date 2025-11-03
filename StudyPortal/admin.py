@@ -10,6 +10,9 @@ from django.utils.decorators import method_decorator
 from django.contrib.admin.views.decorators import staff_member_required
 from django.shortcuts import render,redirect
 
+
+
+
 User= get_user_model()
 
 from StudyPortal.models import (
@@ -182,6 +185,11 @@ class AssignmentAdmin(ModelAdmin):
         ]
     
 
+@admin.register(Submission)
+class SubmissionAdmin(admin.ModelAdmin):
+    list_display = ("id", "assignment", "student", "submitted_at")
+    list_filter = ("assignment", "student")
+
 
 
 class CustomDashboardView(TemplateView):
@@ -225,22 +233,23 @@ class CustomAssignmentsView(TemplateView):
         
         if portal_user and portal_user.role == "student":
             assignments = Assignment.objects.filter(assigned_to=portal_user).order_by('-due_date')
+            progress = Progress.objects.filter(student=portal_user)
         else:
             assignments = Assignment.objects.all()
+            progress = Progress.objects.all()
+        # for assignment in assignments:
+        #     progress = progress.filter(subject=assignment.subject).first() if user.role=="student" else None
+        #     submission = Submission.objects.filter(assignment=assignment, student=user).first() if user.role=="student" else None
 
         context['assignments'] = assignments
+        context['progress'] = progress
+        # context['submission'] = submission
         return context
+        
+            
 
     
-@method_decorator(staff_member_required, name='dispatch')
-class CustomNotesView(TemplateView):
-    template_name = 'admin/custom_notes.html'
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        notes = Note.objects.all().order_by('-uploaded_by')
-        context['notes'] = notes
-        return context
 
 @method_decorator(staff_member_required, name='dispatch')
 class CustomResourcesView(TemplateView):
@@ -248,10 +257,13 @@ class CustomResourcesView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        resources = Resource.objects.all().order_by('-uploaded_by')
-        books = Book.objects.all().order_by('-uploaded_by')
+        resources = Resource.objects.all().order_by('id')
+        books = Book.objects.all().order_by('id')
+        notes = Note.objects.all().order_by('id')
+
         context['resources'] = resources
         context['books'] = books
+        context['notes'] = notes
         return context
     
 @method_decorator(staff_member_required, name='dispatch')
@@ -342,6 +354,27 @@ class CustomResourcesView(TemplateView):
         context['books'] = books
         return context
 
+@method_decorator(staff_member_required, name='dispatch')
+class CustomSubmissionView(TemplateView):
+    template_name = 'admin/submit_assignment.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        user = self.request.user
+        portal_user = PortalUser.objects.filter(user=user).first()
+
+        # ✅ Student sees only their submissions
+        if portal_user and portal_user.role == "student":
+            submissions = Submission.objects.filter(student=portal_user).select_related('assignment')
+        else:
+            # ✅ Teacher/admin sees all submissions
+            submissions = Submission.objects.all().select_related('assignment', 'student')
+
+        context["submissions"] = submissions
+        return context
+
+
 
 def get_custom_urls(admin_site):
     return [
@@ -355,11 +388,7 @@ def get_custom_urls(admin_site):
             admin_site.admin_view(CustomAssignmentsView.as_view()),
             name="custom_assignments",
         ),
-        path(
-            "notes/",
-            admin_site.admin_view(CustomNotesView.as_view()),
-            name="custom_notes",
-        ),
+        
         path(
             "resources/",
             admin_site.admin_view(CustomResourcesView.as_view()),
@@ -388,6 +417,3 @@ def new_get_urls():
     return get_custom_urls(admin.site) + _original_get_urls()
 
 admin.site.get_urls = new_get_urls
-
-
-

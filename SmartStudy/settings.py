@@ -231,11 +231,6 @@ UNFOLD = {
                         "permission": lambda request: request.user.groups.filter(name="Admin").exists()
                     },
                     {
-                        "title": _("Institutions"),
-                        "icon": "school",
-                        "link": reverse_lazy("admin:StudyPortal_institution_changelist"),
-                    },
-                    {
                         "title": _("Users"),
                         "icon": "people",
                         "link": reverse_lazy("admin:StudyPortal_portaluser_changelist"),
@@ -243,44 +238,68 @@ UNFOLD = {
 
                     },
                     {
+                        "title": _("Institutions"),
+                        "icon": "school",
+                        "link": reverse_lazy("admin:StudyPortal_institution_changelist"),
+                        "permission": lambda request: request.user.groups.filter(name="Admin").exists()
+
+
+                    },
+                    
+                    {
                         "title": _("Books"),
                         "icon": "menu_book",
                         "link": reverse_lazy("admin:StudyPortal_book_changelist"),
+                        "permission": lambda request: request.user.groups.filter(name="Admin").exists()
+
                     },
                     {
                         "title": _("Courses"),
                         "icon": "library_books",
                         "link": reverse_lazy("admin:StudyPortal_course_changelist"),
+                        "permission": lambda request: request.user.groups.filter(name="Admin").exists()
+
                     },
                     {
                         "title": _("Resources"),
                         "icon": "folder",
                         "link": reverse_lazy("admin:StudyPortal_resource_changelist"),
+                        "permission": lambda request: request.user.groups.filter(name="Admin").exists()
+
                     },
                     {
                         "title": _("Notes"),
                         "icon": "note",
                         "link": reverse_lazy("admin:StudyPortal_note_changelist"),
+                        "permission": lambda request: request.user.groups.filter(name="Admin").exists()
+
                     },
                     {
                         "title": _("Assignments"),
                         "icon": "assignment",
                         "link": reverse_lazy("admin:StudyPortal_assignment_changelist"),
+                        "permission": lambda request: request.user.groups.filter(name="Admin").exists()
+
                     },
                     {
                         "title": _("Progress"),
                         "icon": "bar_chart",
                         "link": reverse_lazy("admin:StudyPortal_progress_changelist"),
+                        "permission": lambda request: request.user.groups.filter(name="Admin").exists()
+
                     },
                     {
                         "title": _("Semesters"),
                         "icon": "class",
                         "link": reverse_lazy("admin:StudyPortal_semester_changelist"),
+                        "permission": lambda request: request.user.groups.filter(name="Admin").exists()
+
                     },
                     {
                         "title": _("User Dashboard"),
                         "icon": "home",
                         "link": "/admin/dashboard/"
+                        
                     },
                     {
                         "title": _("User Assignments"),
@@ -291,11 +310,6 @@ UNFOLD = {
                         "title": _("User Resources"),
                         "icon": "folder",
                         "link": "/admin/resources"
-                    },
-                    {
-                        "title": _("User Notes"),
-                        "icon": "note",
-                        "link": "/admin/notes" 
                     },
                     {
                         "title": _("User Progress"),
@@ -394,7 +408,7 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = 'dashboard'  # or wherever you want users to go
-LOGOUT_REDIRECT_URL = '/login/'
+LOGOUT_REDIRECT_URL = ''
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'

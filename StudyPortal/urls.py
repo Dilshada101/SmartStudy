@@ -10,6 +10,7 @@ urlpatterns = [
     path('register/', views.register, name='register'),
     path('login/', views.login_view, name='login'),
     path('logout/', views.logout_view, name='logout'),
+    path("submit-assignment/<int:assignment_id>/", views.submit_assignment, name="submit_assignment"),
 
     # Optional: Features
     path('feature1/', views.feature1_page, name='feature1_page'),
@@ -18,3 +19,4 @@ urlpatterns = [
     path('view/<str:type>/<int:file_id>/', views.view_file, name='view_file'),
     path('download/<str:type>/<int:file_id>/', views.download_file, name='download_file'),
 ]
+

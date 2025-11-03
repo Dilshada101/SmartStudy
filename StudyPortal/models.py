@@ -159,7 +159,20 @@ class ParticipantInstitution(models.Model):
 
     def __str__(self):
         return f"{self.participant.user.username} -> {self.institution.name}"
-
     
 
+def submission_upload_path(instance, filename):
+    return f"submissions/student_{instance.student.id}/{filename}"
 
+class Submission(models.Model):
+    assignment = models.ForeignKey(Assignment, on_delete=models.CASCADE)
+    student = models.ForeignKey(
+        PortalUser,
+        on_delete=models.CASCADE,
+        limit_choices_to={'role': 'student'}
+    )
+    file = models.FileField(upload_to=submission_upload_path, blank=True, null=True)
+    submitted_at = models.DateTimeField(auto_now_add=True)
+
+    def _str_(self):
+        return f"{self.student} → {self.assignment.title}"
