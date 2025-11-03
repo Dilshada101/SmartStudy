@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Home - SmartStudy{% endblock %}
+
+{% block content %}
+
+<!-- Hero Section with Background Image and Logo -->
+<section style="background: url('{% static "images/bg.webp" %}') center/cover no-repeat; 
+                padding: 160px 20px 100px 20px; 
+                text-align: center; 
+                color: white; 
+                min-height: 85vh;
+                display: flex; 
+                flex-direction: column; 
+                justify-content: flex-start; 
+                align-items: center;
+                position: relative;">
+    
+    <!-- Semi-transparent overlay for better contrast -->
+    <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; 
+                background: rgba(0, 0, 0, 0.45); 
+                z-index: 1;"></div>
+
+    <div style="position: relative; z-index: 2; margin-top: -40px;">  <!-- Moves text slightly upward -->
+
+
+        <!-- Title and description -->
+        <h1 style="font-size: 3.2em; font-weight: bold; margin-bottom: 10px;">Welcome to SmartStudy</h1>
+        <p style="font-size: 1.3em; margin-bottom: 30px;">Your one-stop platform for smarter and faster learning.</p>
+
+        <!-- Button -->
+        <a href="{% url 'signup' %}" 
+           style="background-color: #0d6efd; 
+                  color: white; 
+                  padding: 12px 30px; 
+                  border-radius: 8px; 
+                  text-decoration: none; 
+                  font-weight: bold; 
+                  font-size: 1.1em;
+                  transition: all 0.3s;">
+           Get Started
+        </a>
+    </div>
+</section>
+
+<!-- Categories Section -->
+<section style="padding: 60px 0; background-color: #f5f9ff;">
+    <h2 style="text-align: center; margin-bottom: 40px;">Explore Categories</h2>
+    <div style="display: flex; justify-content: center; gap: 30px; flex-wrap: wrap;">
+        <div style="width: 280px; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); text-align: center;">
+            <h4>Engineering & Technology</h4>
+            <p>Discover advanced technical knowledge and skills.</p>
+        </div>
+        <div style="width: 280px; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); text-align: center;">
+            <h4>Health Sciences</h4>
+            <p>Learn the essentials of medical and health-related studies.</p>
+        </div>
+        <div style="width: 280px; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); text-align: center;">
+            <h4>Humanities & Arts</h4>
+            <p>Explore creativity, culture, and communication.</p>
+        </div>
+    </div>
+</section>
+
+<!-- About Section -->
+<section style="padding: 60px 0; background-color: white;">
+    <div style="display: flex; align-items: center; justify-content: center; flex-wrap: wrap;">
+        <div style="flex: 1; min-width: 300px; padding: 20px;">
+            <img src="{% static 'images/STUDY.webp' %}" alt="About SmartStudy" style="width: 100%; border-radius: 10px;">
+        </div>
+        <div style="flex: 1; min-width: 300px; padding: 20px;">
+            <h2>About SmartStudy</h2>
+            <p>SmartStudy is your trusted online learning companion designed to make education smarter, faster, and accessible for everyone.</p>
+            <a href="{% url 'about' %}" style="color: #0d6efd; text-decoration: none; font-weight: bold;">Learn More →</a>
+        </div>
+    </div>
+</section>
+
+
+<!-- Contact Section -->
+<section style="padding: 60px 0; background-color: white;">
+    <div style="text-align: center;">
+        <h2>Contact Us</h2>
+        <p>Have questions or suggestions? We’d love to hear from you!</p>
+        <a href="{% url 'contact' %}" style="background-color: #0d6efd; color: white; padding: 10px 25px; border-radius: 8px; text-decoration: none;">Get in Touch</a>
+    </div>
+</section>
+
+<!-- Call to Action -->
+<section style="background-color: #0d6efd; color: white; text-align: center; padding: 70px 20px;">
+    <h2>Ready to Start Learning?</h2>
+    <p>Join SmartStudy today and unlock your full potential.</p>
+    <a href="{% url 'signup' %}" style="background-color: white; color: #0d6efd; padding: 10px 25px; border-radius: 8px; text-decoration: none; font-weight: bold;">Sign Up Now</a>
+</section>
+
+<!-- Footer -->
+<footer style="text-align: center; padding: 20px; background-color: #0d6efd; color: white;">
+    <p>© 2025 SmartStudy | Empowering Learning Everywhere</p>
+</footer>
+
+{% endblock %}

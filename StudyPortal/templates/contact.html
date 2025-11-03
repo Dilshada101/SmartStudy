@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block title %}Contact Us - Smart Study{% endblock %}
+{% block content %}
+
+<div class="container py-5">
+  <div class="text-center mb-5">
+    <h2 class="fw-bold">📞 Contact <span class="text-primary">Smart Study</span></h2>
+    <p class="text-muted">We’d love to hear from you! Fill out the form below and we’ll get back to you soon.</p>
+  </div>
+
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card shadow-lg border-0 rounded-4">
+        <div class="card-body p-4">
+          <form method="POST">
+            {% csrf_token %}
+            <div class="mb-3">
+              <label for="name" class="form-label fw-semibold">Your Name</label>
+              <input type="text" class="form-control form-control-lg" id="name" placeholder="Enter your full name" required>
+            </div>
+            <div class="mb-3">
+              <label for="email" class="form-label fw-semibold">Your Email</label>
+              <input type="email" class="form-control form-control-lg" id="email" placeholder="Enter your email address" required>
+            </div>
+            <div class="mb-3">
+              <label for="subject" class="form-label fw-semibold">Subject</label>
+              <input type="text" class="form-control form-control-lg" id="subject" placeholder="Enter subject" required>
+            </div>
+            <div class="mb-3">
+              <label for="message" class="form-label fw-semibold">Message</label>
+              <textarea class="form-control form-control-lg" id="message" rows="5" placeholder="Type your message here..." required></textarea>
+            </div>
+            <div class="text-center">
+              <button type="submit" class="btn btn-primary px-5 py-2 rounded-pill">Send Message</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+
+{% endblock %}
