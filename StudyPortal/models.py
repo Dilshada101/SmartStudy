@@ -16,11 +16,11 @@ class Institution(models.Model):
 
 
 class PortalUser(models.Model):
-    ROLE_CHOICES=[
+    ROLE_CHOICES = [
         ("student", "Student"),
         ("teacher", "Teacher"),
     ]
-    user = models.OneToOneField(User, on_delete=models.CASCADE)  
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     role = models.CharField(max_length=10, choices=ROLE_CHOICES)
     profile_pic = models.ImageField(upload_to='profiles/', null=True, blank=True)
     institution = models.ForeignKey(Institution, on_delete=models.SET_NULL, null=True, blank=True)
@@ -29,10 +29,10 @@ class PortalUser(models.Model):
     def save(self, *args, **kwargs):
         if not self.email and self.user.email:
             self.email = self.user.email
-        super().save(*args,**kwargs)
+        super().save(*args, **kwargs)
+
     def __str__(self):
         return f"{self.user.username} - {self.get_role_display()} ({self.institution})"
-
 
 
 class Book(models.Model):
@@ -52,7 +52,6 @@ class ParticipantBook(models.Model):
 
     def __str__(self):
         return f"{self.participant.user.username} -> {self.book.title}"
-
 
 
 class Resource(models.Model):
@@ -77,7 +76,6 @@ class Note(models.Model):
         return self.title
 
 
-
 class Course(models.Model):
     name = models.CharField(max_length=255)
     department = models.CharField(max_length=255)
@@ -87,38 +85,32 @@ class Course(models.Model):
         return f"{self.name} ({self.institution.name})"
 
 
-
 class Progress(models.Model):
     student = models.ForeignKey(PortalUser, on_delete=models.CASCADE, limit_choices_to={'role': 'student'})
     subject = models.CharField(max_length=100, null=True)
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
-    progress_percent = models.FloatField(default=0.0)
+    progress_percent = models.FloatField(default=0.0, editable=False)
 
     def __str__(self):
-        return f"{self.student_name} - {self.subject}"
+        return f"{self.student.user.username} - {self.course.name}"
 
     def calculate_progress(self):
         """Auto-calculate progress based on completed assignments."""
-        # Total assignments for the student's course
         total_assignments = Assignment.objects.filter(course=self.course).count()
-        
-        # Assignments completed by this student
         completed_assignments = Assignment.objects.filter(
             course=self.course,
             assigned_to=self.student,
         ).exclude(
             Q(submit_assignment__isnull=True) | Q(submit_assignment='')
         ).count()
-        
+
         if total_assignments > 0:
             return round((completed_assignments / total_assignments) * 100, 2)
         return 0.0
 
     def save(self, *args, **kwargs):
-        # Automatically update progress_percent before saving
         self.progress_percent = self.calculate_progress()
         super().save(*args, **kwargs)
-
 
 
 class Assignment(models.Model):
@@ -134,7 +126,7 @@ class Assignment(models.Model):
 
     def __str__(self):
         return self.title
-    
+
 
 class Semester(models.Model):
     name = models.CharField(max_length=100, unique=True)
@@ -159,10 +151,11 @@ class ParticipantInstitution(models.Model):
 
     def __str__(self):
         return f"{self.participant.user.username} -> {self.institution.name}"
-    
+
 
 def submission_upload_path(instance, filename):
     return f"submissions/student_{instance.student.id}/{filename}"
+
 
 class Submission(models.Model):
     assignment = models.ForeignKey(Assignment, on_delete=models.CASCADE)
@@ -174,5 +167,5 @@ class Submission(models.Model):
     file = models.FileField(upload_to=submission_upload_path, blank=True, null=True)
     submitted_at = models.DateTimeField(auto_now_add=True)
 
-    def _str_(self):
+    def __str__(self):
         return f"{self.student} → {self.assignment.title}"

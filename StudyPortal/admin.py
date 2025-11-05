@@ -141,8 +141,8 @@ class SemesterAdmin(ModelAdmin):
             path("semester/custom/", custom_view, name="semester_custom"),
         ]
 
-@admin.register(Progress)
 
+@admin.register(Progress)
 class ProgressAdmin(ModelAdmin):
     def get_urls(self):
         custom_view = self.admin_site.admin_view(
@@ -151,28 +151,7 @@ class ProgressAdmin(ModelAdmin):
         return super().get_urls() + [
             path("progress/custom/", custom_view, name="progress_custom"),
         ]
-# class ProgressAdmin(admin.ModelAdmin):
-#     list_display = ('student','student_name','course', 'subject', 'progress_percent', 'show_progress_bar', 'last_updated')
 
-#     def show_progress_bar(self, obj):
-#         """Display a small colored progress bar in admin list view."""
-#         color = "#4CAF50" if obj.progress_percent >= 70 else "#FFA500"
-#         return format_html(
-#             '<div style="width:100px; background:#ddd; border-radius:5px;">'
-#             '<div style="width:{}%; background:{}; color:white; padding:2px 0; border-radius:5px; text-align:center;">{}%</div>'
-#             '</div>',
-#             obj.progress_percent, color, obj.progress_percent
-#         )
-
-#     show_progress_bar.short_description = "Progress"
-
-class CustomProgressView(TemplateView):
-    template_name = 'admin/customprogress.html'
-    def get_context_data(self, **kwargs):
-        context = super().get_context_dat(**kwargs)
-        progress = Progress.objects.all().order_by('-subject')
-        context['progress'] = progress
-        return context
 
 @admin.register(Assignment)
 class AssignmentAdmin(ModelAdmin):
@@ -322,37 +301,6 @@ class CustomUserView(TemplateView):
         return context
 
 
-@method_decorator(staff_member_required, name='dispatch')
-class CustomAssignmentsView(TemplateView):
-    template_name = 'admin/custom_assignments.html'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        assignments = Assignment.objects.all().order_by('-due_date')
-        context['assignments'] = assignments
-        return context
-    
-@method_decorator(staff_member_required, name='dispatch')
-class CustomNotesView(TemplateView):
-    template_name = 'admin/custom_notes.html'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        notes = Note.objects.all().order_by('-uploaded_by')
-        context['notes'] = notes
-        return context
-
-@method_decorator(staff_member_required, name='dispatch')
-class CustomResourcesView(TemplateView):
-    template_name = 'admin/custom_resources.html'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        resources = Resource.objects.all().order_by('-uploaded_by')
-        books = Book.objects.all().order_by('-uploaded_by')
-        context['resources'] = resources
-        context['books'] = books
-        return context
 
 @method_decorator(staff_member_required, name='dispatch')
 class CustomSubmissionView(TemplateView):
