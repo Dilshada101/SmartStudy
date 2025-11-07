@@ -29,21 +29,21 @@ SECRET_KEY = 'django-insecure-56u^lzo($llla!_s3i9wssvu3#$s%_dge7skdain(4yvqy%lk*
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
 
 INSTALLED_APPS = [
-    "unfold",  
-    "unfold.contrib.filters", 
-    "unfold.contrib.forms",  
-    "unfold.contrib.inlines", 
-    "unfold.contrib.import_export", 
-    "unfold.contrib.guardian",  
-    "unfold.contrib.simple_history",  
-    "unfold.contrib.location_field",  
-    "unfold.contrib.constance",  
+    "unfold",
+    "unfold.contrib.filters",
+    "unfold.contrib.forms",
+    "unfold.contrib.inlines",
+    "unfold.contrib.import_export",
+    "unfold.contrib.guardian",
+    "unfold.contrib.simple_history",
+    "unfold.contrib.location_field",
+    "unfold.contrib.constance",
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -51,7 +51,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'StudyPortal.apps.StudyportalConfig',
-    
+
 ]
 
 MIDDLEWARE = [
@@ -131,6 +131,8 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
+
+STATIC_ROOT = BASE_DIR / "static"
 
 STATIC_URL = '/static/'
 
@@ -249,7 +251,7 @@ UNFOLD = {
 
 
                     },
-                    
+
                     {
                         "title": _("Books"),
                         "icon": "menu_book",
@@ -303,7 +305,7 @@ UNFOLD = {
                         "title": _("User Dashboard"),
                         "icon": "home",
                         "link": "/admin/dashboard/"
-                        
+
                     },
                     {
                         "title": _("User Assignments"),
@@ -416,13 +418,3 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'adnanaugust382@gmail.com'
 EMAIL_HOST_PASSWORD = 'mfwj nsaw jnol hhkf'
 DEFAULT_FROM_EMAIL = 'SmartStudy <support@smartstudy.com>'
-
-
-
-
-
-
-
-
-
-
