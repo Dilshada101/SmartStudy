@@ -18,5 +18,10 @@ urlpatterns = [
     # Optional: File handling
     path('view/<str:type>/<int:file_id>/', views.view_file, name='view_file'),
     path('download/<str:type>/<int:file_id>/', views.download_file, name='download_file'),
+    
+    # AI Assistant
+    path('chat/', views.chat_page, name='chat'),
+    path('chat/api/prompt/', views.chat_api, name='chat_api'),
+    path('chat/api/generate_ppt/', views.generate_ppt_api, name='generate_ppt_api'),
 ]
 

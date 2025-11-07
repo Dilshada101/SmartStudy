@@ -1,4 +1,6 @@
 from django.contrib.auth.decorators import login_required
+from django.contrib import admin as django_admin
+from django.template.response import TemplateResponse
 from django.contrib.auth.models import Group
 from django.contrib.auth import get_user_model
 from django.http import HttpResponse
@@ -17,6 +19,10 @@ from StudyPortal.forms import SubmissionForm
 from django.shortcuts import render
 from django.http import JsonResponse
 from django.core.mail import send_mail
+from django.views.decorators.http import require_POST
+from django.http import JsonResponse, FileResponse
+from io import BytesIO
+from .ai import get_llm_response, generate_ppt
 
 
 
@@ -166,18 +172,35 @@ def dashboard_view(request):
 
 @login_required
 def assignment_dashboard(request):
-    return render(request, 'admin/custom_assignments.html')
+    context = django_admin.site.each_context(request)
+    context["has_permission"] = True
+    context["available_apps"] = django_admin.site.get_app_list(request)
+    context["app_list"] = context["available_apps"]
+    return TemplateResponse(request, 'admin/custom_assignments.html', context, current_app='admin')
 
 
 def resources_dashboard(request):
-    return render(request, 'admin/custom_resources.html')
+    context = django_admin.site.each_context(request)
+    context["has_permission"] = True
+    context["available_apps"] = django_admin.site.get_app_list(request)
+    context["app_list"] = context["available_apps"]
+    return TemplateResponse(request, 'admin/custom_resources.html', context, current_app='admin')
 
 
 def course_dashboard(request):
-    return render(request, 'admin/custom_course.html')
+    context = django_admin.site.each_context(request)
+    context["has_permission"] = True
+    context["available_apps"] = django_admin.site.get_app_list(request)
+    context["app_list"] = context["available_apps"]
+    return TemplateResponse(request, 'admin/custom_course.html', context, current_app='admin')
 
 def user_dashboard(request):
-    return render(request, 'admin/custom_user.html')
+    context = django_admin.site.each_context(request)
+    context["has_permission"] = True
+    context["available_apps"] = django_admin.site.get_app_list(request)
+    context["app_list"] = context["available_apps"]
+    # You can add your own context data here if needed, e.g. users list
+    return TemplateResponse(request, 'admin/custom_user.html', context, current_app='admin')
 
 
 def get_model_by_type(file_type):
@@ -276,4 +299,47 @@ def contact(request):
 
 
 
+
+@login_required
+def chat_page(request):
+    return render(request, "chat.html")
+
+
+@login_required
+@require_POST
+def chat_api(request):
+    import json
+    try:
+        payload = json.loads(request.body.decode("utf-8"))
+    except Exception:
+        return JsonResponse({"error": "Invalid JSON"}, status=400)
+    message = (payload.get("message") or "").strip()
+    role = (payload.get("role") or "student").strip() or "student"
+    if not message:
+        return JsonResponse({"error": "Empty message"}, status=400)
+    reply = get_llm_response(message, role_hint=role)
+    return JsonResponse({"reply": reply})
+
+
+@login_required
+@require_POST
+def generate_ppt_api(request):
+    import json
+    try:
+        payload = json.loads(request.body.decode("utf-8"))
+    except Exception:
+        return JsonResponse({"error": "Invalid JSON"}, status=400)
+    topic = (payload.get("topic") or "").strip()
+    role = (payload.get("role") or "student").strip() or "student"
+    slides = int(payload.get("slides") or 8)
+    bullets = int(payload.get("bullets") or 4)
+    if not topic:
+        return JsonResponse({"error": "Topic required"}, status=400)
+
+    prs = generate_ppt(topic, role_hint=role, num_slides=slides, bullets_per_slide=bullets)
+    mem = BytesIO()
+    prs.save(mem)
+    mem.seek(0)
+    filename = f"{topic.replace(' ', '_')}.pptx"
+    return FileResponse(mem, as_attachment=True, filename=filename, content_type="application/vnd.openxmlformats-officedocument.presentationml.presentation")
 

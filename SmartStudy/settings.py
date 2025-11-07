@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
+import os
+from dotenv import load_dotenv
 
 
 
@@ -18,18 +20,19 @@ from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+load_dotenv(BASE_DIR / '.env')
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-56u^lzo($llla!_s3i9wssvu3#$s%_dge7skdain(4yvqy%lk*'
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'django-insecure-56u^lzo($llla!_s3i9wssvu3#$s%_dge7skdain(4yvqy%lk*')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get('DEBUG', 'True').lower() == 'true'
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = [h.strip() for h in os.environ.get('ALLOWED_HOSTS', '*').split(',') if h.strip()]
 
 
 # Application definition
@@ -302,6 +305,11 @@ UNFOLD = {
 
                     },
                     {
+                        "title": _("AI Assistant"),
+                        "icon": "chat",
+                        "link": "/chat/"
+                    },
+                    {
                         "title": _("User Dashboard"),
                         "icon": "home",
                         "link": "/admin/dashboard/"
@@ -411,10 +419,10 @@ LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = 'dashboard'  # or wherever you want users to go
 LOGOUT_REDIRECT_URL = ''
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'adnanaugust382@gmail.com'
-EMAIL_HOST_PASSWORD = 'mfwj nsaw jnol hhkf'
-DEFAULT_FROM_EMAIL = 'SmartStudy <support@smartstudy.com>'
+EMAIL_BACKEND = os.environ.get('EMAIL_BACKEND', 'django.core.mail.backends.smtp.EmailBackend')
+EMAIL_HOST = os.environ.get('EMAIL_HOST', 'smtp.gmail.com')
+EMAIL_PORT = int(os.environ.get('EMAIL_PORT', '587'))
+EMAIL_USE_TLS = os.environ.get('EMAIL_USE_TLS', 'True').lower() == 'true'
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER', '')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', '')
+DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL', 'SmartStudy <support@smartstudy.com>')

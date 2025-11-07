@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}AI Assistant - SmartStudy{% endblock %}
+
+{% block content %}
+<section class="py-6">
+  <div class="container">
+    <div class="row g-4">
+      <div class="col-lg-8">
+        <div class="card shadow-sm">
+          <div class="card-body" style="height:560px; overflow:auto;" id="chat-log" aria-live="polite">
+            <div class="text-muted mb-2 small">SmartStudy AI is here to help with study questions, lesson plans, and more.</div>
+          </div>
+          <div class="card-footer bg-white">
+            <form id="chat-form" class="d-flex gap-2 align-items-start">
+              <input type="text" class="form-control" id="chat-input" placeholder="Ask anything..." autocomplete="off" required>
+              <select id="role-select" class="form-select" style="max-width:160px;">
+                <option value="student" selected>Student</option>
+                <option value="teacher">Teacher</option>
+              </select>
+              <button class="btn btn-primary" type="submit">Send</button>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <div class="card shadow-sm">
+          <div class="card-body">
+            <h5 class="card-title mb-3">Generate PowerPoint</h5>
+            <form id="ppt-form" class="vstack gap-2">
+              <input type="text" class="form-control" id="ppt-topic" placeholder="Topic (e.g., Introduction to AI)" required>
+              <div class="d-flex gap-2">
+                <input type="number" class="form-control" id="ppt-slides" min="3" max="20" value="8" title="Slides">
+                <input type="number" class="form-control" id="ppt-bullets" min="2" max="8" value="4" title="Bullets/slide">
+              </div>
+              <select id="ppt-role" class="form-select">
+                <option value="student" selected>Student audience</option>
+                <option value="teacher">Teacher audience</option>
+              </select>
+              <button type="submit" class="btn btn-outline-primary">Generate .pptx</button>
+              <small class="text-muted">A .pptx file will be generated and downloaded.</small>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script src="{% static 'js/chat.js' %}"></script>
+{% endblock %}
+
+
