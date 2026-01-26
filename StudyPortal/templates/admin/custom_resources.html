@@ -1,0 +1,133 @@
+{% extends "admin/base_site.html" %}
+{% load static %}
+
+{% block extrastyle %}
+<link rel="stylesheet" href="{% static 'css/resources.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="dashboard-wrapper">
+    <h1 class="main-title">📘 Resources Dashboard</h1>
+    <p class="subtitle">All learning materials — books, notes, and resources — in one clean view</p>
+
+    <!-- 🔍 Search and Filter Section -->
+    <div class="search-filter-container">
+        <div class="search-wrapper">
+            <input type="text" id="searchInput" class="search-input" placeholder="Search by title, author, or uploader...">
+            <span class="clear-btn" id="clearSearch">&times;</span>
+        </div>
+        <select id="typeFilter" class="filter-select">
+            <option value="">All Types</option>
+            <option value="resource">Resources</option>
+            <option value="book">Books</option>
+            <option value="note">Notes</option>
+        </select>
+    </div>
+
+    <div class="card combined-table-card">
+        <table class="styled-table" id="resourcesTable">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Type</th>
+                    <th>Title</th>
+                    <th>Author / Uploaded By</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Resources -->
+                {% for resource in resources %}
+                <tr data-type="resource" data-title="{{ resource.title|lower }}" data-author="{{ resource.uploaded_by|lower }}">
+                    <td>{{ resource.id }}</td>
+                    <td><span class="type-badge resource">Resource</span></td>
+                    <td>{{ resource.title }}</td>
+                    <td>{{ resource.uploaded_by }}</td>
+                    <td class="actions-cell">
+                        {% if resource.file %}
+                            <a href="{{ resource.file.url }}" target="_blank" class="btn-view">View</a>
+                            <a href="{{ resource.file.url }}" download class="btn-download">Download</a>
+                        {% else %}
+                            <span class="no-file">No File</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+
+                <!-- Books -->
+                {% for book in books %}
+                <tr data-type="book" data-title="{{ book.title|lower }}" data-author="{{ book.author|lower }}">
+                    <td>{{ book.id }}</td>
+                    <td><span class="type-badge book">Book</span></td>
+                    <td>{{ book.title }}</td>
+                    <td>{{ book.author }}</td>
+                    <td class="actions-cell">
+                        {% if book.file %}
+                            <a href="{{ book.file.url }}" target="_blank" class="btn-view">View</a>
+                            <a href="{{ book.file.url }}" download class="btn-download">Download</a>
+                        {% else %}
+                            <span class="no-file">No File</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+
+                <!-- Notes -->
+                {% for note in notes %}
+                <tr data-type="note" data-title="{{ note.title|lower }}" data-author="{{ note.uploaded_by|lower }}">
+                    <td>{{ note.id }}</td>
+                    <td><span class="type-badge note">Note</span></td>
+                    <td>{{ note.title }}</td>
+                    <td>{{ note.uploaded_by }}</td>
+                    <td class="actions-cell">
+                        {% if note.file %}
+                            <a href="{{ note.file.url }}" target="_blank" class="btn-view">View</a>
+                            <a href="{{ note.file.url }}" download class="btn-download">Download</a>
+                        {% else %}
+                            <span class="no-file">No File</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- 🧠 Search & Filter Script -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.getElementById('searchInput');
+    const typeFilter = document.getElementById('typeFilter');
+    const clearBtn = document.getElementById('clearSearch');
+    const rows = document.querySelectorAll('#resourcesTable tbody tr');
+
+    function filterTable() {
+        const search = searchInput.value.toLowerCase();
+        const filterType = typeFilter.value;
+
+        // Show or hide clear button inside the input
+        clearBtn.style.display = search ? 'block' : 'none';
+
+        rows.forEach(row => {
+            const title = row.dataset.title || '';
+            const author = row.dataset.author || '';
+            const type = row.dataset.type || '';
+            const matchesSearch = title.includes(search) || author.includes(search);
+            const matchesType = !filterType || type === filterType;
+
+            row.style.display = matchesSearch && matchesType ? '' : 'none';
+        });
+    }
+
+    searchInput.addEventListener('input', filterTable);
+    typeFilter.addEventListener('change', filterTable);
+
+    clearBtn.addEventListener('click', function() {
+        searchInput.value = '';
+        filterTable();
+        searchInput.focus();
+    });
+});
+</script>
+{% endblock %}

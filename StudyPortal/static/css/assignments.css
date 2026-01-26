@@ -1,0 +1,133 @@
+.assignments-container {
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    font-family: 'Inter', sans-serif;
+    animation: fadeIn 0.4s ease-in-out;
+}
+
+.page-title {
+    font-size: 28px;
+    font-weight: 600;
+    color: #2c3e50;
+    margin-bottom: 25px;
+    text-align: center;
+    border-bottom: 2px solid #eaeaea;
+    padding-bottom: 10px;
+}
+
+.table-wrapper {
+    overflow-x: auto;
+    border-radius: 12px;
+}
+
+.assignments-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #f9fafb;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.assignments-table th,
+.assignments-table td {
+    padding: 14px 18px;
+    text-align: left;
+    border-bottom: 1px solid #eaeaea;
+}
+
+.assignments-table th {
+    background: #f0f2f5;
+    color: #34495e;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.assignments-table tr:hover {
+    background-color: #f8faff;
+    transition: background 0.2s ease-in-out;
+}
+
+.assignments-table td {
+    color: #2c3e50;
+    font-size: 15px;
+}
+.text-center {
+    text-align: center;
+}
+.no-file {
+    color : #999;
+}
+.actions-cell{
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+.btn-view,
+.btn-download {
+    display: inline-block;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 14px;
+    text-decoration: none;
+    text-align: center;
+    font-weight: 500;
+    transition: background 0.3s ease, transform 0.2s;
+}
+
+.btn-view {
+    background-color: #0077b6;
+    color: #fff;
+}
+
+.btn-view:hover {
+    background-color: #005f8e;
+    transform: scale(1.03);
+}
+
+.btn-download {
+    background-color: #38b000;
+    color: #fff;
+}
+
+.btn-download:hover {
+    background-color: #2a8700;
+    transform: scale(1.03);
+}
+
+
+.btn-edit {
+    text-decoration: none;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    background-color: #27ae60;
+    color: white;
+    transition: all 0.2s ease-in-out;
+}
+
+.btn-edit:hover {
+    background-color: #1e8449;
+}
+
+.no-data {
+    text-align: center;
+    color: #7f8c8d;
+    padding: 20px 0;
+    font-style: italic;
+}
+
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+}
+}

@@ -1,0 +1,95 @@
+{% extends "admin/base_site.html" %}
+{% load static %}
+
+{% block extrastyle %}
+<link rel="stylesheet" href="{% static 'css/assignments.css' %}">
+<link rel="stylesheet" href="{% static 'css/progress.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="dashboard-container">
+    <!-- Assignments Section -->
+    <div class="assignments-container">
+        <h1 class="page-title">📘 Assignments Dashboard</h1>
+
+        <div class="table-wrapper">
+            <table class="assignments-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Title</th>
+                        <th>Due Date</th>
+                        <th>Assigned By</th>
+                        <th>Assigned To</th>
+                        <th>Description</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for assignment in assignments %}
+                    <tr>
+                        <td>{{ assignment.id }}</td>
+                        <td>{{ assignment.title }}</td>
+                        <td>{{ assignment.due_date|date:"Y-m-d" }}</td>
+                        <td>{{ assignment.assigned_by }}</td>
+                        <td>{{ assignment.assigned_to }}</td>
+                        <td class="description-cell">{{ assignment.description }}</td>
+                        <td class="actions-cell">
+                            {% if assignment.assignment_file %}
+                            <a href="{{ assignment.assignment_file.url }}" target="_blank" class="btn-view">View</a>
+                            <a href="{{ assignment.assignment_file.url }}" download class="btn-download">Download</a>
+                            {% else %}
+                            <span class="no-file">No File</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="7" class="text-center">No assignments found.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Progress Section -->
+    <div class="progress-container" style="margin-top: 50px;">
+        <h1 class="page-title">📈 Student Progress Dashboard</h1>
+        <p class="page-subtitle">Track students' course progress and performance</p>
+
+        <div class="table-wrapper">
+            <table class="progress-table">
+                <thead>
+                    <tr>
+                        <th>Student</th>
+                        <th>Subject</th>
+                        <th>Course</th>
+                        <th>Progress (%)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for record in progress %}
+                    <tr>
+                        <td>{{ record.student }}</td>
+                        <td>{{ record.subject }}</td>
+                        <td>{{ record.course }}</td>
+                        <td>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: {{ record.progress_percent }}%;">
+                                    {{ record.progress_percent }}%
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="4" class="no-data">No progress records available</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

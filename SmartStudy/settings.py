@@ -12,6 +12,10 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 from pathlib import Path
 
+
+
+
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -25,21 +29,21 @@ SECRET_KEY = 'django-insecure-56u^lzo($llla!_s3i9wssvu3#$s%_dge7skdain(4yvqy%lk*
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
 
 INSTALLED_APPS = [
-    "unfold",  
-    "unfold.contrib.filters", 
-    "unfold.contrib.forms",  
-    "unfold.contrib.inlines", 
-    "unfold.contrib.import_export", 
-    "unfold.contrib.guardian",  
-    "unfold.contrib.simple_history",  
-    "unfold.contrib.location_field",  
-    "unfold.contrib.constance",  
+    "unfold",
+    "unfold.contrib.filters",
+    "unfold.contrib.forms",
+    "unfold.contrib.inlines",
+    "unfold.contrib.import_export",
+    "unfold.contrib.guardian",
+    "unfold.contrib.simple_history",
+    "unfold.contrib.location_field",
+    "unfold.contrib.constance",
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -47,6 +51,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'StudyPortal.apps.StudyportalConfig',
+
 ]
 
 MIDDLEWARE = [
@@ -61,13 +66,16 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'SmartStudy.urls'
 
+
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / "templates"],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
+                'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
@@ -124,15 +132,18 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_ROOT = BASE_DIR / "static"
 
+STATIC_URL = '/static/'
+
+STATICFILES_DIRS =[BASE_DIR / "css/static"]
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# settings.py
-from StudyPortal.dashboard import *
+
+
 from django.templatetags.static import static
 from django.urls import reverse_lazy
 from django.utils.translation import gettext_lazy as _
@@ -199,7 +210,7 @@ UNFOLD = {
 
     "SIDEBAR": {
         "MENU_ITEMS": [
-            {"label": "Dashboard", "url": "/admin/", "icon": "home"},
+            {"label": _("Dashboard"),"icon": "heroicons-outline:home", "url": "dashboard/",},
             {"label": "Books Custom Page", "url": "/admin/book/custom/", "icon": "book"},
             {"label": "Participant Books Custom Page", "url": "/admin/participantbook/custom/", "icon": "file"},
             {"label": "Resources Custom Page", "url": "/admin/resource/custom/", "icon": "file"},
@@ -207,6 +218,7 @@ UNFOLD = {
             {"label": "Courses Custom Page", "url": "/admin/course/custom/", "icon": "layers"},
             {"label": "Progress Custom Page", "url": "/admin/progress/custom/", "icon": "bar-chart"},
             {"label": "Assignments Custom Page", "url": "/admin/assignment/custom/", "icon": "edit"},
+            {"label": "Semesters Custom Page", "url": "/admin/semester/custom/", "icon": "class" },
         ],
         "show_search": True,
         "command_search": False,
@@ -222,47 +234,88 @@ UNFOLD = {
                         "icon": "dashboard",
                         "link": reverse_lazy("admin:index"),
                         "badge": "StudyPortal.dashboard.badge_callback",
-                        "permission": lambda request: request.user.is_superuser,
-                    },
-                    {
-                        "title": _("Institutions"),
-                        "icon": "school",
-                        "link": reverse_lazy("admin:StudyPortal_institution_changelist"),
+                        "permission": lambda request: request.user.groups.filter(name="Admin").exists()
                     },
                     {
                         "title": _("Users"),
                         "icon": "people",
                         "link": reverse_lazy("admin:StudyPortal_portaluser_changelist"),
+                        "permission": lambda request: not (request.user.groups.filter(name="Teacher").exists() or request.user.groups.filter(name="Student").exists())
+
                     },
+                    {
+                        "title": _("Institutions"),
+                        "icon": "school",
+                        "link": reverse_lazy("admin:StudyPortal_institution_changelist"),
+                        "permission": lambda request: request.user.groups.filter(name="Admin").exists()
+
+
+                    },
+
                     {
                         "title": _("Books"),
                         "icon": "menu_book",
                         "link": reverse_lazy("admin:StudyPortal_book_changelist"),
+                        "permission": lambda request: request.user.groups.filter(name="Admin").exists()
+
                     },
                     {
                         "title": _("Courses"),
                         "icon": "library_books",
                         "link": reverse_lazy("admin:StudyPortal_course_changelist"),
+                        "permission": lambda request: request.user.groups.filter(name="Admin").exists()
+
                     },
                     {
                         "title": _("Resources"),
                         "icon": "folder",
                         "link": reverse_lazy("admin:StudyPortal_resource_changelist"),
+                        "permission": lambda request: request.user.groups.filter(name="Admin").exists()
+
                     },
                     {
                         "title": _("Notes"),
                         "icon": "note",
                         "link": reverse_lazy("admin:StudyPortal_note_changelist"),
+                        "permission": lambda request: request.user.groups.filter(name="Admin").exists()
+
                     },
                     {
                         "title": _("Assignments"),
                         "icon": "assignment",
                         "link": reverse_lazy("admin:StudyPortal_assignment_changelist"),
+                        "permission": lambda request: request.user.groups.filter(name="Admin").exists()
+
                     },
                     {
                         "title": _("Progress"),
                         "icon": "bar_chart",
                         "link": reverse_lazy("admin:StudyPortal_progress_changelist"),
+                        "permission": lambda request: request.user.groups.filter(name="Admin").exists()
+
+                    },
+                    {
+                        "title": _("Semesters"),
+                        "icon": "class",
+                        "link": reverse_lazy("admin:StudyPortal_semester_changelist"),
+                        "permission": lambda request: request.user.groups.filter(name="Admin").exists()
+
+                    },
+                    {
+                        "title": _("User Dashboard"),
+                        "icon": "home",
+                        "link": "/admin/dashboard/"
+
+                    },
+                    {
+                        "title": _("User Assignments"),
+                        "icon": "assignment",
+                        "link": "/admin/assignments"
+                    },
+                    {
+                        "title": _("User Resources"),
+                        "icon": "folder",
+                        "link": "/admin/resources"
                     },
                 ],
             },
@@ -345,15 +398,23 @@ UNFOLD = {
             "title": _("SmartStudy Home"),
             "link": "https://smartstudy.example.com",
         },
+        {
+            "icon": "class",
+            "title":_("Semesters"),
+            "link": reverse_lazy("admin:StudyPortal_semester_changelist"),
+        },
     ]
 }
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
+LOGIN_URL = '/login/'
+LOGIN_REDIRECT_URL = 'dashboard'  # or wherever you want users to go
+LOGOUT_REDIRECT_URL = ''
 
-
-
-
-
-
-
-
-
-
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'adnanaugust382@gmail.com'
+EMAIL_HOST_PASSWORD = 'mfwj nsaw jnol hhkf'
+DEFAULT_FROM_EMAIL = 'SmartStudy <support@smartstudy.com>'

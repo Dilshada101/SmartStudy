@@ -1,4 +1,4 @@
-
+from .models import Assignment
 def dashboard_callback(request, context):
     context.update(
         {
@@ -14,11 +14,11 @@ def dashboard_callback(request, context):
 
 
 def environment_callback(request):
-    return ["Production", "success"]  # Options: info, danger, warning, success
+    return ["Production", "success"]  
 
 
 def badge_callback(request):
-    return 5  # Example: show badge with number of pending tasks
+    return Assignment.objects.filter(assigned_by =False).count()
 
 
 def permission_callback(request):

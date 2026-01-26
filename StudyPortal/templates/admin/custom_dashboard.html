@@ -1,51 +1,67 @@
 {% extends "admin/base.html" %}
+{% load static %}
 {% load i18n %}
 
 {% block content %}
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-    <div class="bg-white shadow rounded-2xl p-6">
-    <h2 class="text-xl font-semibold">Users</h2>
-    <p class="text-3xl">{{ stats.users }}</p>
+<div class="p-6 bg-gray-50 min-h-screen">
+
+    <div class="mb-6 text-center">
+        <h1 class="text-2xl font-bold text-gray-800">📊 SmartStudy Dashboard</h1>
+        <p class="text-gray-600 mt-1">Welcome, {{ user.username }}</p>
     </div>
 
-    <div class="bg-white shadow rounded-2xl p-6">
-    <h2 class="text-xl font-semibold">Courses</h2>
-    <p class="text-3xl">{{ stats.courses }}</p>
-    </div>
-
-    <div class="bg-white shadow rounded-2xl p-6">
-    <h2 class="text-xl font-semibold">Assignments</h2>
-    <p class="text-3xl">{{ stats.assignments }}</p>
-    </div>
     
-    <div class="bg-white shadow rounded-2xl p-6">
-    <h2 class="text-xl font-semibold">Books</h2>
-    <p class="text-3xl">{{ stats.books }}</p>
+    <div class="grid grid-cols-2 gap-2">
+
+        {% if "Admin" in user_groups %}
+            <!-- ADMIN DASHBOARD CARDS -->
+            <a href="{% url 'admin_assignment_dashboard' %}" class="bg-white rounded-xl p-4 shadow-sm hover:shadow-md transition transform hover:-translate-y-1 cursor-pointer">
+                <h2 class="text-lg font-semibold text-gray-700">📝 Assignments</h2>
+                <p class="text-2xl font-bold text-purple-600 mt-1">{{ stats.assignments }}</p>
+            </a>
+
+            <a href="{% url 'admin_course_dashboard' %}" class="bg-white rounded-xl p-4 shadow-sm hover:shadow-md transition transform hover:-translate-y-1 cursor-pointer">
+                <h2 class="text-lg font-semibold text-gray-700">📚 Courses</h2>
+                <p class="text-2xl font-bold text-green-600 mt-1">{{ stats.courses }}</p>
+            </a>
+
+            <a href="{% url 'admin_resources_dashboard' %}" class="bg-white rounded-xl p-4 shadow-sm hover:shadow-md transition transform hover:-translate-y-1 cursor-pointer">
+                <h2 class="text-lg font-semibold text-gray-700">📖 Resources</h2>
+                <p class="text-2xl font-bold text-indigo-600 mt-1">{{ stats.books }}</p>
+            </a>
+
+            <a href="{% url 'admin_user_dashboard' %}" class="bg-white shadow-lg rounded-2xl p-6 hover:shadow-xl transition">
+                <h2 class="text-lg font-semibold text-gray-700"> 👤Users</h2>
+                <p class="text-2xl font-bold text-green-600 mt-2">{{ stats.users }}</p>
+            </a>
+
+        {% elif "Teacher" in user_groups %}
+            <!-- TEACHER DASHBOARD CARDS -->
+
+            <a href="{% url 'admin_assignment_dashboard' %}" class="bg-white rounded-xl p-4 shadow-sm hover:shadow-md transition transform hover:-translate-y-1 cursor-pointer">
+                <h2 class="text-lg font-semibold text-gray-700">📝 Assignments</h2>
+                <p class="text-2xl font-bold text-purple-600 mt-1">{{ stats.assignments }}</p>            
+            </a>
+
+            <a href="{% url 'admin_resources_dashboard' %}" class="bg-white rounded-xl p-4 shadow-sm hover:shadow-md transition transform hover:-translate-y-1 cursor-pointer">
+                <h2 class="text-lg font-semibold text-gray-700"> 📖 Resources</h2>
+                <p class="text-2xl font-bold text-indigo-600 mt-1">{{ stats.books }}</p>
+            </a>
+
+
+
+        {% else %}
+            <!-- STUDENT DASHBOARD CARDS -->
+            <a href="{% url 'admin_assignment_dashboard' %}" class="bg-white rounded-xl p-4 shadow-sm hover:shadow-md transition transform hover:-translate-y-1 cursor-pointer">
+                <h2 class="text-lg font-semibold text-gray-700">📝 My Assignments</h2>
+                <p class="text-2xl font-bold text-purple-600 mt-1">{{ stats.assignments }}</p>
+            </a>
+            <a href="{% url 'admin_resources_dashboard' %}" class="bg-white rounded-xl p-4 shadow-sm hover:shadow-md transition transform hover:-translate-y-1 cursor-pointer">
+                <h2 class="text-lg font-semibold text-gray-700">📖 Resources</h2>
+                <p class="text-2xl font-bold text-indigo-600 mt-1">{{ stats.books }}</p>
+            </a>
+
+        {% endif %}
+
     </div>
-    <!-- Recent Users -->
-<div class="mt-10 bg-white shadow rounded-2xl p-6">
-    <h2 class="text-xl font-semibold mb-4">Recent Users</h2>
-    <ul>
-        {% for user in recent_users %}
-            <li>{{ user.username }} ({{ user.email }})</li>
-        {% empty %}
-            <li>No users yet.</li>
-        {% endfor %}
-    </ul>
-</div>
-
-<!-- Recent Courses -->
-<div class="mt-10 bg-white shadow rounded-2xl p-6">
-    <h2 class="text-xl font-semibold mb-4">Recent Courses</h2>
-    <ul>
-        {% for course in recent_courses %}
-            <li>{{ course.name }}</li>
-        {% empty %}
-            <li>No courses yet.</li>
-        {% endfor %}
-    </ul>
-</div>
-
-</div>
-
-{% endblock %}
+{% endblock %}

@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Contact - SmartStudy{% endblock %}
+
+{% block content %}
+<section style="
+    min-height: 100vh;
+    background-color: #f8faff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+">
+    <div style="
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 5px 25px rgba(0,0,0,0.1);
+        max-width: 500px;
+        width: 100%;
+        padding: 35px;
+    ">
+        <h2 style="text-align:center; color:#0d6efd; margin-bottom:20px;">Contact Us</h2>
+        <p style="text-align:center; color:#555; margin-bottom:25px;">
+            Have a question or feedback? Send us a message below — we’d love to hear from you!
+        </p>
+
+        {% if messages %}
+            {% for message in messages %}
+                <p style="color:green; text-align:center;">{{ message }}</p>
+            {% endfor %}
+        {% endif %}
+
+        <form method="POST" style="display:flex; flex-direction:column; gap:15px;">
+            {% csrf_token %}
+            <input type="text" name="name" placeholder="Your Name" required
+                style="padding:10px; border:1px solid #ccc; border-radius:8px;">
+
+            <input type="email" name="email" placeholder="Your Email" required
+                style="padding:10px; border:1px solid #ccc; border-radius:8px;">
+
+            <textarea name="message" rows="5" placeholder="Your Message" required
+                style="padding:10px; border:1px solid #ccc; border-radius:8px;"></textarea>
+
+            <button type="submit"
+                style="background-color:#0d6efd; color:white; padding:10px; border:none; border-radius:8px; font-weight:bold;">
+                Send Message
+            </button>
+        </form>
+    </div>
+</section>
+{% endblock %}

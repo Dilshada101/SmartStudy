@@ -1,5 +1,11 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.db.models import Q
+from django.conf import settings
+from django.utils import timezone
+
+User = settings.AUTH_USER_MODEL
+
 
 class Institution(models.Model):
     name = models.CharField(max_length=255)
@@ -10,14 +16,20 @@ class Institution(models.Model):
 
 
 class PortalUser(models.Model):
-    ROLE_CHOICES=[
+    ROLE_CHOICES = [
         ("student", "Student"),
         ("teacher", "Teacher"),
     ]
-    user = models.OneToOneField(User, on_delete=models.CASCADE)  
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     role = models.CharField(max_length=10, choices=ROLE_CHOICES)
     profile_pic = models.ImageField(upload_to='profiles/', null=True, blank=True)
     institution = models.ForeignKey(Institution, on_delete=models.SET_NULL, null=True, blank=True)
+    email = models.EmailField(unique=True, null=True, blank=False)
+
+    def save(self, *args, **kwargs):
+        if not self.email and self.user.email:
+            self.email = self.user.email
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return f"{self.user.username} - {self.get_role_display()} ({self.institution})"
@@ -27,6 +39,7 @@ class Book(models.Model):
     title = models.CharField(max_length=255)
     author = models.CharField(max_length=255)
     uploaded_by = models.ForeignKey(Institution, on_delete=models.CASCADE)
+    file = models.FileField(upload_to='books/', blank=True, null=True)
 
     def __str__(self):
         return self.title
@@ -41,11 +54,12 @@ class ParticipantBook(models.Model):
         return f"{self.participant.user.username} -> {self.book.title}"
 
 
-
 class Resource(models.Model):
     title = models.CharField(max_length=255)
     content = models.TextField()
     uploaded_by = models.ForeignKey(PortalUser, on_delete=models.CASCADE)
+    file = models.FileField(upload_to='resources/', blank=True, null=True)
+    uploaded_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.title
@@ -55,10 +69,11 @@ class Note(models.Model):
     title = models.CharField(max_length=255)
     content = models.TextField()
     uploaded_by = models.ForeignKey(PortalUser, on_delete=models.CASCADE)
+    file = models.FileField(upload_to='notes/', blank=True, null=True)
+    uploaded_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.title
-
 
 
 class Course(models.Model):
@@ -70,25 +85,63 @@ class Course(models.Model):
         return f"{self.name} ({self.institution.name})"
 
 
-
 class Progress(models.Model):
     student = models.ForeignKey(PortalUser, on_delete=models.CASCADE, limit_choices_to={'role': 'student'})
+    subject = models.CharField(max_length=100, null=True)
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
-    progress_percent = models.FloatField(default=0.0)
+    progress_percent = models.FloatField(default=0.0, editable=False)
 
     def __str__(self):
         return f"{self.student.user.username} - {self.course.name}"
 
+    def calculate_progress(self):
+        """Auto-calculate progress based on completed assignments."""
+        total_assignments = Assignment.objects.filter(course=self.course).count()
+        completed_assignments = Assignment.objects.filter(
+            course=self.course,
+            assigned_to=self.student,
+        ).exclude(
+            Q(submit_assignment__isnull=True) | Q(submit_assignment='')
+        ).count()
+
+        if total_assignments > 0:
+            return round((completed_assignments / total_assignments) * 100, 2)
+        return 0.0
+
+    def save(self, *args, **kwargs):
+        self.progress_percent = self.calculate_progress()
+        super().save(*args, **kwargs)
+
 
 class Assignment(models.Model):
     title = models.CharField(max_length=255)
-    description = models.TextField()
+    due_date = models.DateField(null=True)
+    course = models.ForeignKey('Course', on_delete=models.CASCADE, related_name='assignments', null=True, blank=True)
+    description = models.TextField(blank=True)
     assigned_by = models.ForeignKey(PortalUser, on_delete=models.CASCADE, related_name="given_assignments")
     assigned_to = models.ForeignKey(PortalUser, on_delete=models.CASCADE, related_name="received_assignments")
-    score = models.IntegerField(null=True, blank=True)
+    uploaded_by = models.CharField(max_length=100, null=True)
+    assignment_file = models.FileField(upload_to='assignments/', blank=True, null=True)
+    submit_assignment = models.FileField(upload_to='assignments/', blank=True, null=True)
 
     def __str__(self):
         return self.title
+
+
+class Semester(models.Model):
+    name = models.CharField(max_length=100, unique=True)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='semesters')
+    start_date = models.DateField(null=True, blank=True)
+    end_date = models.DateField(null=True, blank=True)
+    description = models.TextField(null=True, blank=True)
+
+    class Meta:
+        ordering = ['name']
+        verbose_name = "Semester"
+        verbose_name_plural = "Semesters"
+
+    def __str__(self):
+        return f"{self.name} - {self.course.name}"
 
 
 class ParticipantInstitution(models.Model):
@@ -98,3 +151,21 @@ class ParticipantInstitution(models.Model):
 
     def __str__(self):
         return f"{self.participant.user.username} -> {self.institution.name}"
+
+
+def submission_upload_path(instance, filename):
+    return f"submissions/student_{instance.student.id}/{filename}"
+
+
+class Submission(models.Model):
+    assignment = models.ForeignKey(Assignment, on_delete=models.CASCADE)
+    student = models.ForeignKey(
+        PortalUser,
+        on_delete=models.CASCADE,
+        limit_choices_to={'role': 'student'}
+    )
+    file = models.FileField(upload_to=submission_upload_path, blank=True, null=True)
+    submitted_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.student} → {self.assignment.title}"

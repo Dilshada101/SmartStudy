@@ -1,0 +1,244 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Home - SmartStudy{% endblock %}
+
+{% block content %}
+
+<!-- HERO -->
+<section class="position-relative text-white hero-landing" style="background: url('{% static "images/bg.webp" %}') center/cover no-repeat; min-height: 78vh;">
+  <div class="position-absolute top-0 start-0 w-100 h-100" style="background: rgba(0,0,0,.55);"></div>
+  <div class="container position-relative py-5" style="z-index:2;">
+    <div class="row align-items-center py-5">
+      <div class="col-lg-7">
+        <h1 class="display-4 fw-bold mb-3">Study smarter. Learn faster.</h1>
+        <p class="lead mb-4">Assignments, notes, resources, and progress tracking in one clean dashboard.</p>
+        <div class="d-flex gap-3 flex-wrap">
+          <a href="{% url 'login' %}" class="btn btn-primary btn-lg px-4">Get Started</a>
+          <a href="{% url 'about' %}" class="btn btn-outline-light btn-lg px-4">Learn more</a>
+        </div>
+      </div>
+      <div class="col-lg-5 d-none d-lg-block">
+        <img src="{% static 'images/STUDY.webp' %}" alt="SmartStudy" class="img-fluid rounded-4 shadow">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TRUST / STATS STRIP -->
+<section class="py-4 border-bottom bg-light">
+  <div class="container">
+    <div class="row text-center g-3">
+      <div class="col-6 col-md-3">
+        <div class="fw-semibold">10k+ learners</div>
+        <small class="text-muted">and counting</small>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="fw-semibold">1k+ notes</div>
+        <small class="text-muted">curated content</small>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="fw-semibold">500+ resources</div>
+        <small class="text-muted">ready to use</small>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="fw-semibold">Realtime progress</div>
+        <small class="text-muted">stay on track</small>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURE GRID -->
+<section class="py-6 py-md-7" style="padding-top: 60px; padding-bottom: 60px;">
+  <div class="container">
+    <div class="text-center mb-5">
+      <h2 class="fw-bold">Everything you need to excel</h2>
+      <p class="text-muted mb-0">Organize study life without the overhead.</p>
+    </div>
+    <div class="row g-4">
+      <div class="col-md-6 col-lg-3">
+        <div class="card h-100 shadow-sm border-0">
+          <div class="card-body">
+            <div class="fs-3 mb-2">📄</div>
+            <h5 class="card-title">Assignments</h5>
+            <p class="card-text text-muted">View, submit, and manage tasks seamlessly.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-3">
+        <div class="card h-100 shadow-sm border-0">
+          <div class="card-body">
+            <div class="fs-3 mb-2">📝</div>
+            <h5 class="card-title">Notes</h5>
+            <p class="card-text text-muted">Curated notes organized by subject and topic.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-3">
+        <div class="card h-100 shadow-sm border-0">
+          <div class="card-body">
+            <div class="fs-3 mb-2">📚</div>
+            <h5 class="card-title">Resources</h5>
+            <p class="card-text text-muted">Books, references, and past papers in one place.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-3">
+        <div class="card h-100 shadow-sm border-0">
+          <div class="card-body">
+            <div class="fs-3 mb-2">📈</div>
+            <h5 class="card-title">Progress</h5>
+            <p class="card-text text-muted">Track learning progress and stay motivated.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="py-6 bg-light" style="padding-top: 60px; padding-bottom: 60px;">
+  <div class="container">
+    <div class="row align-items-center g-4">
+      <div class="col-lg-6">
+        <h2 class="fw-bold mb-3">Get started in three steps</h2>
+        <ol class="list-group list-group-numbered mb-4">
+          <li class="list-group-item">Sign in and personalize your profile</li>
+          <li class="list-group-item">Explore notes, assignments, and resources</li>
+          <li class="list-group-item">Track your study progress over time</li>
+        </ol>
+        <a href="{% url 'login' %}" class="btn btn-primary">Sign in</a>
+      </div>
+      <div class="col-lg-6">
+        <img src="{% static 'images/STUDY.webp' %}" alt="How it works" class="img-fluid rounded-4 shadow">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT + CTA -->
+<section class="py-6" style="padding-top: 60px; padding-bottom: 60px;">
+  <div class="container">
+    <div class="row g-4 align-items-center">
+      <div class="col-lg-6">
+        <h2 class="fw-bold">Built for learners and educators</h2>
+        <p class="text-muted">SmartStudy keeps your study materials tidy and accessible while giving teachers a simple way to distribute content and monitor progress.</p>
+        <a href="{% url 'about' %}" class="btn btn-outline-primary">About SmartStudy</a>
+      </div>
+      <div class="col-lg-6">
+        <div class="row g-3">
+          <div class="col-6">
+            <div class="p-4 bg-light rounded-4 h-100 text-center">
+              <div class="fs-2">⚡</div>
+              <div class="fw-semibold mt-2">Fast</div>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="p-4 bg-light rounded-4 h-100 text-center">
+              <div class="fs-2">🔒</div>
+              <div class="fw-semibold mt-2">Secure</div>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="p-4 bg-light rounded-4 h-100 text-center">
+              <div class="fs-2">🎯</div>
+              <div class="fw-semibold mt-2">Focused</div>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="p-4 bg-light rounded-4 h-100 text-center">
+              <div class="fs-2">💡</div>
+              <div class="fw-semibold mt-2">Helpful</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="py-6 bg-light" style="padding-top: 60px; padding-bottom: 60px;">
+  <div class="container">
+    <div class="text-center mb-4">
+      <h2 class="fw-bold">Loved by students and teachers</h2>
+    </div>
+    <div id="testimonials" class="carousel slide" data-bs-ride="carousel">
+      <div class="carousel-inner">
+        <div class="carousel-item active">
+          <div class="text-center">
+            <blockquote class="blockquote">“SmartStudy keeps everything in one place. Massive time saver.”</blockquote>
+            <figcaption class="blockquote-footer">Aisha, Student</figcaption>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <div class="text-center">
+            <blockquote class="blockquote">“Sharing resources with my class is now effortless.”</blockquote>
+            <figcaption class="blockquote-footer">Omar, Teacher</figcaption>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <div class="text-center">
+            <blockquote class="blockquote">“Tracking progress motivates me to keep going every day.”</blockquote>
+            <figcaption class="blockquote-footer">Sara, Student</figcaption>
+          </div>
+        </div>
+      </div>
+      <button class="carousel-control-prev" type="button" data-bs-target="#testimonials" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#testimonials" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="py-6" style="padding-top: 60px; padding-bottom: 60px;">
+  <div class="container">
+    <div class="text-center mb-4">
+      <h2 class="fw-bold">Frequently asked questions</h2>
+    </div>
+    <div class="accordion" id="faq">
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="q1">
+          <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#a1">Is SmartStudy free?</button>
+        </h2>
+        <div id="a1" class="accordion-collapse collapse show" data-bs-parent="#faq">
+          <div class="accordion-body">Yes, you can sign in and start using core features right away.</div>
+        </div>
+      </div>
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="q2">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#a2">How do I submit assignments?</button>
+        </h2>
+        <div id="a2" class="accordion-collapse collapse" data-bs-parent="#faq">
+          <div class="accordion-body">Go to Assignments from your dashboard and upload your work directly.</div>
+        </div>
+      </div>
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="q3">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#a3">Can teachers share materials?</button>
+        </h2>
+        <div id="a3" class="accordion-collapse collapse" data-bs-parent="#faq">
+          <div class="accordion-body">Yes, teachers can upload notes and resources for classes to access.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="py-6 text-center text-white" style="background:#0d6efd; padding-top: 60px; padding-bottom: 60px;">
+  <div class="container">
+    <h2 class="fw-bold mb-2">Ready to study smarter?</h2>
+    <p class="mb-4">Sign in to access assignments, notes, and more.</p>
+    <a href="{% url 'login' %}" class="btn btn-light btn-lg">Get Started</a>
+  </div>
+</section>
+
+{% endblock %}

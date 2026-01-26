@@ -1,0 +1,51 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartStudy | Home</title>
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+</head>
+<body>
+    <header class="header">
+        <div class="logo">📘 SmartStudy</div>
+        <nav class="nav-links">
+            <a href="#">Home</a>
+            <a href="#">Assignments</a>
+            <a href="#">Notes</a>
+            <a href="#">Resources</a>
+            <a href="#">Progress</a>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <h1>Welcome to SmartStudy</h1>
+        <p>Your all-in-one platform for Assignments, Notes, and Learning Progress.</p>
+        <a href="{% url 'login' %}" class="btn">Get Started</a>
+    </section>
+
+    <section class="features">
+        <div class="feature-card">
+            <h2>📄 Assignments</h2>
+            <p>View and submit your assignments easily.</p>
+        </div>
+        <div class="feature-card">
+            <h2>📝 Notes</h2>
+            <p>Access study materials organized by subject.</p>
+        </div>
+        <div class="feature-card">
+            <h2>📚 Resources</h2>
+            <p>Find helpful resources to enhance your learning.</p>
+        </div>
+        <div class="feature-card">
+            <h2>📈 Progress</h2>
+            <p>Track your academic performance and growth.</p>
+        </div>
+    </section>
+
+{% comment %} <footer class="footer">
+        <p>© 2025 SmartStudy | Developed by Amarah Rasheed</p>
+    </footer>  {% endcomment %}
+</body>
+</html>

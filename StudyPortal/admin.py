@@ -1,270 +1,18 @@
-# from django.contrib import admin
-# from .models import *
-# from unfold.admin import ModelAdmin
-# from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
-# from django.contrib.auth.admin import GroupAdmin as BaseGroupAdmin
-# from django.contrib.auth.models import User, Group
-# from unfold.forms import AdminPasswordChangeForm, UserChangeForm, UserCreationForm
-# from django.db import models
-# from django.contrib.postgres.fields import ArrayField
-# from unfold.contrib.forms.widgets import ArrayWidget, WysiwygWidget
-
-
-
-
-
-
-# admin.site.unregister(User)
-# admin.site.unregister(Group)
-
-
-
-# @admin.register(User)
-# class UserAdmin(BaseUserAdmin, ModelAdmin):
-#     form = UserChangeForm
-#     add_form = UserCreationForm
-#     change_password_form = AdminPasswordChangeForm
-
-# @admin.register(Group)
-# class GroupAdmin(BaseGroupAdmin, ModelAdmin):
-#     pass
-
-
-
-# @admin.register(Institution)
-# class InstitutionAdmin(ModelAdmin):
-#     list_display=("name","address")
-
-# @admin.register(ParticipantInstitution)
-# class ParticipantInstitutionAdmin(ModelAdmin):
-#     list_display = ("participant", "institution", "joined_on")
-
-
-
-# @admin.register(PortalUser)
-# class PortalUserAdmin(ModelAdmin):
-#     list_display=("user", "role", "institution")
-
-# @admin.register(Book)
-# class BookAdmin(ModelAdmin):
-#     list_display=("title", "author", "uploaded_by")  
-
-# @admin.register(ParticipantBook)
-# class ParticipantBookAdmin(ModelAdmin):
-#     list_display = ("participant", "book", "issued_on")
-
-
-# @admin.register(Resource)
-# class ResourceAdmin(ModelAdmin):
-#     list_display = ("title", "uploaded_by")
-
-
-# @admin.register(Note)
-# class NoteAdmin(ModelAdmin):
-#     list_display = ("title", "uploaded_by")
-
-
-# @admin.register(Course)
-# class CourseAdmin(ModelAdmin):
-#     list_display = ("name", "department", "institution")
-
-
-# @admin.register(Progress)
-# class ProgressAdmin(ModelAdmin):
-#     list_display = ("student", "course", "progress_percent")
-
-# @admin.register(Assignment)
-# class AssignmentAdmin(ModelAdmin):
-#     list_display = ("title", "assigned_by", "assigned_to","score")
-
-
-
-
-# from .models import (
-#     Institution,
-#     PortalUser,
-#     Book,
-#     Course,
-#     Resource,
-#     Note,
-#     Assignment,
-#     Progress,
-# )
-
-# # Common base config to reuse across all admins
-# class BaseAdmin(ModelAdmin):
-#     compressed_fields = True
-#     warn_unsaved_form = True
-#     list_filter_submit = False
-#     list_fullwidth = False
-#     list_filter_sheet = True
-#     list_horizontal_scrollbar_top = False
-#     list_disable_select_all = False
-#     change_form_show_cancel_button = True
-
-#     formfield_overrides = {
-#         models.TextField: {"widget": WysiwygWidget},
-#         ArrayField: {"widget": ArrayWidget},
-#     }
-
-
-# @admin.register(Institution)
-# class InstitutionAdmin(BaseAdmin):
-#     list_display = ("id", "name", "created_at")
-#     search_fields = ("name",)
-
-# @admin.register(ParticipantInstitution)
-# class ParticipantInstitutionAdmin(BaseAdmin):
-#     list_display = ("id", "portal_user", "institution", "joined_at")
-#     list_filter = ("institution", "portal_user")
-#     search_fields = ("portal_user_userusername", "institution_name")
-
-
-# @admin.register(PortalUser)
-# class PortalUserAdmin(BaseAdmin):
-#     list_display = ("id", "user", "institution", "role")
-#     list_filter = ("institution", "role")
-#     search_fields = ("user_username", "user_email")
-
-
-# @admin.register(Book)
-# class BookAdmin(BaseAdmin):
-#     list_display = ("id", "title", "author", "published_date")
-#     search_fields = ("title", "author")
-
-# @admin.register(ParticipantBook)
-# class ParticipantBookAdmin(BaseAdmin):
-#     list_display = ("id", "portal_user", "book", "assigned_at")
-#     list_filter = ("book", "portal_user")
-#     search_fields = ("portal_user_userusername", "book_title")
-
-
-
-# @admin.register(Course)
-# class CourseAdmin(BaseAdmin):
-#     list_display = ("id", "name", "institution", "created_at")
-#     list_filter = ("institution",)
-#     search_fields = ("name",)
-
-
-# @admin.register(Resource)
-# class ResourceAdmin(BaseAdmin):
-#     list_display = ("id", "title", "course", "uploaded_at")
-#     list_filter = ("course",)
-#     search_fields = ("title",)
-
-
-# @admin.register(Note)
-# class NoteAdmin(BaseAdmin):
-#     list_display = ("id", "title", "user", "created_at")
-#     list_filter = ("user",)
-#     search_fields = ("title",)
-
-
-# @admin.register(Assignment)
-# class AssignmentAdmin(BaseAdmin):
-#     list_display = ("id", "title", "course", "due_date")
-#     list_filter = ("course",)
-#     search_fields = ("title",)
-
-
-# @admin.register(Progress)
-# class ProgressAdmin(BaseAdmin):
-#     list_display = ("id", "user", "course", "completion_percentage")
-#     list_filter = ("course","user")
-
-
-
-# from django.contrib import admin
-# from .models import (
-#     Institution,
-#     PortalUser,
-#     Book,
-#     ParticipantBook,
-#     Resource,
-#     Note,
-#     Course,
-#     Progress,
-#     Assignment,
-#     ParticipantInstitution,
-# )
-
-
-# @admin.register(Institution)
-# class InstitutionAdmin(admin.ModelAdmin):
-#     list_display = ("id", "name", "address")
-#     search_fields = ("name", "address")
-
-
-# @admin.register(PortalUser)
-# class PortalUserAdmin(admin.ModelAdmin):
-#     list_display = ("id", "user", "role", "institution")
-#     list_filter = ("role", "institution")
-#     search_fields = ("user_username", "institution_name")
-
-
-# @admin.register(Book)
-# class BookAdmin(admin.ModelAdmin):
-#     list_display = ("id", "title", "author", "uploaded_by")
-#     search_fields = ("title", "author", "uploaded_by__name")
-#     list_filter = ("uploaded_by",)
-
-
-# @admin.register(ParticipantBook)
-# class ParticipantBookAdmin(admin.ModelAdmin):
-#     list_display = ("id", "participant", "book", "issued_on")
-#     list_filter = ("issued_on", "book", "participant")
-
-
-# @admin.register(Resource)
-# class ResourceAdmin(admin.ModelAdmin):
-#     list_display = ("id", "title", "uploaded_by")
-#     search_fields = ("title", "uploaded_by_user_username")
-
-
-# @admin.register(Note)
-# class NoteAdmin(admin.ModelAdmin):
-#     list_display = ("id", "title", "uploaded_by")
-#     search_fields = ("title", "uploaded_by_user_username")
-
-
-# @admin.register(Course)
-# class CourseAdmin(admin.ModelAdmin):
-#     list_display = ("id", "name", "department", "institution")
-#     list_filter = ("department", "institution")
-#     search_fields = ("name", "department", "institution__name")
-
-
-# @admin.register(Progress)
-# class ProgressAdmin(admin.ModelAdmin):
-#     list_display = ("id", "student", "course", "progress_percent")
-#     list_filter = ("course",)
-#     search_fields = ("student_userusername", "course_name")
-
-
-# @admin.register(Assignment)
-# class AssignmentAdmin(admin.ModelAdmin):
-#     list_display = ("id", "title", "assigned_by", "assigned_to", "score")
-#     list_filter = ("assigned_by", "assigned_to")
-#     search_fields = ("title", "assigned_by_userusername", "assigned_touser_username")
-
-
-# @admin.register(ParticipantInstitution)
-# class ParticipantInstitutionAdmin(admin.ModelAdmin):
-#     list_display = ("id", "participant", "institution", "joined_on")
-#     list_filter = ("institution", "joined_on")
-#     search_fields = ("participant_userusername", "institution_name")
-
-
-
+from django.contrib import admin
 from django.urls import path
 from django.views.generic import TemplateView
-from django.contrib import admin
 from unfold.admin import ModelAdmin
 from unfold.views import UnfoldModelAdminViewMixin
 from django.contrib.auth import get_user_model
 from django.db.models import Count
 from .models import *
+from django.utils.decorators import method_decorator
+from django.contrib.admin.views.decorators import staff_member_required
+from django.shortcuts import render,redirect
+
+
+
+
 User= get_user_model()
 
 from StudyPortal.models import (
@@ -277,14 +25,19 @@ from StudyPortal.models import (
     Note,
     Course,
     Progress,
-    Assignment
+    Assignment,
+    Semester,
 )
+
+
 
 
 class CustomAdminView(UnfoldModelAdminViewMixin, TemplateView):
     title = "Custom Management"
-    permission_required = ()  # Override per model in admin class
+    permission_required = ()  
     template_name = "studyportal/custom_admin_template.html"
+
+
 
 
 @admin.register(Institution)
@@ -373,6 +126,20 @@ class CourseAdmin(ModelAdmin):
         return super().get_urls() + [
             path("course/custom/", custom_view, name="course_custom"),
         ]
+    
+@admin.register(Semester)
+class SemesterAdmin(ModelAdmin):
+    def get_urls(self):
+        custom_view = self.admin_site.admin_view(
+            CustomAdminView.as_view(
+                model_admin=self,
+                title="Semester Management",
+                permission_required=("studyportal.view_semester",),
+            )
+        )
+        return super().get_urls() + [
+            path("semester/custom/", custom_view, name="semester_custom"),
+        ]
 
 
 @admin.register(Progress)
@@ -397,32 +164,166 @@ class AssignmentAdmin(ModelAdmin):
         ]
     
 
+@admin.register(Submission)
+class SubmissionAdmin(admin.ModelAdmin):
+    list_display = ("id", "assignment", "student", "submitted_at")
+    list_filter = ("assignment", "student")
+
 
 
 class CustomDashboardView(TemplateView):
-    title = "SmartStudy Dashboard"   # shown in header
-    permission_required = ()         # leave empty for superusers only
+    title = "SmartStudy Dashboard"   
+    permission_required = ()         
     template_name = "admin/custom_dashboard.html"
-
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
-        # You can add dynamic data here for dashboard cards, charts etc.
         ctx["stats"] = {
             "users": User.objects.count(),
             "courses": Course.objects.count(),
             "assignments": Assignment.objects.count(),
             "books": Book.objects.count(),
-        
+            "notes": Note.objects.count(),  
+            "progress": Progress.objects.count(),  
+            "overall": User.objects.count() + Course.objects.count(),  
         }
         ctx["recent_users"] = User.objects.order_by("-date_joined")[:5]
         ctx["recent_courses"] = Course.objects.order_by("-id")[:5]
-        
-        
+
+        # Add groups
+        ctx["user_groups"] = [g.name for g in self.request.user.groups.all()]
+
+        # Add books/documents for student dashboard
+        ctx["books"] = Book.objects.all()
+        ctx["documents"] = Resource.objects.all()  
 
         return ctx
+    
+
+@method_decorator(staff_member_required, name='dispatch')
+class CustomAssignmentsView(TemplateView):
+    template_name = 'admin/custom_assignments.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = self.request.user
+
+        # Try to get the corresponding PortalUser
+        portal_user = PortalUser.objects.filter(user=user).first()
+        
+        if portal_user and portal_user.role == "student":
+            assignments = Assignment.objects.filter(assigned_to=portal_user).order_by('-due_date')
+            progress = Progress.objects.filter(student=portal_user)
+        else:
+            assignments = Assignment.objects.all()
+            progress = Progress.objects.all()
+        # for assignment in assignments:
+        #     progress = progress.filter(subject=assignment.subject).first() if user.role=="student" else None
+        #     submission = Submission.objects.filter(assignment=assignment, student=user).first() if user.role=="student" else None
+
+        context['assignments'] = assignments
+        context['progress'] = progress
+        # context['submission'] = submission
+        return context
+        
+            
+
+    
 
 
-# Register view under admin site root
+@method_decorator(staff_member_required, name='dispatch')
+class CustomResourcesView(TemplateView):
+    template_name = 'admin/custom_resources.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        resources = Resource.objects.all().order_by('id')
+        books = Book.objects.all().order_by('id')
+        notes = Note.objects.all().order_by('id')
+
+        context['resources'] = resources
+        context['books'] = books
+        context['notes'] = notes
+        return context
+    
+@method_decorator(staff_member_required, name='dispatch')
+class CustomProgressView(TemplateView):
+    template_name = 'admin/custom_progress.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = self.request.user
+        portal_user = PortalUser.objects.filter(user=user).first()
+        if portal_user and portal_user.role == "student":
+            progress = Progress.objects.filter(student=portal_user).order_by('-subject')
+        else:
+            progress = Progress.objects.all().order_by('-subject')
+
+        for record in progress:
+            record.progress_percent = record.calculate_progress()
+            record.save()
+        context['progress'] = progress
+        return context
+    
+@method_decorator(staff_member_required, name='dispatch')
+class CustomCourseView(TemplateView):
+    template_name = 'admin/custom_course.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = self.request.user
+
+        # Safely check for linked PortalUser and role (if exists)
+        portal_user = getattr(user, 'portaluser', None)
+        role = getattr(portal_user, 'role', None)
+
+        # Filter courses based on role
+        if role == 'student':
+            # Student-specific logic (optional: enrolled courses)
+            courses = Course.objects.all()
+        elif role == 'teacher':
+            # Teacher-specific logic (optional: institution-based)
+            courses = Course.objects.filter(institution=portal_user.institution)
+        else:
+            # Admins or others see all
+            courses = Course.objects.all()
+
+        context['courses'] = courses
+        return context
+    
+@method_decorator(staff_member_required, name='dispatch')
+class CustomUserView(TemplateView):
+    template_name = 'admin/custom_user.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        users = User.objects.all().order_by('-date_joined')
+        context['users'] = users
+        return context
+
+
+
+@method_decorator(staff_member_required, name='dispatch')
+class CustomSubmissionView(TemplateView):
+    template_name = 'admin/submit_assignment.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        user = self.request.user
+        portal_user = PortalUser.objects.filter(user=user).first()
+
+        # ✅ Student sees only their submissions
+        if portal_user and portal_user.role == "student":
+            submissions = Submission.objects.filter(student=portal_user).select_related('assignment')
+        else:
+            # ✅ Teacher/admin sees all submissions
+            submissions = Submission.objects.all().select_related('assignment', 'student')
+
+        context["submissions"] = submissions
+        return context
+
+
+
 def get_custom_urls(admin_site):
     return [
         path(
@@ -430,16 +331,37 @@ def get_custom_urls(admin_site):
             admin_site.admin_view(CustomDashboardView.as_view()),
             name="custom_dashboard",
         ),
+        path(
+            "assignments/",
+            admin_site.admin_view(CustomAssignmentsView.as_view()),
+            name="custom_assignments",
+        ),
+        
+        path(
+            "resources/",
+            admin_site.admin_view(CustomResourcesView.as_view()),
+            name="custom_resources",
+        ),
+        path(
+            "progress/",
+            admin_site.admin_view(CustomProgressView.as_view()),
+            name="custom_progress",
+        ),
+        path(
+            "course/",
+            admin_site.admin_view(CustomCourseView.as_view()),
+            name="custom_course",
+        ),
+        path(
+            "user/",
+            admin_site.admin_view(CustomUserView.as_view()),
+            name="custom_user",
+        )
     ]
 
-
-
-# Hook custom URLs into global admin site
-# Save original get_urls before overriding
 _original_get_urls = admin.site.get_urls
 
 def new_get_urls():
     return get_custom_urls(admin.site) + _original_get_urls()
 
-# Replace with safe version
 admin.site.get_urls = new_get_urls
